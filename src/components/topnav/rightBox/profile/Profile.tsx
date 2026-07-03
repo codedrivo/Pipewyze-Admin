@@ -103,7 +103,7 @@ function Profile() {
             />
           </div>
           <div className={`${classes.profile__info} profilename`}>
-            <p className={classes.profile__userName}>{user?.firstName}</p>
+            <p className={classes.profile__userName}>{user?.fullName}</p>
           </div>
         </Button>
         <Popper

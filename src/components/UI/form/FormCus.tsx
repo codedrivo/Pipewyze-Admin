@@ -27,8 +27,7 @@ const FormCus = () => {
   useEffect(() => {
     if (user) {
       addProfileFormik.setValues({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
+        fullName: user.fullName || "",
         // DOB: user.DOB,
         // maritalStatus: user.maritalStatus || "",
         phoneNumber: formatUSPhoneNumber(user.phone || user.phoneNumber || ""),
@@ -99,49 +98,25 @@ const FormCus = () => {
           autoComplete='off'
         >
           <div className={`${form.profileform} from-fix-global`}>
-            {/* First Name */}
+            {/* Full Name */}
             <div className={form.profileformcol}>
               <div className='formgrp'>
-                <label htmlFor='fName'>
-                  First Name <span style={{ color: "red" }}>*</span>
+                <label htmlFor='fullName'>
+                  Full Name <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
                   classes='passwordlabel'
                   type={"text"}
-                  id='firstName'
-                  placeholder={"Enter your first name"}
-                  name='firstName'
+                  id='fullName'
+                  placeholder={"Enter your full name"}
+                  name='fullName'
                   onChange={addProfileFormik.handleChange}
-                  value={addProfileFormik.values.firstName}
+                  value={addProfileFormik.values.fullName}
                 />
-                {addProfileFormik.touched.firstName &&
-                  addProfileFormik.errors.firstName && (
+                {addProfileFormik.touched.fullName &&
+                  addProfileFormik.errors.fullName && (
                     <div className='error'>
-                      {addProfileFormik.errors.firstName}
-                    </div>
-                  )}
-              </div>
-            </div>
-
-            {/* Last Name */}
-            <div className={form.profileformcol}>
-              <div className='formgrp'>
-                <label htmlFor='lName'>
-                  Last Name <span style={{ color: "red" }}>*</span>
-                </label>
-                <Input
-                  classes='passwordlabel'
-                  type={"text"}
-                  id='lastName'
-                  placeholder={"Enter your last name"}
-                  name='lastName'
-                  onChange={addProfileFormik.handleChange}
-                  value={addProfileFormik.values.lastName}
-                />
-                {addProfileFormik.touched.lastName &&
-                  addProfileFormik.errors.lastName && (
-                    <div className='error'>
-                      {addProfileFormik.errors.lastName}
+                      {addProfileFormik.errors.fullName}
                     </div>
                   )}
               </div>
