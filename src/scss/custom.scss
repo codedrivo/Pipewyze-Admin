@@ -1,0 +1,656 @@
+:root {
+  --clr-primary: #0057ff;
+  --clr-secondary: #444444;
+  --clr-accent: #0057ff;
+  --clr-body: #292c31;
+  --clr-bg: #f2f2f2;
+  --clr-white: #ffffff;
+  --clr-black: #000000;
+  --accent: #0057ff;
+  --acc-color: #444444;
+  --card-bg: #292c31;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.table-btn,
+.custom-button {
+  padding: 16px 39px;
+  background: var(--gc-primary);
+  background-size: 200% 200%;
+  background-position: left center;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+:is(.table-btn, .custom-button):hover {
+  background-position: right center;
+  background: var(--gc-primary-dark);
+}
+
+.spinner-wrap-cus {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
+}
+
+/*--- Input Styles ---*/
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.custom-input-field label {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.custom-input {
+  background-color: transparent !important;
+  height: 60px;
+  padding: 5px 24px;
+  border: 1px solid #e1d8cc;
+  width: 100%;
+  border-radius: 16px;
+  color: var(--color-black);
+  background: transparent;
+
+  outline: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  &:focus {
+    border-color: var(--gc-primary);
+  }
+  &::placeholder {
+    color: #bbb1a4;
+  }
+}
+
+input[type="text"]:not(.react-select__input),
+input[type="password"],
+input[type="file"] {
+  height: 53px;
+  padding-top: 13px !important;
+  padding-bottom: 13px !important;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.mat-inp-fix label {
+  transform: none;
+  position: relative;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--card-bg) !important;
+}
+
+.mat-inp-fix .MuiOutlinedInput-notchedOutline legend {
+  display: none;
+}
+
+.mat-inp-fix .MuiOutlinedInput-notchedOutline {
+  top: 0;
+  border-radius: 10px;
+  border-color: #cccccc !important;
+  border-width: 1px !important;
+}
+
+.react-select__control {
+  min-height: 54px !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.react-select__control .react-select__indicator-separator {
+  display: none;
+}
+
+.react-select__control .react-select__indicator {
+  color: var(--card-bg);
+}
+
+.react-select__input-container .react-select__input {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+}
+
+.react-select__menu * {
+  color: var(--card-bg);
+}
+
+/*--- Input Styles ---*/
+
+html[theme="light"] .sidebar-main {
+  background-color: var(--color-blue);
+}
+
+.sidebar-main {
+  padding: 20px;
+  transition: none;
+
+  .sidebar-logo {
+    padding: 20px 15px 30px 15px;
+    background: transparent;
+    width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+
+    img {
+      filter: brightness(0) invert(100%);
+    }
+  }
+
+  .sidenav-li {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    a {
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      border: 0;
+      margin: 0;
+      &.active,
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+        color: var(--white) !important;
+      }
+    }
+  }
+}
+
+.dashboard-card {
+  background-color: #fff;
+  box-shadow: none;
+  color: var(--color-black);
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  h1 {
+    font-size: 40px;
+    font-weight: 600;
+    color: #1a2e10;
+  }
+}
+
+.dashboard-card-global {
+  background: linear-gradient(
+    180deg,
+    rgba(243, 246, 229, 0.12) 0%,
+    rgba(139, 141, 157, 0.12) 100%
+  ) !important;
+  color: #000;
+  padding: 30px;
+  border-radius: 24px;
+
+  .dashboard-card-title {
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+
+  .passwordlabel span svg {
+    color: var(--gc-primary)!important;
+  }
+}
+
+.from-fix-global-wrap {
+  .from-fix-global {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+
+    div[class^="_profileformcol_"] {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+    [class*="profileform"] {
+      margin-left: 0 !important;
+      margin-right: 0!important;
+    }
+    
+  }
+
+  .submit-btn-wrap {
+    padding-left: 0;
+    margin-top: 30px;
+  }
+}
+
+.settingTabContent {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.top-nav-icon {
+  display: none;
+}
+
+.image-preview {
+  margin-top: 30px;
+}
+
+:is(.loginpage, .forgotPassworpage, .resetPasswordpage) {
+  .login-form {
+    width: 100%;
+  }
+
+  :is([class^="_loginBox_"], [class^="_resetPasswordBox_"]) {
+    padding: 30px;
+  }
+
+  [class^="_forgat_pass_"] {
+    text-align: center;
+    margin-bottom: 0 !important;
+    display: block !important;
+  }
+
+  [class^="_logo_"] {
+    height: auto !important;
+    margin-bottom: 30px;
+  }
+}
+
+.resetPasswordpage {
+  .formgrp {
+    label {
+      margin-bottom: 10px;
+    }
+  }
+
+  [class^="_resetPasswordBox_"] {
+    background-color: var(--clr-body);
+  }
+}
+
+.error {
+  display: block;
+  font-size: 14px;
+}
+
+.edit-profile-wrap {
+  .uploadimage {
+    margin-left: 0;
+  }
+}
+
+.disabled-input {
+  all: unset;
+}
+
+input[disabled] {
+  opacity: 0.7;
+}
+
+.change-pass-wrap {
+  label {
+    margin-bottom: 5px;
+    display: block;
+  }
+}
+
+// start
+@font-face {
+  font-family: "glacial_indifferencebold";
+  src: url("../assets/fonts/fonts/glacialindifference-bold-webfont.eot");
+  src:
+    url("../assets/fonts/fonts/glacialindifference-bold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/fonts/glacialindifference-bold-webfont.woff2")
+      format("woff2"),
+    url("../assets/fonts/fonts/glacialindifference-bold-webfont.woff")
+      format("woff"),
+    url("../assets/fonts/fonts/glacialindifference-bold-webfont.ttf")
+      format("truetype"),
+    url("../assets/fonts/fonts/glacialindifference-bold-webfont.svg#glacial_indifferencebold")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "glacial_indifferenceregular";
+  src: url("../assets/fonts/fonts/glacialindifference-regular-webfont.eot");
+  src:
+    url("../assets/fonts/fonts/glacialindifference-regular-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/fonts/glacialindifference-regular-webfont.woff2")
+      format("woff2"),
+    url("../assets/fonts/fonts/glacialindifference-regular-webfont.woff")
+      format("woff"),
+    url("../assets/fonts/fonts/glacialindifference-regular-webfont.ttf")
+      format("truetype"),
+    url("../assets/fonts/fonts/glacialindifference-regular-webfont.svg#glacial_indifferenceregular")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  // font family
+  --primary-font: "glacial_indifferenceregular";
+  --primary-font-bold: "glacial_indifferencebold";
+  --secondary-font: "Bitter", serif;
+  // color
+  --color-white: #fff;
+  --color-black: #000;
+  --color-fd: #e7eefd;
+  --color-blue: #446b80;
+  --color-gray: #e3e3e3;
+  --color-d9: #d9d9d9;
+  --color-7b: #7b7b7b;
+  --color-52: #446b80;
+  --color-7bf: var(--gc-primary);
+  --color-3d: #3d3d3d;
+  --color-4b: #4b4b4b;
+  --color-ce: #cecece;
+}
+
+body {
+  background: rgba(225, 216, 204, 0.3) !important;
+  font-family: var(--primary-font);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-4b);
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  font-family: var(--secondary-font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 10px;
+}
+
+ul,
+li,
+ol {
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  color: var(--color-black);
+}
+
+img {
+  max-width: 100%;
+}
+
+h1 {
+  font-size: 40px;
+  @media (max-width: 991px) {
+    font-size: 30px;
+  }
+  @media (max-width: 767px) {
+    font-size: 25px;
+  }
+}
+
+h2 {
+  font-size: 32px;
+  color: #1a2e10;
+  @media (max-width: 991px) {
+    font-size: 24px;
+  }
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
+}
+h3 {
+  font-size: 20px;
+  font-family: var(--glacial_indifferencebold);
+  font-weight: normal;
+  @media (max-width: 991px) {
+    font-size: 16px;
+  }
+}
+
+h4 {
+  font-size: 16px;
+  font-family: var(--glacial_indifferencebold);
+  font-weight: normal;
+}
+
+input.form-control:focus {
+  box-shadow: none;
+}
+
+input.form-control {
+  border: 1px solid var(--color-d9) !important;
+}
+
+:is(.loginpage, .forgotPassworpage, .resetPasswordpage)
+  :is([class^="_loginBox_"], [class^="_resetPasswordBox_"]) {
+  border: 0;
+  box-shadow: none;
+  background: #fff;
+  border-radius: 24px;
+  input {
+    height: 55px;
+    padding: 5px 24px;
+    border: 1px solid #e1d8cc;
+    width: 100%;
+    border-radius: 16px;
+    color: var(--color-black);
+    background: transparent;
+    &:focus {
+      border-color: var(--gc-primary);
+    }
+    &::placeholder {
+      color: #bbb1a4;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+  label {
+    font-weight: normal;
+    font-family: var(--primary-font-bold);
+    font-size: 16px;
+    color: #1a2e10;
+    margin-bottom: 10px;
+    padding: 0;
+    letter-spacing: 0.5%;
+  }
+  .forgat_pass {
+    color: var(--color-52);
+    text-decoration: none;
+    font-family: var(--primary-font-bold);
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+.login-form .passwordlabel div > span svg {
+  color: var(--gc-primary);
+}
+.login-form .passwordlabel div > span svg {
+  vertical-align: middle;
+}
+.table-btn,
+.custom-button {
+  background: var(--color-7bf);
+  color: var(--clr-white);
+  border-radius: 40px;
+  padding: 15px 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  font-size: 16px;
+  line-height: 0.8;
+  font-weight: normal;
+  transition: all 0.5s;
+  border: 1px solid transparent;
+
+  @media only screen and (max-width: 1680px) {
+    padding: 15px 30px;
+  }
+
+  &:hover {
+    background: var(--color-52);
+    border-color: transparent;
+  }
+}
+
+.error {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.profilename {
+  p {
+    margin-bottom: 0;
+    color: #1a3a14;
+  }
+}
+
+.custom-editor-wrapper .ql-editor {
+  min-height: 120px; /* Makes the typing area taller */
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.custom-editor-wrapper .ql-container.ql-snow {
+  border: 1px solid #ccc;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.custom-editor-wrapper .quill {
+  background: #EEF5EA;
+}
+.custom-editor-wrapper .ql-toolbar.ql-snow {
+  border: 1px solid #ccc;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #EEF5EA;
+}
+
+/* On focus, make the border orange to match your theme */
+.custom-editor-wrapper:focus-within .ql-container.ql-snow,
+.custom-editor-wrapper:focus-within .ql-toolbar.ql-snow {
+  border-color: #ff8400;
+}
+// end
+
+/* Role Tabs Styling */
+.search-wrap-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.role-tabs {
+  display: flex;
+  background: #fff;
+  padding: 5px;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+.tab-item {
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.tab-item:hover:not(.active) {
+  background: #f8f9fa;
+  color: #1a2e10;
+}
+
+.tab-item.active {
+  background: var(--gc-primary);
+  color: #fff;
+  box-shadow: 0 4px 10px #AFC7A7;
+}
+.setting-card-global {
+  background: #fff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 16px rgba(43,85,31,0.08) !important;
+  padding: 24px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .search-wrap-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .role-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .tab-item {
+    padding: 8px 15px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+  }
+}
+.custom-button.mtop-0 {
+  margin-top: 0 !important;
+}
+.text-end {
+  text-align: right!important;
+  button {
+    margin-left: auto;
+  }
+}
+.custom-button.upload-btn {
+  background: var(--gc-primary) !important;
+  padding: 10px 24px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}

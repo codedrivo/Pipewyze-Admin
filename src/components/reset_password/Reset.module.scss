@@ -1,0 +1,24 @@
+@use "../../scss/abstracts/" as *;
+
+.rtl {
+  font-family: iranyekan, "IRANSans", "Tahoma";
+  direction: rtl;
+  text-align: right;
+
+  label {
+    left: auto;
+    right: 10px;
+  }
+}
+
+.forgat_pass {
+  margin: 1rem 0;
+  display: block;
+  text-decoration: none;
+  font-weight: 500;
+  color: #3D6B2C !important;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,1232 @@
+/* ============================================
+   GraveCare Theme
+   Font: DM Sans | Brand: forest green
+   All visual overrides live here.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+/* ---- Color tokens ---- */
+:root {
+  --gc-font:          'DM Sans', sans-serif;
+  --gc-primary:       #3D6B2C;
+  --gc-primary-dark:  #2E5221;
+  --gc-primary-light: #EEF5EA;
+  --gc-border:        #C5DDB8;
+  --gc-subtext:       #6B7F60;
+  --gc-placeholder:   #9AAC91;
+}
+
+/* ---- DM Sans globally ---- */
+body,
+html,
+input,
+button,
+select,
+textarea,
+h1, h2, h3, h4, h5, h6,
+p, span, a, label {
+  font-family: var(--gc-font) !important;
+}
+
+/* ================================================
+   LOGIN PAGE — full-screen two-column layout
+   ================================================ */
+
+/* Auth page sections — all share the same full-screen white wrapper */
+.loginpage,
+.forgotPassworpage,
+.resetPasswordpage {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ── This is the flex row wrapper rendered inside LoginBox ── */
+.login-panel-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* ── Left decorative panel (42%) ── */
+.login-left-panel {
+  width: 42%;
+  flex-shrink: 0;
+  position: relative;
+  background: linear-gradient(
+    158deg,
+    #1c4a2d 0%,
+    #2b7a52 35%,
+    #5bb47e 65%,
+    #9fd18a 83%,
+    #c8e47a 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem 3rem 3.5rem;
+  overflow: hidden;
+}
+
+/* Decorative circle — top left */
+.login-left-panel::before {
+  content: '';
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  top: -80px;
+  left: -80px;
+  pointer-events: none;
+}
+
+/* g-newlogo as subtle background watermark */
+.login-left-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/logo-icon.png') center center / 60% auto no-repeat;
+  opacity: 0.09;
+  pointer-events: none;
+  filter: brightness(0) invert(1);
+}
+
+/* Leaf icon area centred in left panel */
+.panel-logo-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-logo-icon {
+  width: 130px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Bottom tagline */
+.panel-bottom-text {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.55;
+  max-width: 340px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-bottom-text strong {
+  font-weight: 700;
+}
+
+/* ── Right form panel (remaining width) ── */
+.login-right-panel {
+  flex: 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 4rem;
+  overflow-y: auto;
+}
+
+.login-right-inner {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ── GraveCare logo block ── */
+.gc-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 2rem;
+}
+
+.gc-logo-img {
+  height: 65px;
+  width: auto;
+  max-width: 280px;
+  object-fit: contain;
+  display: block;
+}
+
+.gc-logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gc-logo-text {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: var(--gc-primary) !important;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.gc-logo-tagline {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--gc-subtext) !important;
+  padding-left: 42px;
+  line-height: 1;
+}
+
+/* ── Headings ── */
+.login-heading {
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  color: #1a2e10 !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1.2;
+}
+
+.login-subheading {
+  font-size: 14px !important;
+  color: #6b7f60 !important;
+  margin-bottom: 1.8rem !important;
+  line-height: 1.5;
+}
+
+/* Form labels */
+.login-right-inner label {
+  color: #333 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+/* ================================================
+   FORM FIELDS — light green tint
+   ================================================ */
+.login-form .formgrp input,
+.formgrp input {
+  background-color: #EEF5EA !important;
+  border: 1.5px solid #C5DDB8 !important;
+  border-radius: 10px !important;
+  height: 48px !important;
+  padding: 12px 18px !important;
+  color: #333 !important;
+  font-size: 15px !important;
+  width: 100% !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+.footer-wrap input {
+  margin-bottom: 0 !important;
+}
+/* Override App.scss: input#email { background: transparent !important }
+   ID selectors beat class selectors, so we must use ID + class combo */
+.login-form input#email,
+.login-right-inner input#email {
+  background-color: var(--gc-primary-light) !important;
+  border: 1.5px solid var(--gc-border) !important;
+  color: #333 !important;
+}
+
+.login-form .formgrp input:focus,
+.formgrp input:focus {
+  border-color: var(--gc-primary) !important;
+  box-shadow: 0 0 0 3px rgba(61, 107, 44, 0.12) !important;
+  outline: none !important;
+}
+
+.login-form .formgrp input::placeholder,
+.formgrp input::placeholder {
+  color: var(--gc-placeholder) !important;
+}
+
+/* Eye icon — vertically centre it inside the new 54px input */
+.login-form .passwordlabel div > span,
+.login-form .passwordlabel div > span {
+  position: absolute !important;
+  right: 15px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  cursor: pointer;
+}
+
+/* ================================================
+   BUTTON — dark green
+   ================================================ */
+.custom-button {
+  background: var(--gc-primary) !important;
+  color: #fff !important;
+  width: 100% !important;
+  padding: 16px 24px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-top: 1.2rem !important;
+  letter-spacing: 0.2px !important;
+  transition: background 0.2s ease !important;
+  line-height: 1 !important;
+}
+
+.custom-button:hover {
+  background: var(--gc-primary-dark) !important;
+}
+
+/* Forgot password link */
+.login-right-inner a {
+  color: var(--gc-primary) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+/* Footer copyright */
+.login-footer {
+  text-align: center;
+  font-size: 13px !important;
+  color: #888 !important;
+  margin-top: 2rem !important;
+}
+
+/* Utility */
+.mt-30 { margin-top: 1.5rem !important; }
+
+/* ================================================
+   MAIN CONTENT BACKGROUND
+   ================================================ */
+html[theme="light"],
+html:not([theme="dark"]) {
+  --bgc: #EBF5EE;
+  --card-bgc: #ffffff;
+}
+
+/* ── Main content spacing ── */
+[class*="main__content"] {
+  padding-top: 2rem !important;
+  padding-right: 2.5rem !important;
+  padding-bottom: 2rem !important;
+}
+[class*="main__content"].close_sidebar {
+  padding-top: 2rem !important;
+  padding-right: 2.5rem !important;
+  padding-bottom: 2rem !important;
+}
+
+/* ================================================
+   SIDEBAR — GraveCare green theme
+   ================================================ */
+
+/* Background + lock layout so only menu scrolls */
+.sidebar-main {
+  background: #2B551F !important;
+  width: 270px !important;
+  min-width: 270px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Only nav menu scrolls — logout stays fixed at bottom */
+.sidebar-main .gc-nav-menu {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.25) transparent;
+}
+.sidebar-main .gc-nav-menu::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-main .gc-nav-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-main .gc-nav-menu::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.25);
+  border-radius: 4px;
+}
+
+/* Remove the dark gradient box behind the logo */
+.sidebar-main .sidebar-logo {
+  background: transparent !important;
+  padding: 20px 16px 16px;
+}
+
+/* ── gc-nav-item — the extra class on every <Link> ── */
+.gc-nav-item {
+  color: rgba(255, 255, 255, 0.80) !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+}
+
+.gc-nav-item:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #fff !important;
+}
+
+.gc-nav-item.active {
+  background: rgba(255, 255, 255, 0.20) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+/* ================================================
+   ADMIN DASHBOARD
+   ================================================ */
+
+.admin-dash {
+  padding: 0 0.5rem;
+}
+
+/* Header */
+.admin-dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.admin-dash-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #1a2e10 !important;
+  margin: 0 !important;
+}
+.admin-dash-sub {
+  font-size: 14px !important;
+  color: #6b7f60 !important;
+  margin: 2px 0 0 !important;
+}
+.admin-dash-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px !important;
+  color: #888 !important;
+  background: #fff;
+  border: 1px solid #dde8d8;
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+/* Stat cards grid */
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+.admin-stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.admin-stat-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+.admin-stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.admin-stat-body {
+  flex: 1;
+}
+.admin-stat-value {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: #1a2e10 !important;
+  line-height: 1.2;
+  margin: 0 !important;
+}
+.admin-stat-label {
+  font-size: 13px !important;
+  color: #6b7f60 !important;
+  margin: 2px 0 0 !important;
+}
+.admin-stat-arrow {
+  flex-shrink: 0;
+}
+
+/* Charts row */
+.admin-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+.admin-chart-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.admin-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #1a2e10 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Table card */
+.admin-table-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  margin-bottom: 1.8rem;
+}
+.admin-table-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.admin-view-all {
+  font-size: 13px !important;
+  color: var(--gc-primary) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+.admin-view-all:hover {
+  text-decoration: underline !important;
+}
+.admin-table-wrap {
+  overflow-x: auto;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.admin-table thead tr {
+  background: #EEF5EA;
+  border-bottom: 2px solid #C5DDB8;
+}
+.admin-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600 !important;
+  color: #2B551F !important;
+  font-size: 13px !important;
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 12px 16px;
+  color: #444 !important;
+  border-bottom: 1px solid #f0f7ee;
+  font-size: 13px !important;
+}
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.admin-table tbody tr:hover {
+  background: #f9fdf7;
+}
+.admin-table-empty {
+  text-align: center;
+  color: #aaa !important;
+  padding: 2rem !important;
+}
+
+/* User avatar cell */
+.admin-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gc-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.admin-user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Status badges */
+.admin-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.admin-badge--active  { background: #ECFDF5; color: #065F46 !important; }
+.admin-badge--pending { background: #FFFBEB; color: #92400E !important; }
+.admin-badge--danger { background: #FFFBEB; color: red !important; }
+/* Action button */
+.admin-btn-view {
+  background: var(--gc-primary);
+  color: #fff !important;
+  padding: 5px 16px;
+  border-radius: 10px;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  display: inline-block;
+  transition: background 0.2s ease;
+  line-height: 1.3;
+}
+.admin-btn-view:hover {
+  background: var(--gc-primary-dark);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .admin-stat-grid    { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .admin-charts-row   { grid-template-columns: 1fr; }
+  .admin-stat-grid    { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .admin-stat-grid    { grid-template-columns: 1fr; }
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+/* Laptop / small screens — allow vertical scroll, shrink spacing */
+@media (max-width: 1200px) {
+  .loginpage,
+  .forgotPassworpage,
+  .resetPasswordpage {
+    overflow-y: auto;
+  }
+
+  .login-panel-wrapper {
+    min-height: 100%;
+    align-items: flex-start;
+  }
+
+  .login-left-panel {
+    padding: 2rem 2rem 2.5rem;
+    min-height: 100vh;
+  }
+
+  .login-right-panel {
+    padding: 2rem 2.5rem;
+    align-items: flex-start;
+    padding-top: 2.5rem;
+  }
+
+  .gc-logo-wrap {
+    margin-bottom: 1rem !important;
+  }
+
+  .gc-logo-img {
+    height: 50px !important;
+  }
+
+  .login-heading {
+    font-size: 1.5rem !important;
+  }
+
+  .login-subheading {
+    font-size: 0.85rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-left-panel {
+    display: none;
+  }
+  .login-right-panel {
+    padding: 2rem 1.5rem;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-right-panel {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* =====================================================
+   ADMIN PAGES — GraveCare color theme
+   ===================================================== */
+
+/* Page wrapper */
+.users-pages,
+.dsp {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Search bar & Add button row ── */
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.search-wrap .searchwrap {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+.table-btn {
+  background: var(--gc-primary)!important;
+  color: #fff !important;
+  border: none !important;
+  padding: 10px 24px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.table-btn:hover {
+  background: var(--gc-primary-dark)!important;
+}
+
+.searchwrap input[type="text"] {
+  background: #fff !important;
+  border: 1.5px solid #C5DDB8 !important;
+  border-radius: 10px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 16px !important;
+  color: #333 !important;
+  transition: border-color 0.2s;
+}
+.searchwrap input[type="text"]:focus {
+  outline: none !important;
+  border-color: #2B551F !important;
+  box-shadow: 0 0 0 3px rgba(43,85,31,0.1) !important;
+}
+
+/* =====================================================
+   UPDATE USER / ADD USER PAGE
+   ===================================================== */
+
+#editprofile,
+[class*="myprofilewrapper"] {
+  padding: 0 !important;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(43,85,31,0.08);
+  padding: 32px 36px;
+}
+
+/* ── Page header: title + back button ── */
+[class*="profile_flex"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 28px !important;
+  padding-bottom: 18px !important;
+  border-bottom: 2px solid #EEF5EA !important;
+}
+[class*="profile_flex"] h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #1a2e10 !important;
+  margin-bottom: 0 !important;
+  background: none !important;
+  -webkit-text-fill-color: unset !important;
+}
+[class*="profile_flex"] .custom-button {
+  width: auto !important;
+  padding: 8px 24px !important;
+  font-size: 14px !important;
+  border-radius: 10px !important;
+  background: #EEF5EA !important;
+  color: #2B551F !important;
+  border: 1.5px solid #C5DDB8 !important;
+  font-weight: 500 !important;
+}
+[class*="profile_flex"] .custom-button:hover {
+  background: #2B551F !important;
+  color: #fff !important;
+}
+
+/* ── Form grid ── */
+[class*="profileform"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin: 0 -12px !important;
+}
+[class*="profileformcol"] {
+  width: 50% !important;
+  padding: 0 12px !important;
+  margin-top: 16px !important;
+}
+/* Remove extra spacing from formgrp inside profileformcol */
+[class*="profileformcol"] .formgrp {
+  margin-bottom: 0 !important;
+  width: 100% !important;
+}
+
+/* ── Hide Input component's auto-generated label inside UpdateUser form ── */
+.formadduser .form__control > label,
+.formadduser [class*="form__control"] > label {
+  display: none !important;
+}
+/* Also remove the bottom margin the form__control adds */
+.formadduser .form__control,
+.formadduser [class*="form__control"] {
+  margin-bottom: 0 !important;
+}
+
+/* ── Labels (the ones in UpdateUser.tsx directly) ── */
+[class*="profileformcol"] > .formgrp > label {
+  display: block !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+  margin-bottom: 6px !important;
+  padding: 0 !important;
+}
+
+/* ── Inputs & Select ── */
+[class*="profileformcol"] input:not([type="file"]),
+[class*="profileformcol"] select {
+  width: 100% !important;
+  height: 48px !important;
+  padding: 0 16px !important;
+  border: 1.5px solid #C5DDB8 !important;
+  border-radius: 10px !important;
+  background: #EEF5EA !important;
+  color: #333 !important;
+  font-size: 14px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  box-shadow: none !important;
+}
+[class*="profileformcol"] input:not([type="file"]):focus,
+[class*="profileformcol"] select:focus {
+  outline: none !important;
+  border-color: #2B551F !important;
+  box-shadow: 0 0 0 3px rgba(43,85,31,0.1) !important;
+  background: #fff !important;
+}
+[class*="profileformcol"] input:disabled {
+  background: #f0f0f0 !important;
+  color: #888 !important;
+  border-color: #ddd !important;
+  cursor: not-allowed !important;
+}
+
+/* ── Select dropdown arrow ── */
+[class*="profileformcol"] select {
+  appearance: auto !important;
+  cursor: pointer !important;
+}
+
+/* ── File input ── */
+[class*="profileformcol"] input[type="file"] {
+  background: transparent !important;
+  border: 2px dashed #C5DDB8 !important;
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+  height: auto !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  color: #666 !important;
+}
+[class*="profileformcol"] input[type="file"]:hover {
+  border-color: #2B551F !important;
+}
+
+/* ── Profile image preview ── */
+[class*="profileformcol"]:has(.image-preview-wrap) {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  order: -1 !important;
+  margin-bottom: 8px !important;
+}
+[class*="profileformcol"]:has(.image-preview-wrap) .formgrp {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+.image-preview-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.image-preview-img {
+  width: 110px !important;
+  height: 110px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 3px solid #C5DDB8 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+  display: block;
+}
+.image-edit-overlay {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  background: var(--gc-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: background 0.2s;
+}
+.image-preview-wrap:hover .image-edit-overlay {
+  background: var(--gc-primary-dark);
+}
+.image-preview-wrap:hover .image-preview-img {
+  border-color: var(--gc-primary-dark) !important;
+}
+
+/* ── Error messages ── */
+[class*="profileformcol"] .error,
+.formadduser .error {
+  font-size: 12px !important;
+  color: #DC2626 !important;
+  margin-top: 4px !important;
+  padding: 0 !important;
+}
+
+/* ── Submit button ── */
+.submit-btn-wrap {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding-top: 8px !important;
+  border-top: 1px solid #EEF5EA !important;
+  margin-top: 8px !important;
+}
+.submit-btn {
+  width: auto !important;
+  min-width: 140px !important;
+  padding: 10px 32px !important;
+  font-size: 14px !important;
+  border-radius: 10px !important;
+}
+
+/* ── Profile page header ── */
+.gc-profile-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #EEF5EA;
+}
+.gc-profile-flex h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #1a2e10 !important;
+  margin-bottom: 0 !important;
+  background: none !important;
+}
+.gc-back-btn {
+  width: auto !important;
+  padding: 8px 24px !important;
+  font-size: 13px !important;
+  border-radius: 8px !important;
+  background: #EEF5EA !important;
+  color: #2B551F !important;
+  border: 1.5px solid #C5DDB8 !important;
+  font-weight: 600 !important;
+}
+.gc-back-btn:hover {
+  background: #2B551F !important;
+  color: #fff !important;
+}
+
+/* ── Profile picture upload area ── */
+.profile-picture-upload {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+/* ── Datatable wrapper ── */
+[class*="datatablemainwrap"] {
+  background: #fff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 16px rgba(43,85,31,0.08) !important;
+  padding: 24px !important;
+}
+
+/* ── MUI Table container ── */
+.usertabledata .MuiPaper-root,
+[class*="tbodymain"] {
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Fix inline borderSpacing that creates huge row gaps */
+.usertabledata table,
+[class*="tbodymain"] table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
+
+/* ── Table head ── */
+.usertabledata .MuiTableHead-root .MuiTableRow-root,
+[class*="tbodymain"] thead tr {
+  background: #EEF5EA !important;
+  box-shadow: none !important;
+}
+.usertabledata .MuiTableHead-root .MuiTableCell-root,
+[class*="tbodymain"] thead th {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #2B551F !important;
+  border-bottom: 2px solid #C5DDB8 !important;
+  background: #EEF5EA !important;
+  padding: 14px 16px !important;
+}
+
+/* ── Table body rows ── */
+.usertabledata .MuiTableBody-root .MuiTableRow-root,
+[class*="tbodymain"] tbody tr {
+  background: #fff !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transition: background 0.15s;
+}
+.usertabledata .MuiTableBody-root .MuiTableRow-root:hover,
+[class*="tbodymain"] tbody tr:hover {
+  background: #F4FAF0 !important;
+}
+.usertabledata .MuiTableBody-root .MuiTableCell-root,
+[class*="tbodymain"] tbody td,
+[class*="tbodymain"] tbody th {
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13px !important;
+  color: #444 !important;
+  border: none !important;
+  border-bottom: 1px solid #EEF5EA !important;
+  background: transparent !important;
+  padding: 12px 16px !important;
+  vertical-align: middle !important;
+  font-weight: 400 !important;
+}
+
+/* ── User avatar in table ── */
+[class*="productwrp"] {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+[class*="productwrp"] img {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #C5DDB8 !important;
+  margin-right: 0 !important;
+}
+
+/* ── Status badges (for any status cell) ── */
+.status-booked,
+[class*="booked"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #CCFBF1;
+  color: #0D9488;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-inprogress,
+[class*="inprogress"],
+[class*="in_progress"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #FEF3C7;
+  color: #D97706;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-completed,
+[class*="completed"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #DCFCE7;
+  color: #16A34A;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-cancelled,
+[class*="cancelled"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #FEE2E2;
+  color: #DC2626;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-assigned,
+[class*="assigned"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #ECFDF5;
+  color: #065F46;
+  font-size: 12px;
+  font-weight: 600;
+}
+/* ── paid — gold highlight (stands out as money-received) ── */
+.paid,
+[class*=" paid"],
+[class^="paid"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #FFFBEB;
+  color: #92400E;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1.5px solid #F59E0B;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  letter-spacing: 0.02em;
+}
+
+/* ── processing — blue/indigo ── */
+.processing,
+[class*=" processing"],
+[class^="processing"] {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Action buttons (edit / delete) ── */
+[class*="actionwrap"] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+[class*="tbodywrap"] [class*="edit"] {
+  background: var(--gc-primary) !important;
+  border-radius: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  padding: 0 !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+[class*="tbodywrap"] [class*="edit"]:hover {
+  background: var(--gc-primary-dark) !important;
+}
+[class*="tbodywrap"] [class*="edit"] svg {
+  font-size: 13px !important;
+  width: 13px !important;
+  height: 13px !important;
+}
+[class*="tbodywrap"] [class*="delete"] {
+  background: red!important;
+  border-radius: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+[class*="tbodywrap"] [class*="delete"]:hover {
+  background: red !important;
+  opacity:0.8;
+}
+[class*="tbodywrap"] [class*="delete"] img {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* ── Pagination ── */
+.pagiWrap .MuiPaginationItem-page {
+  background: #fff !important;
+  color: #444 !important;
+  border: 1px solid #C5DDB8 !important;
+  border-radius: 50% !important;
+}
+.pagiWrap .MuiPaginationItem-page.Mui-selected {
+  background: var(--gc-primary) !important;
+  color: #fff !important;
+  border-color: var(--gc-primary) !important;
+}
+.pagiWrap .MuiPaginationItem-page:hover {
+  background: #EEF5EA !important;
+  color: #2B551F !important;
+}
+
+/* ── Delete dialog buttons ── */
+.btn-cancel {
+  background: #f5f5f5 !important;
+  color: #555 !important;
+  border-radius: 10px !important;
+  padding: 8px 28px !important;
+  font-weight: 600 !important;
+}
+.btn {
+  background: #DC2626 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  padding: 8px 28px !important;
+  font-weight: 600 !important;
+}

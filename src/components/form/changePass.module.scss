@@ -1,0 +1,62 @@
+/* =========================================================
+   Change Password – scoped styles only
+   All layout / card / label / input styles come from the
+   same theme classes used by Update Profile (profile-card,
+   gc-profile-flex, profileformcol, formadduser, etc.)
+   Only two things are handled here:
+     1. Eye-icon position inside the input (not in Input.module.scss)
+     2. Eye-icon colour forced black (overrides global orange rule)
+   Both are scoped to .change-pass-wrap so nothing else is affected.
+   ========================================================= */
+
+/* ── Eye icon: force black colour ── */
+.eyeIcon {
+  color: #111 !important;
+  cursor: pointer;
+  font-size: 15px;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+/* ── Eye icon: position inside the input field ──
+   DOM structure inside <Input rightIcon={...}>:
+     div.form__control.passwordlabel        (classes prop → global .passwordlabel)
+       label                                (hidden by .formadduser rule in theme.css)
+       div.inputContainer                   (position:relative from Input.module.scss)
+         input
+         span.rightIcon                     (no position styles in Input.module.scss)
+           svg (eye)
+
+   Scoped via .change-pass-wrap (only on this page's outer div).
+   ─────────────────────────────────────────────────────────── */
+:global(.change-pass-wrap) :global(.passwordlabel) {
+  > div {
+    position: relative;
+
+    > input {
+      /* room for the eye icon on the right */
+      padding-right: 44px !important;
+      width: 100%;
+    }
+
+    /* the span that wraps the eye icon */
+    > span {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      line-height: 1;
+      pointer-events: none;
+
+      svg,
+      * {
+        pointer-events: all;
+      }
+    }
+  }
+}

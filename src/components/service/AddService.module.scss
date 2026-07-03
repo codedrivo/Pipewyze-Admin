@@ -1,0 +1,101 @@
+.clickableArea {
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  border: 1px dashed #C5DDB8;
+  border-radius: 16px;
+  padding: 20px;
+  background: #EEF5EA;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.previewImage {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid #C5DDB8;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.customLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #1a2e10;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: var(--primary-font-bold);
+}
+
+.customSelect {
+  width: 100%;
+  height: 60px;
+  padding: 5px 24px;
+  border-radius: 16px;
+  border: 1px solid #e1d8cc;
+  outline: none;
+  background-color: transparent;
+  font-size: 14px;
+  color: var(--color-black);
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: var(--gc-primary);
+  }
+
+  &::placeholder {
+    color: #bbb1a4;
+  }
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.submitWrapper {
+  width: 100%;
+  padding: 0 !important;
+  margin-top: 24px;
+  button {
+    padding: 10px 32px;
+    font-weight: 500;
+    border-radius: 10px;
+    font-size: 14px;
+    min-width: 140px;
+    line-height:1;
+  }
+}
+
+.fullWidthField {
+  width: 100% !important;
+}
+
+.editorField {
+  margin-top: 8px;
+}
+
+.uploadText {
+  margin: 0;
+  color: var(--gc-primary);
+  font-size: 14px;
+}
+
+@media screen and (max-width: 600px) {
+  .clickableArea {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .previewImage {
+    width: 100%;
+    max-width: 140px;
+  }
+}
