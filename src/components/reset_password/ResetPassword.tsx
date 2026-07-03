@@ -50,7 +50,7 @@ function ResetPasswordBox() {
         >
           {/* PipeWyze Logo */}
           <div className='gc-logo-wrap'>
-            <img src='/g-newlogo.png' alt='PipeWyze' className='gc-logo-img' />
+            <img src='/logo.svg' alt='PipeWyze' className='gc-logo-img' />
           </div>
 
           <h2 className='login-heading'>{t("Reset Password")}</h2>
