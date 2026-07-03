@@ -63,7 +63,7 @@ function Sidebar() {
       className={`${classes.sidebar} ${!isOpen && classes.sidebar_close} sidebar-main`}
     >
       <div className='sidebar-logo'>
-        <img src='/g-newlogo.png' alt='PipeWyze' />
+        <img src='/logo.svg' alt='PipeWyze' />
       </div>
 
       <div className={`${classes.sidebar__menu} gc-nav-menu`}>

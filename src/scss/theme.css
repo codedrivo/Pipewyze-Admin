@@ -9,12 +9,12 @@
 /* ---- Color tokens ---- */
 :root {
   --gc-font:          'DM Sans', sans-serif;
-  --gc-primary:       #3D6B2C;
-  --gc-primary-dark:  #2E5221;
-  --gc-primary-light: #EEF5EA;
-  --gc-border:        #C5DDB8;
-  --gc-subtext:       #6B7F60;
-  --gc-placeholder:   #9AAC91;
+  --gc-primary:       #335AFF;
+  --gc-primary-dark:  #335AFF;
+  --gc-primary-light: #EAF0F5;
+  --gc-border:        #B8CCDD;
+  --gc-subtext:       #3C3E40;
+  --gc-placeholder:   #B8CCDD;
 }
 
 /* ---- DM Sans globally ---- */
@@ -57,14 +57,7 @@ p, span, a, label {
   width: 42%;
   flex-shrink: 0;
   position: relative;
-  background: linear-gradient(
-    158deg,
-    #1c4a2d 0%,
-    #2b7a52 35%,
-    #5bb47e 65%,
-    #9fd18a 83%,
-    #c8e47a 100%
-  );
+  background: radial-gradient(103.03% 103.03% at 0% 0%, #003BE2 0%, #072FA7 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -183,21 +176,21 @@ p, span, a, label {
 .login-heading {
   font-size: 1.85rem !important;
   font-weight: 700 !important;
-  color: #1a2e10 !important;
+  color: #040268 !important;
   margin-bottom: 0.35rem !important;
   line-height: 1.2;
 }
 
 .login-subheading {
   font-size: 14px !important;
-  color: #6b7f60 !important;
+  color: #3C3E40 !important;
   margin-bottom: 1.8rem !important;
   line-height: 1.5;
 }
 
 /* Form labels */
 .login-right-inner label {
-  color: #333 !important;
+  color: #3C3E40!important;
   font-weight: 500 !important;
   font-size: 14px !important;
 }
@@ -207,8 +200,8 @@ p, span, a, label {
    ================================================ */
 .login-form .formgrp input,
 .formgrp input {
-  background-color: #EEF5EA !important;
-  border: 1.5px solid #C5DDB8 !important;
+  background-color: transparent !important;
+  border: 1px solid rgba(27, 29, 33, 0.2) !important;
   border-radius: 10px !important;
   height: 48px !important;
   padding: 12px 18px !important;
@@ -224,15 +217,15 @@ p, span, a, label {
    ID selectors beat class selectors, so we must use ID + class combo */
 .login-form input#email,
 .login-right-inner input#email {
-  background-color: var(--gc-primary-light) !important;
-  border: 1.5px solid var(--gc-border) !important;
+  background-color: transparent !important;
+  border: 1px solid rgba(27, 29, 33, 0.2) !important;
   color: #333 !important;
 }
 
 .login-form .formgrp input:focus,
 .formgrp input:focus {
-  border-color: var(--gc-primary) !important;
-  box-shadow: 0 0 0 3px rgba(61, 107, 44, 0.12) !important;
+  border-color: var(--gc-border) !important;
+  box-shadow: 0 0 0 3px rgba(51,90, 255, 0.12) !important;
   outline: none !important;
 }
 
@@ -323,7 +316,7 @@ html:not([theme="dark"]) {
 
 /* Background + lock layout so only menu scrolls */
 .sidebar-main {
-  background: #2B551F !important;
+  background: radial-gradient(103.03% 103.03% at 0% 0%, #003BE2 0%, #072FA7 100%)!important;
   width: 270px !important;
   min-width: 270px !important;
   overflow: hidden !important;
@@ -397,12 +390,12 @@ html:not([theme="dark"]) {
 .admin-dash-title {
   font-size: 1.5rem !important;
   font-weight: 700 !important;
-  color: #1a2e10 !important;
+  color: #040268 !important;
   margin: 0 !important;
 }
 .admin-dash-sub {
   font-size: 14px !important;
-  color: #6b7f60 !important;
+  color: #3C3E40 !important;
   margin: 2px 0 0 !important;
 }
 .admin-dash-date {
@@ -462,7 +455,7 @@ html:not([theme="dark"]) {
 }
 .admin-stat-label {
   font-size: 13px !important;
-  color: #6b7f60 !important;
+  color: #3C3E40 !important;
   margin: 2px 0 0 !important;
 }
 .admin-stat-arrow {
@@ -505,7 +498,7 @@ html:not([theme="dark"]) {
 }
 .admin-view-all {
   font-size: 13px !important;
-  color: var(--gc-primary) !important;
+  color: #040268 !important;
   font-weight: 500 !important;
   text-decoration: none !important;
 }
@@ -521,14 +514,14 @@ html:not([theme="dark"]) {
   font-size: 14px;
 }
 .admin-table thead tr {
-  background: #EEF5EA;
-  border-bottom: 2px solid #C5DDB8;
+  background: rgba(51, 90, 255, 0.1);
+  border-bottom: rgba(51, 90, 255, 1);
 }
 .admin-table th {
   padding: 14px 16px;
   text-align: left;
   font-weight: 600 !important;
-  color: #2B551F !important;
+  color: #040268 !important;
   font-size: 13px !important;
   white-space: nowrap;
 }
@@ -730,7 +723,7 @@ html:not([theme="dark"]) {
 }
 .searchwrap input[type="text"]:focus {
   outline: none !important;
-  border-color: #2B551F !important;
+  border-color: #335AFF !important;
   box-shadow: 0 0 0 3px rgba(43,85,31,0.1) !important;
 }
 
@@ -773,12 +766,12 @@ html:not([theme="dark"]) {
   font-size: 14px !important;
   border-radius: 10px !important;
   background: #EEF5EA !important;
-  color: #2B551F !important;
+  color: #040268 !important;
   border: 1.5px solid #C5DDB8 !important;
   font-weight: 500 !important;
 }
 [class*="profile_flex"] .custom-button:hover {
-  background: #2B551F !important;
+  background: #335AFF !important;
   color: #fff !important;
 }
 
@@ -826,9 +819,9 @@ html:not([theme="dark"]) {
   width: 100% !important;
   height: 48px !important;
   padding: 0 16px !important;
-  border: 1.5px solid #C5DDB8 !important;
+  border: 1px solid rgba(27, 29, 33, 0.2) !important;
   border-radius: 10px !important;
-  background: #EEF5EA !important;
+  background: transparent !important;
   color: #333 !important;
   font-size: 14px !important;
   font-family: 'DM Sans', sans-serif !important;
@@ -838,7 +831,7 @@ html:not([theme="dark"]) {
 [class*="profileformcol"] input:not([type="file"]):focus,
 [class*="profileformcol"] select:focus {
   outline: none !important;
-  border-color: #2B551F !important;
+  border-color: #335AFF !important;
   box-shadow: 0 0 0 3px rgba(43,85,31,0.1) !important;
   background: #fff !important;
 }
@@ -867,7 +860,7 @@ html:not([theme="dark"]) {
   color: #666 !important;
 }
 [class*="profileformcol"] input[type="file"]:hover {
-  border-color: #2B551F !important;
+  border-color: #335AFF !important;
 }
 
 /* ── Profile image preview ── */
@@ -897,7 +890,7 @@ html:not([theme="dark"]) {
   height: 110px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
-  border: 3px solid #C5DDB8 !important;
+  border: 3px solid var(--gc-primary) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
   display: block;
 }
@@ -955,12 +948,12 @@ html:not([theme="dark"]) {
   justify-content: space-between;
   margin-bottom: 28px;
   padding-bottom: 18px;
-  border-bottom: 2px solid #EEF5EA;
+  border-bottom: 1px solid rgba(27, 29, 33, 0.1);
 }
 .gc-profile-flex h2 {
   font-size: 1.5rem !important;
   font-weight: 700 !important;
-  color: #1a2e10 !important;
+  color: #040268 !important;
   margin-bottom: 0 !important;
   background: none !important;
 }
@@ -969,13 +962,13 @@ html:not([theme="dark"]) {
   padding: 8px 24px !important;
   font-size: 13px !important;
   border-radius: 8px !important;
-  background: #EEF5EA !important;
-  color: #2B551F !important;
-  border: 1.5px solid #C5DDB8 !important;
+  background: #e2e7f9!important;
+  color: #040268 !important;
+  border: 1.5px solid rgba(27, 29, 33, 0.1) !important;
   font-weight: 600 !important;
 }
 .gc-back-btn:hover {
-  background: #2B551F !important;
+  background: #335AFF !important;
   color: #fff !important;
 }
 
@@ -1020,7 +1013,7 @@ html:not([theme="dark"]) {
   font-family: 'DM Sans', sans-serif !important;
   font-weight: 600 !important;
   font-size: 13px !important;
-  color: #2B551F !important;
+  color: #040268 !important;
   border-bottom: 2px solid #C5DDB8 !important;
   background: #EEF5EA !important;
   padding: 14px 16px !important;
@@ -1212,7 +1205,7 @@ html:not([theme="dark"]) {
 }
 .pagiWrap .MuiPaginationItem-page:hover {
   background: #EEF5EA !important;
-  color: #2B551F !important;
+  color: #040268 !important;
 }
 
 /* ── Delete dialog buttons ── */

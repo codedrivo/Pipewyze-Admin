@@ -86,7 +86,7 @@ function Dashboard() {
       {
         label: "Revenue ($)",
         data: [],
-        borderColor: "#2B551F",
+        borderColor: "#335AFF",
         backgroundColor: "rgba(43, 85, 31, 0.08)",
       },
     ],
@@ -127,7 +127,7 @@ function Dashboard() {
                 {
                   label: "Revenue ($)",
                   data: payload.revenueChart.data,
-                  borderColor: "#2B551F",
+                  borderColor: "#335AFF",
                   backgroundColor: "rgba(43, 85, 31, 0.08)",
                 },
               ],
