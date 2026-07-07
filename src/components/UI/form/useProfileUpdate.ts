@@ -14,10 +14,7 @@ const normalizeUSPhoneNumber = (value: string) => {
 };
 
 interface FormValues {
-  firstName: string;
-  lastName: string;
-  // DOB: Date | null;
-  // maritalStatus: string;
+  fullName: string;
   phoneNumber: string;
   email: string;
   profileImage: File | string | null;
@@ -28,16 +25,9 @@ export const useProfileUpdate = () => {
   const nameRegex = /^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/;
 
   const validationSchema = yup.object({
-    firstName: yup
+    fullName: yup
       .string()
-      .required("First name is required")
-      .matches(nameRegex, "First name should contain only letters"),
-    lastName: yup
-      .string()
-      .required("Last name is required")
-      .matches(nameRegex, "Last name should contain only letters"),
-    // DOB: yup.date().required("Birthday is required"),
-    // maritalStatus: yup.string().required("Marital Status is required"),
+      .required("Full name is required"),
     phoneNumber: yup
       .string()
       .required("Phone number is required")
@@ -55,10 +45,7 @@ export const useProfileUpdate = () => {
   // Formik setup
   const addProfileFormik = useFormik<FormValues>({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      // DOB: null,
-      // maritalStatus: "",
+      fullName: "",
       phoneNumber: "",
       email: "",
       profileImage: null,
@@ -66,10 +53,7 @@ export const useProfileUpdate = () => {
     validationSchema,
     onSubmit: async (values) => {
       const bodyData = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        // DOB: values.DOB,
-        // maritalStatus: values.maritalStatus,
+        fullName: values.fullName,
         phone: normalizeUSPhoneNumber(values.phoneNumber),
         email: values.email,
       };

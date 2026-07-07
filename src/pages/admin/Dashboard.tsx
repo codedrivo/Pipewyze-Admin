@@ -172,7 +172,7 @@ function Dashboard() {
         <div>
           <h1 className='admin-dash-title'>Dashboard</h1>
           <p className='admin-dash-sub'>
-            Welcome back, <strong>{user?.firstName ?? "Admin"}</strong>
+            Welcome back, <strong>{user?.fullName ?? "Admin"}</strong>
           </p>
         </div>
       </div>
