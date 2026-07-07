@@ -1,0 +1,52 @@
+export const VALIDATION_MESSAGES = {
+  fullNameRequired: "Full name is required",
+  emailInvalid: "Please enter a valid email address",
+  emailRequired: "Email address is required",
+  phoneRequired: "Phone number is required",
+  phoneInvalid: "Enter a valid 10-digit US phone number",
+  roleRequired: "Role is required",
+  passwordRequired: "Password is required",
+  passwordMinLength: "Password must be at least 8 characters long",
+  passwordComplexity: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character",
+  userCreatedSuccess: "User created successfully!",
+  userUpdatedSuccess: "User updated successfully!",
+  userCreateFailed: "Failed to create user",
+  userUpdateFailed: "Failed to update user",
+  userLoadFailed: "Failed to load user details",
+  fillRequiredFields: "Please fill in all required fields",
+};
+
+export const USER_FORM_FIELDS = {
+  fullName: {
+    type: "text",
+    id: "fullName",
+    name: "fullName",
+    required: true,
+    placeholder: "Enter full name",
+    title: "Full Name",
+  },
+  email: {
+    type: "email",
+    id: "email",
+    name: "email",
+    required: true,
+    placeholder: "Enter email address",
+    title: "Email Address",
+  },
+  phone: {
+    type: "text",
+    id: "phone",
+    name: "phone",
+    required: true,
+    placeholder: "Enter phone number",
+    title: "Phone Number",
+  },
+  password: {
+    type: "password",
+    id: "password",
+    name: "password",
+    required: true,
+    placeholder: "Enter password",
+    title: "Password",
+  },
+};
