@@ -18,6 +18,9 @@ const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 
 const DashboardPage = React.lazy(() => import("./pages/admin/Dashboard"));
+const UsersPage = React.lazy(() => import("./pages/admin/Users"));
+const AddUserPage = React.lazy(() => import("./pages/admin/AddUser"));
+const EditUserPage = React.lazy(() => import("./pages/admin/EditUser"));
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
               <Route path='/admin/profile' element={<FormCus />} />
               <Route path='/admin/changePassword' element={<ChangePass />} />
               <Route path='/admin/dashboard' element={<DashboardPage />} />
+              <Route path='/admin/users' element={<UsersPage />} />
+              <Route path='/admin/users/add-user' element={<AddUserPage />} />
+              <Route path='/admin/users/update-user/:id' element={<EditUserPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />

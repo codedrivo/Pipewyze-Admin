@@ -6,6 +6,13 @@ const sidebarNav = [
     text: "Dashboard",
     role: ["admin"],
   },
+  {
+    link: "/admin/users",
+    section: "users",
+    icon: "lucide:users",
+    text: "Users",
+    role: ["admin"],
+  },
 ];
 
 export default sidebarNav;

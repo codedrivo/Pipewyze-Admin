@@ -1,5 +1,5 @@
 :root {
-  --clr-primary: #0057ff;
+  --clr-primary: #335AFF;
   --clr-secondary: #444444;
   --clr-accent: #0057ff;
   --clr-body: #292c31;
@@ -143,7 +143,7 @@ input[type="file"] {
 /*--- Input Styles ---*/
 
 html[theme="light"] .sidebar-main {
-  background-color: var(--color-blue);
+  background-color: radial-gradient(103.03% 103.03% at 0% 0%, #003BE2 0%, #072FA7 100%);
 }
 
 .sidebar-main {
