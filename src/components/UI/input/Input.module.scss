@@ -1,6 +1,25 @@
 @use "../../../scss/abstracts/" as *;
 .inputContainer {
   position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  input {
+    width: 100%;
+    padding-right: 45px !important;
+  }
+}
+
+.rightIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
 .form__control {
