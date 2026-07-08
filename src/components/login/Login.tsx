@@ -58,6 +58,9 @@ function LoginBox() {
 
                 <form onSubmit={loginFormik.handleSubmit} className="login-form">
                   <div className="formgrp">
+                    <label htmlFor="email">
+                      Email <span style={{ color: "red" }}>*</span>
+                    </label>
                     <Input
                       classes="passwordlabel"
                       type={"text"}
@@ -67,6 +70,7 @@ function LoginBox() {
                       onChange={loginFormik.handleChange}
                       onBlur={loginFormik.handleBlur}
                       value={loginFormik.values.email}
+                      hideLabel={true}
                       errorMsg={
                         loginFormik.touched.email || loginFormik.submitCount > 0
                           ? loginFormik.errors.email
@@ -75,6 +79,9 @@ function LoginBox() {
                     />
                   </div>
                   <div className="formgrp">
+                    <label htmlFor="Password">
+                      Password <span style={{ color: "red" }}>*</span>
+                    </label>
                     <Input
                       classes="passwordlabel"
                       type={isPasswordVisible ? "text" : "password"}
@@ -84,6 +91,7 @@ function LoginBox() {
                       onChange={loginFormik.handleChange}
                       onBlur={loginFormik.handleBlur}
                       value={loginFormik.values.password}
+                      hideLabel={true}
                       errorMsg={
                         loginFormik.touched.password || loginFormik.submitCount > 0
                           ? loginFormik.errors.password

@@ -14,6 +14,9 @@ export const VALIDATION_MESSAGES = {
   userUpdateFailed: "Failed to update user",
   userLoadFailed: "Failed to load user details",
   fillRequiredFields: "Please fill in all required fields",
+  otpRequired: "OTP is required",
+  confirmPasswordRequired: "Confirm password is required",
+  passwordsMustMatch: "Passwords must match",
 };
 
 export const USER_FORM_FIELDS = {

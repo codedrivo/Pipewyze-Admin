@@ -22,6 +22,7 @@ interface Props {
   title?: string;
   autoComplete?: string;
   rightIcon?: React.ReactNode; // Add this line to define the rightIcon prop
+  hideLabel?: boolean;
 }
 
 interface IImperativeHandler {
@@ -49,10 +50,12 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
     <div
       className={`${classes.form__control} ${props.classes ? props.classes : ""}`}
     >
-      <label htmlFor={props.title ?? props.id}>
-        {props.title ?? t(`${props.id}`)}{" "}
-        {props.required ? <span style={{ color: "red" }}>*</span> : null}
-      </label>
+      {!props.hideLabel && (
+        <label htmlFor={props.title ?? props.id}>
+          {props.title ?? t(`${props.id}`)}{" "}
+          {props.required ? <span style={{ color: "red" }}>*</span> : null}
+        </label>
+      )}
       <div className={classes.inputContainer}>
         {" "}
         {/* Wrap input and icon */}

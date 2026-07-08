@@ -43,6 +43,9 @@ function ForgotPassBox() {
 
           <form id="forgotPassword" className="login-form" onSubmit={forgotPassFormik.handleSubmit}>
             <div className="formgrp">
+              <label htmlFor="email">
+                Email <span style={{ color: "red" }}>*</span>
+              </label>
               <Input
                 classes="passwordlabel"
                 type={"text"}
@@ -52,6 +55,7 @@ function ForgotPassBox() {
                 onChange={forgotPassFormik.handleChange}
                 onBlur={forgotPassFormik.handleBlur}
                 value={forgotPassFormik.values.email}
+                hideLabel={true}
                 errorMsg={
                   forgotPassFormik.touched.email || forgotPassFormik.submitCount > 0
                     ? forgotPassFormik.errors.email
