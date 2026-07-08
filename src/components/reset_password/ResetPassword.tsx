@@ -14,7 +14,7 @@ function ResetPasswordBox() {
   const { t } = useTranslation();
 
   const email = localStorage.getItem("email");
-  const { resetPasswordFormik } = useReset(email);
+  const { resetPasswordFormik, loading } = useReset(email);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isCPasswordVisible, setIsCPasswordVisible] = useState(false);
@@ -146,8 +146,8 @@ function ResetPasswordBox() {
               />
             </div>
 
-            <button type='submit' className='custom-button mt-30'>
-              {t("Save")}
+            <button type='submit' className='custom-button mt-30' disabled={loading}>
+              {loading ? "Saving..." : t("Save")}
             </button>
 
             <Link className={classes.forgat_pass} to='/login'>

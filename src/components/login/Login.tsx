@@ -106,8 +106,8 @@ function LoginBox() {
                     />
                   </div>
 
-                  <button className="custom-button mt-30" type="submit">
-                    {t("login")}
+                  <button className="custom-button mt-30" type="submit" disabled={loading}>
+                    {loading ? "Logging in..." : t("login")}
                   </button>
 
                   <Link className={classes.forgat_pass} to="/forgot-password">

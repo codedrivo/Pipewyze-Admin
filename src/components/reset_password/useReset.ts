@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { resetPasswordApi } from "../../service/apis/auth.api";
@@ -14,6 +15,8 @@ interface ResetPasswordFormValues {
 
 export const useReset = (email: string | null) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const resetPasswordFormik = useFormik<ResetPasswordFormValues>({
     initialValues: {
       otp: "",
@@ -45,6 +48,7 @@ export const useReset = (email: string | null) => {
       };
 
       try {
+        setLoading(true);
         const response = await resetPasswordApi(bodyData);
         toast.success(
           response?.message || "Password has been changed successfully"
@@ -54,11 +58,14 @@ export const useReset = (email: string | null) => {
         const errorMessage =
           error?.response?.data?.message || "Invalid or expired OTP";
         toast.error(errorMessage);
+      } finally {
+        setLoading(false);
       }
     },
   });
 
   return {
     resetPasswordFormik,
+    loading,
   };
 };

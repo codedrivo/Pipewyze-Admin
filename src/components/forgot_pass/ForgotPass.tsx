@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 
 function ForgotPassBox() {
-  const { forgotPassFormik } = useForgotPass();
+  const { forgotPassFormik, loading } = useForgotPass();
   const { lang } = useSelector((state: RootState) => state.langSlice);
   const { t } = useTranslation();
 
@@ -64,8 +64,8 @@ function ForgotPassBox() {
               />
             </div>
 
-            <button className="custom-button mt-30" type="submit">
-              {t("Send Email")}
+            <button className="custom-button mt-30" type="submit" disabled={loading}>
+              {loading ? "Sending..." : t("Send Email")}
             </button>
 
             <Link className={classes.forgat_pass} to="/login">
