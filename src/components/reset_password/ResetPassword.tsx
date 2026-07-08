@@ -64,6 +64,9 @@ function ResetPasswordBox() {
             onSubmit={resetPasswordFormik.handleSubmit}
           >
             <div className='formgrp'>
+              <label htmlFor='Otp'>
+                OTP <span style={{ color: "red" }}>*</span>
+              </label>
               <Input
                 classes='passwordlabel'
                 type='text'
@@ -73,6 +76,7 @@ function ResetPasswordBox() {
                 onChange={resetPasswordFormik.handleChange}
                 onBlur={resetPasswordFormik.handleBlur}
                 value={resetPasswordFormik.values.otp}
+                hideLabel={true}
                 errorMsg={
                   resetPasswordFormik.touched.otp ||
                   resetPasswordFormik.submitCount > 0
@@ -83,6 +87,9 @@ function ResetPasswordBox() {
             </div>
 
             <div className='formgrp'>
+              <label htmlFor='Password'>
+                Password <span style={{ color: "red" }}>*</span>
+              </label>
               <Input
                 classes='passwordlabel'
                 type={isPasswordVisible ? "text" : "password"}
@@ -92,6 +99,7 @@ function ResetPasswordBox() {
                 onChange={resetPasswordFormik.handleChange}
                 onBlur={resetPasswordFormik.handleBlur}
                 value={resetPasswordFormik.values.password}
+                hideLabel={true}
                 errorMsg={
                   resetPasswordFormik.touched.password ||
                   resetPasswordFormik.submitCount > 0
@@ -109,6 +117,9 @@ function ResetPasswordBox() {
             </div>
 
             <div className='formgrp'>
+              <label htmlFor='Confirm Password'>
+                Confirm Password <span style={{ color: "red" }}>*</span>
+              </label>
               <Input
                 classes='passwordlabel'
                 type={isCPasswordVisible ? "text" : "password"}
@@ -118,6 +129,7 @@ function ResetPasswordBox() {
                 onChange={resetPasswordFormik.handleChange}
                 onBlur={resetPasswordFormik.handleBlur}
                 value={resetPasswordFormik.values.confirmpassword}
+                hideLabel={true}
                 errorMsg={
                   resetPasswordFormik.touched.confirmpassword ||
                   resetPasswordFormik.submitCount > 0
