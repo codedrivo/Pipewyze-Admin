@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 
 function ForgotPassBox() {
-  const { forgotPassFormik } = useForgotPass();
+  const { forgotPassFormik, loading } = useForgotPass();
   const { lang } = useSelector((state: RootState) => state.langSlice);
   const { t } = useTranslation();
 
@@ -43,6 +43,9 @@ function ForgotPassBox() {
 
           <form id="forgotPassword" className="login-form" onSubmit={forgotPassFormik.handleSubmit}>
             <div className="formgrp">
+              <label htmlFor="email">
+                Email <span style={{ color: "red" }}>*</span>
+              </label>
               <Input
                 classes="passwordlabel"
                 type={"text"}
@@ -52,6 +55,7 @@ function ForgotPassBox() {
                 onChange={forgotPassFormik.handleChange}
                 onBlur={forgotPassFormik.handleBlur}
                 value={forgotPassFormik.values.email}
+                hideLabel={true}
                 errorMsg={
                   forgotPassFormik.touched.email || forgotPassFormik.submitCount > 0
                     ? forgotPassFormik.errors.email
@@ -60,8 +64,8 @@ function ForgotPassBox() {
               />
             </div>
 
-            <button className="custom-button mt-30" type="submit">
-              {t("Send Email")}
+            <button className="custom-button mt-30" type="submit" disabled={loading}>
+              {loading ? "Sending..." : t("Send Email")}
             </button>
 
             <Link className={classes.forgat_pass} to="/login">

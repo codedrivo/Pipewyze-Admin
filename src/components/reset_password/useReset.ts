@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { resetPasswordApi } from "../../service/apis/auth.api";
+import { VALIDATION_MESSAGES } from "../../utils/message/messages";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +15,8 @@ interface ResetPasswordFormValues {
 
 export const useReset = (email: string | null) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const resetPasswordFormik = useFormik<ResetPasswordFormValues>({
     initialValues: {
       otp: "",
@@ -20,22 +24,21 @@ export const useReset = (email: string | null) => {
       confirmpassword: "",
     },
     validationSchema: yup.object({
-      otp: yup.string().trim().required("OTP field is Required"),
+      otp: yup.string().trim().required(VALIDATION_MESSAGES.otpRequired),
 
       password: yup
         .string()
-        .trim()
-        .min(8, "Must be 8 or more than 8 characters")
-        .required("Password field is Required")
-        .matches(/\w/, "Please enter valid password"),
+        .required(VALIDATION_MESSAGES.passwordRequired)
+        .min(8, VALIDATION_MESSAGES.passwordMinLength)
+        .matches(
+          /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+          VALIDATION_MESSAGES.passwordComplexity
+        ),
 
       confirmpassword: yup
         .string()
-        .trim()
-        .min(8, "Must be 8 or more than 8 characters")
-        .required("Confirm Password field is Required")
-        .oneOf([yup.ref("password")], "Passwords must match") // Ensure passwords match
-        .matches(/\w/, "Please enter valid password"),
+        .required(VALIDATION_MESSAGES.confirmPasswordRequired)
+        .oneOf([yup.ref("password")], VALIDATION_MESSAGES.passwordsMustMatch),
     }),
     onSubmit: async (values) => {
       const bodyData = {
@@ -45,6 +48,7 @@ export const useReset = (email: string | null) => {
       };
 
       try {
+        setLoading(true);
         const response = await resetPasswordApi(bodyData);
         toast.success(
           response?.message || "Password has been changed successfully"
@@ -54,11 +58,14 @@ export const useReset = (email: string | null) => {
         const errorMessage =
           error?.response?.data?.message || "Invalid or expired OTP";
         toast.error(errorMessage);
+      } finally {
+        setLoading(false);
       }
     },
   });
 
   return {
     resetPasswordFormik,
+    loading,
   };
 };
