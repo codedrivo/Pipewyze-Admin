@@ -1029,7 +1029,7 @@ html:not([theme="dark"]) {
 }
 .usertabledata .MuiTableBody-root .MuiTableRow-root:hover,
 [class*="tbodymain"] tbody tr:hover {
-  background: #F4FAF0 !important;
+  background: var(--gc-primary-light) !important;
 }
 .usertabledata .MuiTableBody-root .MuiTableCell-root,
 [class*="tbodymain"] tbody td,
@@ -1204,7 +1204,7 @@ html:not([theme="dark"]) {
   border-color: var(--gc-primary) !important;
 }
 .pagiWrap .MuiPaginationItem-page:hover {
-  background: #EEF5EA !important;
+  background: var(--gc-primary-light) !important;
   color: #040268 !important;
 }
 

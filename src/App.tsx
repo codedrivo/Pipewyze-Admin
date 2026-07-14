@@ -21,6 +21,7 @@ const DashboardPage = React.lazy(() => import("./pages/admin/Dashboard"));
 const UsersPage = React.lazy(() => import("./pages/admin/Users"));
 const AddUserPage = React.lazy(() => import("./pages/admin/AddUser"));
 const EditUserPage = React.lazy(() => import("./pages/admin/EditUser"));
+const EquipmentPage = React.lazy(() => import("./pages/admin/Equipment"));
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
               <Route path='/admin/users' element={<UsersPage />} />
               <Route path='/admin/users/add-user' element={<AddUserPage />} />
               <Route path='/admin/users/update-user/:id' element={<EditUserPage />} />
+              <Route path='/admin/equipment/:plumberId' element={<EquipmentPage />} />
+              <Route path='/admin/equipment' element={<EquipmentPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />
