@@ -51,9 +51,8 @@ function Users() {
       {loading ? <LoadingSpinner /> : null}
 
       <div
-        className={`${dataTable.datatablemainwrap} ${
-          addClass ? dataTable[addClass] : ""
-        } colorAction`}
+        className={`${dataTable.datatablemainwrap} ${addClass ? dataTable[addClass] : ""
+          } colorAction`}
       >
         {/* Gravecare Search & Add Button wrapper */}
         <div className='search-wrap'>
@@ -224,14 +223,14 @@ function Users() {
                               row.role === "admin"
                                 ? "#FEF2F2"
                                 : row.role === "licensed-plumber"
-                                ? "#ECFDF5"
-                                : "#EFF6FF",
+                                  ? "#ECFDF5"
+                                  : "#EFF6FF",
                             color:
                               row.role === "admin"
                                 ? "#EF4444"
                                 : row.role === "licensed-plumber"
-                                ? "#10B981"
-                                : "#3B82F6",
+                                  ? "#10B981"
+                                  : "#3B82F6",
                             padding: "4px 8px",
                             borderRadius: "6px",
                             fontSize: "12px",
