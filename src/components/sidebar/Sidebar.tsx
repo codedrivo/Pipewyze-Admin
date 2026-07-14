@@ -14,11 +14,18 @@ import { logOut } from "../../store/auth.store";
 function Sidebar() {
   const { isOpen } = useSelector((state: RootState) => state.sideBarSlice);
   const role = useSelector((state: RootState) => state.authSlice.user?.role);
-  // const [activeIndex, setActiveIndex] = useState(0);
-  const [openSubmenu, setOpenSubmenu] = useState(false);
+  const location = useLocation();
+  const curPath = location.pathname;
+
+  const [openSubmenu, setOpenSubmenu] = useState(() => {
+    return sidebarNav.some(
+      (nav) =>
+        nav.submenu &&
+        nav.submenu.some((subNav) => subNav.link === curPath || curPath.startsWith(subNav.link + "/"))
+    );
+  });
 
   const { width } = useWindowSize();
-  const location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -36,19 +43,32 @@ function Sidebar() {
     setOpenSubmenu((prev) => !prev);
   }
 
-  // useEffect(() => {
-  //   const curPath = window.location.pathname.split("/")[2] || ""; // Ensure curPath is a string
-  //   const activeItem = sidebarNav.findIndex((item) => item.section === curPath);
-  //   setActiveIndex(activeItem !== -1 ? activeItem : 0); // Default to 0 if not found
-  // }, [location, sidebarNav]);
+  useEffect(() => {
+    const hasActiveSub = sidebarNav.some(
+      (nav) =>
+        nav.submenu &&
+        nav.submenu.some(
+          (subNav) => subNav.link === curPath || curPath.startsWith(subNav.link + "/")
+        )
+    );
+    if (hasActiveSub) {
+      setOpenSubmenu(true);
+    }
+  }, [curPath]);
 
   // Filter sidebar items based on the user's role
   const filteredNav = sidebarNav.filter(
-    (nav) => nav.role && nav.role.includes(role || "") // Default to empty string if role is undefined
+    (nav) => nav.role && nav.role.includes(role || "")
   );
 
-  const curPath = location.pathname;
-  let activeIndex = filteredNav.findIndex((item) => item.link === curPath);
+  let activeIndex = filteredNav.findIndex(
+    (item) =>
+      item.link === curPath ||
+      (item.submenu &&
+        item.submenu.some(
+          (sub) => sub.link === curPath || curPath.startsWith(sub.link + "/")
+        ))
+  );
 
   if (activeIndex === -1) {
     const subIndex = filteredNav.findIndex(
@@ -67,21 +87,61 @@ function Sidebar() {
       </div>
 
       <div className={`${classes.sidebar__menu} gc-nav-menu`}>
-        {filteredNav.map((nav, index) => (
-          <Link
-            to={nav.link}
-            key={`nav-${index}`}
-            className={`${classes.sidebar__menu__item} ${activeIndex === index ? "active" : ""} sidenav-li gc-nav-item`}
-            onClick={openSidebarHandler}
-          >
-            <div className={classes.sidebar__menu__item__icon}>
-              <Icon icon={nav.icon} />
+        {filteredNav.map((nav, index) => {
+          const hasSubmenu = Array.isArray(nav.submenu) && nav.submenu.length > 0;
+          return (
+            <div key={`nav-${index}`} style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+              {hasSubmenu ? (
+                <div
+                  className={`${classes.sidebar__menu__item} ${activeIndex === index ? "active" : ""} sidenav-li gc-nav-item`}
+                  style={{ cursor: "pointer" }}
+                  onClick={toggleSubmenu}
+                >
+                  <div className={classes.sidebar__menu__item__icon}>
+                    <Icon icon={nav.icon} />
+                  </div>
+                  <div className={classes.sidebar__menu__item__txt} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingRight: "16px" }}>
+                    <span>{t(nav.text)}</span>
+                    <Icon icon={openSubmenu ? 'lucide:chevron-up' : 'lucide:chevron-down'} style={{ fontSize: "16px" }} />
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  to={nav.link}
+                  className={`${classes.sidebar__menu__item} ${activeIndex === index ? "active" : ""} sidenav-li gc-nav-item`}
+                  onClick={openSidebarHandler}
+                >
+                  <div className={classes.sidebar__menu__item__icon}>
+                    <Icon icon={nav.icon} />
+                  </div>
+                  <div className={classes.sidebar__menu__item__txt}>
+                    {t(nav.text)}
+                  </div>
+                </Link>
+              )}
+              {hasSubmenu && openSubmenu && (
+                <div style={{ paddingLeft: "24px", marginTop: "-5px", display: "flex", flexDirection: "column", width: "100%" }}>
+                  {nav.submenu!.map((subNav, subIndex) => (
+                    <Link
+                      to={subNav.link}
+                      key={`subnav-${subIndex}`}
+                      className={`${classes.sidebar__menu__item} ${curPath === subNav.link ? "active" : ""} sidenav-li gc-nav-item`}
+                      style={{ marginBottom: "1rem", fontSize: "0.95rem" }}
+                      onClick={openSidebarHandler}
+                    >
+                      <div className={classes.sidebar__menu__item__icon} style={{ fontSize: "18px" }}>
+                        <Icon icon={subNav.icon} />
+                      </div>
+                      <div className={classes.sidebar__menu__item__txt}>
+                        {t(subNav.text)}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className={classes.sidebar__menu__item__txt}>
-              {t(nav.text)}
-            </div>
-          </Link>
-        ))}
+          );
+        })}
       </div>
 
       {/* <div className={classes.sidebar__menu}>

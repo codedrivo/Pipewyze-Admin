@@ -13,6 +13,21 @@ const sidebarNav = [
     text: "Users",
     role: ["admin"],
   },
+  {
+    link: "/admin/plumber",
+    section: "plumber",
+    icon: "lucide:wrench",
+    text: "Plumber",
+    role: ["admin", "licensed-plumber"],
+    submenu: [
+      {
+        link: "/admin/equipment",
+        section: "equipment",
+        icon: "lucide:wrench",
+        text: "Equipment",
+      },
+    ],
+  },
 ];
 
 export default sidebarNav;

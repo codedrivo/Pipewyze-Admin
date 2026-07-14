@@ -12,6 +12,7 @@ const AuthLayout = () => {
   // Redirect paths based on role
   const roleBasedRedirects: Record<string, string> = {
     admin: "/admin/dashboard",
+    "licensed-plumber": "/admin/equipment",
   };
 
   // If user is logged in and role is recognized, render `Outlet` (child routes)
