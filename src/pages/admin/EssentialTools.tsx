@@ -1,0 +1,535 @@
+import React from "react";
+import { Icon } from "@iconify/react";
+import { useEssentialTools } from "./useEssentialTools";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
+import withRole from "../withRole";
+import dataTable from "../../components/tables/customTable/datatable.module.scss";
+import del from "../../assets/images/ic_outline-delete.png";
+import delt from "../../assets/images/delete.png";
+
+function EssentialTools() {
+  const {
+    fileInputRef,
+    toolsList,
+    loading,
+    submitting,
+    isModalOpen,
+    editingTool,
+    imagePreview,
+    openDeleteDialog,
+    formik,
+    handleOpenAddModal,
+    handleOpenEditModal,
+    handleCloseModal,
+    handleImageChange,
+    handleDeleteClick,
+    handleCloseDelete,
+    handleDeleteConfirm,
+  } = useEssentialTools();
+
+  return (
+    <div style={{ position: "relative" }} className='dsp'>
+      {loading ? <LoadingSpinner /> : null}
+
+      <style>{`
+        .tool-add-btn {
+          width: auto !important;
+          margin-top: 0 !important;
+        }
+      `}</style>
+
+      <div className={dataTable.datatablemainwrap}>
+        {/* Header wrapper */}
+        <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
+              Home Essential Tools
+            </h2>
+          </div>
+
+          <button className='custom-button tool-add-btn' onClick={handleOpenAddModal}>
+            Add Tool
+          </button>
+        </div>
+
+        {/* Content Area */}
+        {toolsList.length === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "80px 20px",
+              background: "#ffffff",
+              borderRadius: "24px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <Icon icon='mdi:tools' style={{ fontSize: "48px", color: "#9ca3af", marginBottom: "12px" }} />
+            <p style={{ color: "#4b5563", fontSize: "16px", fontWeight: 500, margin: 0 }}>
+              No essential tools registered yet
+            </p>
+          </div>
+        ) : (
+          <div className='usertabledata'>
+            <TableContainer className={dataTable.tbodymain} component={Paper}>
+              <Table
+                sx={{ minWidth: 1000 }}
+                aria-label='essential tools list table'
+                style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell align='left'>Image</TableCell>
+                    <TableCell align='left'>Name</TableCell>
+                    <TableCell align='left'>Description</TableCell>
+                    <TableCell align='left'>Tag</TableCell>
+                    <TableCell align='left'>Recommendation Link</TableCell>
+                    <TableCell align='center'>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody className={dataTable.tbodywrap}>
+                  {toolsList.map((row) => (
+                    <TableRow
+                      key={row.id || row._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align='left'>
+                        <div
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            background: "#f3f4f6",
+                          }}
+                        >
+                          <img
+                            src={row.image || "/no_image.png"}
+                            alt={row.name}
+                            onError={(e) => {
+                              e.currentTarget.src = "/no_image.png";
+                            }}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <div style={{ fontWeight: "bold", color: "#1f2937" }}>
+                          {row.name}
+                        </div>
+                      </TableCell>
+                      <TableCell align='left' style={{ maxWidth: "250px" }}>
+                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {row.description}
+                        </div>
+                      </TableCell>
+                      <TableCell align='left'>
+                        {row.tag ? (
+                          <span
+                            style={{
+                              background: "#eff6ff",
+                              color: "#2563eb",
+                              padding: "4px 10px",
+                              borderRadius: "9999px",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {row.tag}
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell align='left'>
+                        {row.recommendationLink ? (
+                          <a
+                            href={row.recommendationLink.startsWith("http") ? row.recommendationLink : `https://${row.recommendationLink}`}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            style={{ color: "#2563eb", textDecoration: "underline" }}
+                          >
+                            {row.recommendationLink}
+                          </a>
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell align='center'>
+                        <div
+                          className={dataTable.actionwrap}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <p
+                            className={dataTable.edit}
+                            onClick={() => handleOpenEditModal(row)}
+                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
+                            title="Edit"
+                          >
+                            <Icon
+                              icon='mdi:pencil-outline'
+                              style={{ fontSize: "20px", color: "#fff" }}
+                            />
+                          </p>
+                          <p
+                            className={dataTable.edit}
+                            onClick={() => handleDeleteClick(row.id || row._id)}
+                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
+                            title="Delete"
+                          >
+                            <img src={del} alt='Delete' style={{ width: "20px" }} />
+                          </p>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
+      </div>
+
+      {/* Add / Edit Tool Modal */}
+      <Dialog
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        maxWidth='sm'
+        fullWidth
+        PaperProps={{
+          style: {
+            borderRadius: "24px",
+            padding: "24px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+          },
+        }}
+      >
+        <DialogTitle
+          style={{
+            textAlign: "center",
+            fontSize: "28px",
+            fontWeight: 800,
+            fontFamily: "'DM Sans', sans-serif",
+            color: "#111827",
+            padding: "0 0 20px 0",
+            position: "relative",
+          }}
+        >
+          {editingTool ? "Edit Essential Tool" : "Add Essential Tool"}
+          <button
+            onClick={handleCloseModal}
+            style={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              color: "#9ca3af",
+            }}
+          >
+            <Icon icon='mdi:close' style={{ fontSize: "24px" }} />
+          </button>
+        </DialogTitle>
+
+        <DialogContent style={{ padding: "10px 0" }}>
+          <form onSubmit={formik.handleSubmit}>
+            {/* Image Upload */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  borderRadius: "16px",
+                  border: "2px dashed #d1d5db",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  overflow: "hidden",
+                  background: "#f9fafb",
+                  position: "relative",
+                }}
+              >
+                {imagePreview ? (
+                  <img src={imagePreview} alt='Preview' style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <div style={{ textAlign: "center", color: "#9ca3af" }}>
+                    <Icon icon='mdi:camera' style={{ fontSize: "32px" }} />
+                    <span style={{ display: "block", fontSize: "12px", marginTop: "4px" }}>Upload Photo</span>
+                  </div>
+                )}
+              </div>
+              <input
+                type='file'
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept='image/*'
+                style={{ display: "none" }}
+              />
+            </div>
+
+            {/* Tool Name */}
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Tool Name
+              </label>
+              <input
+                type='text'
+                name='name'
+                placeholder='e.g. Pipe Wrench'
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: `1.5px solid ${formik.touched.name && formik.errors.name ? "#ef4444" : "#d1d5db"}`,
+                  fontSize: "16px",
+                  outline: "none",
+                }}
+              />
+              {formik.touched.name && formik.errors.name && (
+                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
+              )}
+            </div>
+
+            {/* Description */}
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Description
+              </label>
+              <textarea
+                name='description'
+                placeholder='Used for gripping and turning pipes...'
+                rows={3}
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: `1.5px solid ${formik.touched.description && formik.errors.description ? "#ef4444" : "#d1d5db"}`,
+                  fontSize: "16px",
+                  outline: "none",
+                  fontFamily: "inherit",
+                }}
+              />
+              {formik.touched.description && formik.errors.description && (
+                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.description}</div>
+              )}
+            </div>
+
+            {/* Tag */}
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Tag (Optional)
+              </label>
+              <input
+                type='text'
+                name='tag'
+                placeholder="e.g. Brian's Pick"
+                value={formik.values.tag}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: "1.5px solid #d1d5db",
+                  fontSize: "16px",
+                  outline: "none",
+                }}
+              />
+            </div>
+
+            {/* Recommendation Link */}
+            <div style={{ marginBottom: "24px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Supplier Recommendation Link (Optional)
+              </label>
+              <input
+                type='text'
+                name='recommendationLink'
+                placeholder='e.g. www.amazon.com'
+                value={formik.values.recommendationLink}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: "1.5px solid #d1d5db",
+                  fontSize: "16px",
+                  outline: "none",
+                }}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
+              <button
+                type='button'
+                onClick={handleCloseModal}
+                disabled={submitting}
+                style={{
+                  flex: 1,
+                  padding: "14px",
+                  borderRadius: "12px",
+                  border: "1px solid #d1d5db",
+                  backgroundColor: "#ffffff",
+                  color: "#4b5563",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type='submit'
+                disabled={submitting}
+                style={{
+                  flex: 1,
+                  padding: "14px",
+                  borderRadius: "12px",
+                  border: "none",
+                  backgroundColor: "#2563eb",
+                  color: "#ffffff",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                }}
+              >
+                {submitting ? "Saving..." : editingTool ? "Save Changes" : "Add Tool +"}
+              </button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        sx={{
+          "& .MuiPaper-root": {
+            borderRadius: "35px",
+            overflowY: "inherit",
+            padding: "40px",
+            maxWidth: "562px",
+          },
+        }}
+        maxWidth='md'
+        fullWidth
+        className={dataTable.custommodal}
+        open={openDeleteDialog}
+        onClose={handleCloseDelete}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <div className={dataTable.modalimg} style={{ textAlign: "center", marginBottom: "20px" }}>
+          <img src={delt} alt='Delete Confirmation' style={{ width: "80px" }} />
+        </div>
+        <DialogTitle
+          id='alert-dialog-title'
+          style={{
+            textAlign: "center",
+            fontSize: "32px",
+            color: "#000",
+            fontWeight: "700",
+          }}
+        >
+          {"Delete Essential Tool"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            id='alert-dialog-description'
+            style={{
+              textAlign: "center",
+              color: "#676767",
+              fontSize: "16px",
+            }}
+          >
+            {"Are you sure you want to delete this essential tool? This action cannot be undone."}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{ justifyContent: "center", gap: "15px", marginTop: "10px" }}>
+          <Button onClick={handleCloseDelete} className='btn-cancel' style={{ border: "1px solid #ccc", borderRadius: "20px", padding: "8px 25px", textTransform: "none", color: "#666" }}>
+            {"Cancel"}
+          </Button>
+          <Button onClick={handleDeleteConfirm} className='btn' style={{ background: "#EF4444", color: "#fff", borderRadius: "20px", padding: "8px 25px", textTransform: "none" }}>
+            {"Delete"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+export default withRole(EssentialTools, ["admin"]);

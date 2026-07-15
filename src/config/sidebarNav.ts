@@ -26,6 +26,12 @@ const sidebarNav = [
         icon: "lucide:wrench",
         text: "Equipment",
       },
+      {
+        link: "/admin/essential-tools",
+        section: "essential-tools",
+        icon: "lucide:hammer",
+        text: "Essential Tools",
+      },
     ],
   },
 ];
