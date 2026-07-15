@@ -58,7 +58,7 @@ function Users() {
         <div className='search-wrap'>
           <div className='button-holder-wrap'>
             <button
-              className='custom-button'
+              className='custom-button mt-0 sm'
               onClick={() => navigate("/admin/users/add-user")}
             >
               Add User
@@ -85,7 +85,7 @@ function Users() {
                 style={{
                   padding: "8px 12px",
                   borderRadius: "10px",
-                  border: "1px solid #C5DDB8",
+                  border: "1px solid rgba(51, 90, 255, 0.3)",
                   height: "50px",
                   width: "100%",
                 }}
@@ -117,7 +117,7 @@ function Users() {
               style={{
                 padding: "8px 12px",
                 borderRadius: "10px",
-                border: "1.5px solid #C5DDB8",
+                border: "1.5px solid rgba(51, 90, 255, 0.3)",
                 height: "50px",
                 width: "220px",
                 backgroundColor: "#fff",

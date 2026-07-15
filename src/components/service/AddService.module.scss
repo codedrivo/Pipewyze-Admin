@@ -1,7 +1,7 @@
 .clickableArea {
   cursor: pointer;
   transition: border-color 0.3s ease, background-color 0.3s ease;
-  border: 1px dashed #C5DDB8;
+  border: 1px dashed rgba(51, 90, 255, 0.3);
   border-radius: 16px;
   padding: 20px;
   background: #EEF5EA;
@@ -16,7 +16,7 @@
   height: 120px;
   border-radius: 16px;
   object-fit: cover;
-  border: 1px solid #C5DDB8;
+  border: 1px solid rgba(51, 90, 255, 0.3);
 }
 
 .hiddenInput {

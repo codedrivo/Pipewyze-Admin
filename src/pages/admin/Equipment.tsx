@@ -109,7 +109,7 @@ function Equipment() {
 
 
           {(isPlumber || paramPlumberId) && (
-            <button className='custom-button equipment-add-btn' onClick={handleOpenAddModal}>
+            <button className='custom-button equipment-add-btn sm' onClick={handleOpenAddModal}>
               Add Equipment
             </button>
           )}

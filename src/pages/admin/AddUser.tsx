@@ -265,11 +265,7 @@ function AddUser() {
           <div className='submitbtnwrap' style={{ marginTop: "30px" }}>
             <button
               type='submit'
-              className={`${form.upbtn} gc-update-btn`}
-              style={{
-                background: "linear-gradient(180deg, #335AFF 0%, #6688FF 100%)",
-                boxShadow: "1px 5px 15px rgba(51, 90, 255, 0.3)",
-              }}
+              className={`custom-button w-auto`}
               disabled={loading}
             >
               {loading ? "Creating..." : "Create User"}

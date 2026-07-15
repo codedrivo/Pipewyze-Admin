@@ -129,7 +129,7 @@ function AdminListPage<T>({
             style={{
               padding: "8px 12px",
               borderRadius: "10px",
-              border: "1px solid #C5DDB8",
+              border: "1px solid rgba(51, 90, 255, 0.3)",
               maxWidth: "350px",
               height: "50px",
               width: "100%",
