@@ -14,25 +14,25 @@ const sidebarNav = [
     role: ["admin"],
   },
   {
-    link: "/admin/plumber",
-    section: "plumber",
+    link: "/admin/equipment",
+    section: "equipment",
     icon: "lucide:wrench",
-    text: "Plumber",
-    role: ["admin", "licensed-plumber"],
-    submenu: [
-      {
-        link: "/admin/equipment",
-        section: "equipment",
-        icon: "lucide:wrench",
-        text: "Equipment",
-      },
-      {
-        link: "/admin/essential-tools",
-        section: "essential-tools",
-        icon: "lucide:hammer",
-        text: "Essential Tools",
-      },
-    ],
+    text: "Equipment",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/essential-tools",
+    section: "essential-tools",
+    icon: "lucide:hammer",
+    text: "Essential Tools",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/plumbing-codes",
+    section: "plumbing-codes",
+    icon: "lucide:book-open",
+    text: "Plumbing Codes",
+    role: ["admin"],
   },
 ];
 
