@@ -20,3 +20,8 @@ export const deletePlumbingCode = catchAsync(async (id: string) => {
   const data = await httpsCall.delete(`/admin/plumbing-code/${id}`);
   return data;
 });
+
+export const getPlumbingCode = catchAsync(async (id: string) => {
+  const data = await httpsCall.get(`/admin/plumbing-code/${id}`);
+  return data;
+});

@@ -10,13 +10,20 @@ import {
   addEquipment,
   updateEquipment,
   deleteEquipment,
+  getHomeOwnerEquipment,
 } from "../../service/apis/equipment.api";
 import { userDetails, userApi } from "../../service/apis/user.api";
 
 export interface IEquipment {
   _id: string;
   id?: string;
-  plumberId: string;
+  plumberId?: string;
+  ownerId?: {
+    _id: string;
+    fullName: string;
+    email: string;
+    phone?: string;
+  };
   category: string;
   brand: string;
   model: string;
@@ -64,14 +71,20 @@ export function useEquipment() {
       console.error("Failed to load plumber details", error);
     }
   };
-
   const fetchEquipment = async () => {
-    if (!plumberId) return;
     try {
       setLoading(true);
-      const response = await getPlumberEquipment(plumberId);
-      if (response?.status === 200) {
-        setEquipmentList(response.equipment || response.data?.equipment || []);
+      if (user?.role === "admin") {
+        const response = await getHomeOwnerEquipment();
+        if (response?.status === 200) {
+          setEquipmentList(response.equipment || response.data?.equipment || []);
+        }
+      } else {
+        if (!plumberId) return;
+        const response = await getPlumberEquipment(plumberId);
+        if (response?.status === 200) {
+          setEquipmentList(response.equipment || response.data?.equipment || []);
+        }
       }
     } catch (error) {
       console.error("Failed to load equipment list", error);
@@ -100,13 +113,15 @@ export function useEquipment() {
   }, [user]);
 
   useEffect(() => {
-    if (plumberId) {
+    if (user?.role === "admin") {
+      fetchEquipment();
+    } else if (plumberId) {
       fetchPlumberInfo();
       fetchEquipment();
     } else {
       setLoading(false);
     }
-  }, [plumberId]);
+  }, [plumberId, user]);
 
   useEffect(() => {
     if (location.state && (location.state as any).openAddModal) {

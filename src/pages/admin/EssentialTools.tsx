@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import { useEssentialTools } from "./useEssentialTools";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
@@ -23,20 +24,11 @@ import del from "../../assets/images/ic_outline-delete.png";
 import delt from "../../assets/images/delete.png";
 
 function EssentialTools() {
+  const navigate = useNavigate();
   const {
-    fileInputRef,
     toolsList,
     loading,
-    submitting,
-    isModalOpen,
-    editingTool,
-    imagePreview,
     openDeleteDialog,
-    formik,
-    handleOpenAddModal,
-    handleOpenEditModal,
-    handleCloseModal,
-    handleImageChange,
     handleDeleteClick,
     handleCloseDelete,
     handleDeleteConfirm,
@@ -58,11 +50,11 @@ function EssentialTools() {
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              Home Essential Tools
+              Homeowner Essential Tools
             </h2>
           </div>
 
-          <button className='custom-button tool-add-btn' onClick={handleOpenAddModal}>
+          <button className='custom-button tool-add-btn' onClick={() => navigate("/admin/essential-tools/add")}>
             Add Tool
           </button>
         </div>
@@ -190,7 +182,7 @@ function EssentialTools() {
                         >
                           <p
                             className={dataTable.edit}
-                            onClick={() => handleOpenEditModal(row)}
+                            onClick={() => navigate(`/admin/essential-tools/edit/${row._id || row.id}`)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
                             title="Edit"
                           >
@@ -218,262 +210,7 @@ function EssentialTools() {
         )}
       </div>
 
-      {/* Add / Edit Tool Modal */}
-      <Dialog
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        maxWidth='sm'
-        fullWidth
-        PaperProps={{
-          style: {
-            borderRadius: "24px",
-            padding: "24px",
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-          },
-        }}
-      >
-        <DialogTitle
-          style={{
-            textAlign: "center",
-            fontSize: "28px",
-            fontWeight: 800,
-            fontFamily: "'DM Sans', sans-serif",
-            color: "#111827",
-            padding: "0 0 20px 0",
-            position: "relative",
-          }}
-        >
-          {editingTool ? "Edit Essential Tool" : "Add Essential Tool"}
-          <button
-            onClick={handleCloseModal}
-            style={{
-              position: "absolute",
-              right: 0,
-              top: 0,
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              color: "#9ca3af",
-            }}
-          >
-            <Icon icon='mdi:close' style={{ fontSize: "24px" }} />
-          </button>
-        </DialogTitle>
 
-        <DialogContent style={{ padding: "10px 0" }}>
-          <form onSubmit={formik.handleSubmit}>
-            {/* Image Upload */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "16px",
-                  border: "2px dashed #d1d5db",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  overflow: "hidden",
-                  background: "#f9fafb",
-                  position: "relative",
-                }}
-              >
-                {imagePreview ? (
-                  <img src={imagePreview} alt='Preview' style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                ) : (
-                  <div style={{ textAlign: "center", color: "#9ca3af" }}>
-                    <Icon icon='mdi:camera' style={{ fontSize: "32px" }} />
-                    <span style={{ display: "block", fontSize: "12px", marginTop: "4px" }}>Upload Photo</span>
-                  </div>
-                )}
-              </div>
-              <input
-                type='file'
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                accept='image/*'
-                style={{ display: "none" }}
-              />
-            </div>
-
-            {/* Tool Name */}
-            <div style={{ marginBottom: "16px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
-                Tool Name
-              </label>
-              <input
-                type='text'
-                name='name'
-                placeholder='e.g. Pipe Wrench'
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "12px",
-                  border: `1.5px solid ${formik.touched.name && formik.errors.name ? "#ef4444" : "#d1d5db"}`,
-                  fontSize: "16px",
-                  outline: "none",
-                }}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
-              )}
-            </div>
-
-            {/* Description */}
-            <div style={{ marginBottom: "16px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
-                Description
-              </label>
-              <textarea
-                name='description'
-                placeholder='Used for gripping and turning pipes...'
-                rows={3}
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "12px",
-                  border: `1.5px solid ${formik.touched.description && formik.errors.description ? "#ef4444" : "#d1d5db"}`,
-                  fontSize: "16px",
-                  outline: "none",
-                  fontFamily: "inherit",
-                }}
-              />
-              {formik.touched.description && formik.errors.description && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.description}</div>
-              )}
-            </div>
-
-            {/* Tag */}
-            <div style={{ marginBottom: "16px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
-                Tag (Optional)
-              </label>
-              <input
-                type='text'
-                name='tag'
-                placeholder="e.g. Brian's Pick"
-                value={formik.values.tag}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "12px",
-                  border: "1.5px solid #d1d5db",
-                  fontSize: "16px",
-                  outline: "none",
-                }}
-              />
-            </div>
-
-            {/* Recommendation Link */}
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
-                Supplier Recommendation Link (Optional)
-              </label>
-              <input
-                type='text'
-                name='recommendationLink'
-                placeholder='e.g. www.amazon.com'
-                value={formik.values.recommendationLink}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "12px",
-                  border: "1.5px solid #d1d5db",
-                  fontSize: "16px",
-                  outline: "none",
-                }}
-              />
-            </div>
-
-            {/* Action Buttons */}
-            <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
-              <button
-                type='button'
-                onClick={handleCloseModal}
-                disabled={submitting}
-                style={{
-                  flex: 1,
-                  padding: "14px",
-                  borderRadius: "12px",
-                  border: "1px solid #d1d5db",
-                  backgroundColor: "#ffffff",
-                  color: "#4b5563",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                type='submit'
-                disabled={submitting}
-                style={{
-                  flex: 1,
-                  padding: "14px",
-                  borderRadius: "12px",
-                  border: "none",
-                  backgroundColor: "#2563eb",
-                  color: "#ffffff",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "8px",
-                }}
-              >
-                {submitting ? "Saving..." : editingTool ? "Save Changes" : "Add Tool +"}
-              </button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog

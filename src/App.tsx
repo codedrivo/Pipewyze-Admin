@@ -23,7 +23,12 @@ const AddUserPage = React.lazy(() => import("./pages/admin/AddUser"));
 const EditUserPage = React.lazy(() => import("./pages/admin/EditUser"));
 const EquipmentPage = React.lazy(() => import("./pages/admin/Equipment"));
 const EssentialToolsPage = React.lazy(() => import("./pages/admin/EssentialTools"));
+const AddEssentialToolPage = React.lazy(() => import("./pages/admin/AddEssentialTool"));
+const EditEssentialToolPage = React.lazy(() => import("./pages/admin/EditEssentialTool"));
 const PlumbingCodesPage = React.lazy(() => import("./pages/admin/PlumbingCodes"));
+const AddPlumbingCodePage = React.lazy(() => import("./pages/admin/AddPlumbingCode"));
+const EditPlumbingCodePage = React.lazy(() => import("./pages/admin/EditPlumbingCode"));
+const PlumbingCodeCategoriesPage = React.lazy(() => import("./pages/admin/PlumbingCodeCategories"));
 
 function App() {
   return (
@@ -42,7 +47,12 @@ function App() {
               <Route path='/admin/equipment/:plumberId' element={<EquipmentPage />} />
               <Route path='/admin/equipment' element={<EquipmentPage />} />
               <Route path='/admin/essential-tools' element={<EssentialToolsPage />} />
+              <Route path='/admin/essential-tools/add' element={<AddEssentialToolPage />} />
+              <Route path='/admin/essential-tools/edit/:id' element={<EditEssentialToolPage />} />
               <Route path='/admin/plumbing-codes' element={<PlumbingCodesPage />} />
+              <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
+              <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
+              <Route path='/admin/plumbing-codes/categories' element={<PlumbingCodeCategoriesPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />

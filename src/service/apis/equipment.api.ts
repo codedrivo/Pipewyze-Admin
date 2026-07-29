@@ -20,3 +20,9 @@ export const deleteEquipment = catchAsync(async (id: string) => {
   const data = await httpsCall.delete(`/admin/equipment/delete/${id}`);
   return data;
 });
+
+export const getHomeOwnerEquipment = catchAsync(async () => {
+  const data = await httpsCall.get(`/admin/equipment/homeowners`);
+  return data;
+});
+

@@ -80,7 +80,7 @@ function Equipment() {
         {/* Header wrapper */}
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {!isPlumber && (
+            {!isPlumber && user?.role !== "admin" && (
               <button
                 onClick={() => {
                   if (paramPlumberId) {
@@ -102,13 +102,13 @@ function Equipment() {
               </button>
             )}
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              {isPlumber ? "Equipment" : paramPlumberId ? `Equipment - ${plumberName}` : "Plumbers"}
+              {user?.role === "admin" ? "Homeowner Equipment" : isPlumber ? "Equipment" : paramPlumberId ? `Equipment - ${plumberName}` : "Plumbers"}
             </h2>
           </div>
 
 
 
-          {(isPlumber || paramPlumberId) && (
+          {user?.role !== "admin" && (isPlumber || paramPlumberId) && (
             <button className='custom-button equipment-add-btn sm' onClick={handleOpenAddModal}>
               Add Equipment
             </button>
@@ -116,7 +116,7 @@ function Equipment() {
         </div>
 
         {/* Content Area */}
-        {!isPlumber && !paramPlumberId ? (
+        {!isPlumber && user?.role !== "admin" && !paramPlumberId ? (
           <div className='usertabledata'>
             <TableContainer className={dataTable.tbodymain} component={Paper}>
               <Table
@@ -255,7 +255,11 @@ function Equipment() {
                     <TableCell align='left'>Brand & Model</TableCell>
                     <TableCell align='left'>Installation Date</TableCell>
                     <TableCell align='left'>Next Service Date</TableCell>
-                    <TableCell align='center'>Actions</TableCell>
+                    {user?.role === "admin" ? (
+                      <TableCell align='left'>Homeowner</TableCell>
+                    ) : (
+                      <TableCell align='center'>Actions</TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
 
@@ -332,36 +336,50 @@ function Equipment() {
                             : "—"}
                         </span>
                       </TableCell>
-                      <TableCell align='center'>
-                        <div
-                          className={dataTable.actionwrap}
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "10px",
-                          }}
-                        >
-                          <p
-                            className={dataTable.edit}
-                            onClick={() => handleOpenEditModal(row)}
-                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
-                            title="Edit"
+                      {user?.role === "admin" ? (
+                        <TableCell align='left'>
+                          <div style={{ fontWeight: "bold", color: "#111827" }}>
+                            {row.ownerId?.fullName || "—"}
+                          </div>
+                          {(row.ownerId?.email || row.ownerId?.phone) && (
+                            <div style={{ fontSize: "12px", color: "#6b7280", marginTop: "2.5px" }}>
+                              {row.ownerId?.email && <div>{row.ownerId.email}</div>}
+                              {row.ownerId?.phone && <div>{row.ownerId.phone}</div>}
+                            </div>
+                          )}
+                        </TableCell>
+                      ) : (
+                        <TableCell align='center'>
+                          <div
+                            className={dataTable.actionwrap}
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "10px",
+                            }}
                           >
-                            <Icon
-                              icon='mdi:pencil-outline'
-                              style={{ fontSize: "20px", color: "#fff" }}
-                            />
-                          </p>
-                          <p
-                            className={dataTable.edit}
-                            onClick={() => handleDeleteClick(row.id || row._id)}
-                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
-                            title="Delete"
-                          >
-                            <img src={del} alt='Delete' style={{ width: "20px" }} />
-                          </p>
-                        </div>
-                      </TableCell>
+                            <p
+                              className={dataTable.edit}
+                              onClick={() => handleOpenEditModal(row)}
+                              style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
+                              title="Edit"
+                            >
+                              <Icon
+                                icon='mdi:pencil-outline'
+                                style={{ fontSize: "20px", color: "#fff" }}
+                              />
+                            </p>
+                            <p
+                              className={dataTable.edit}
+                              onClick={() => handleDeleteClick(row.id || row._id)}
+                              style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
+                              title="Delete"
+                            >
+                              <img src={del} alt='Delete' style={{ width: "20px" }} />
+                            </p>
+                          </div>
+                        </TableCell>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>
