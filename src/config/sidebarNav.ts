@@ -1,4 +1,19 @@
-const sidebarNav = [
+export interface SubmenuItem {
+  link: string;
+  icon: string;
+  text: string;
+}
+
+export interface SidebarNavItem {
+  link: string;
+  section: string;
+  icon: string;
+  text: string;
+  role: string[];
+  submenu?: SubmenuItem[];
+}
+
+const sidebarNav: SidebarNavItem[] = [
   {
     link: "/admin/dashboard",
     section: "dashboard",
@@ -37,3 +52,4 @@ const sidebarNav = [
 ];
 
 export default sidebarNav;
+

@@ -20,3 +20,9 @@ export const deleteEssentialTool = catchAsync(async (id: string) => {
   const data = await httpsCall.delete(`/admin/essential-tool/${id}`);
   return data;
 });
+
+export const getEssentialTool = catchAsync(async (id: string) => {
+  const data = await httpsCall.get(`/admin/essential-tool/${id}`);
+  return data;
+});
+

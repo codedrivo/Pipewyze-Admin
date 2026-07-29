@@ -557,19 +557,19 @@ input.form-control {
   border-bottom-right-radius: 10px;
 }
 .custom-editor-wrapper .quill {
-  background: #EEF5EA;
+  background: #eff6ff;
 }
 .custom-editor-wrapper .ql-toolbar.ql-snow {
   border: 1px solid #ccc;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: #EEF5EA;
+  background-color: #eff6ff;
 }
 
-/* On focus, make the border orange to match your theme */
+/* On focus, make the border blue to match your theme */
 .custom-editor-wrapper:focus-within .ql-container.ql-snow,
 .custom-editor-wrapper:focus-within .ql-toolbar.ql-snow {
-  border-color: #ff8400;
+  border-color: #335AFF;
 }
 // end
 
