@@ -43,9 +43,16 @@ const sidebarNav: SidebarNavItem[] = [
     role: ["admin"],
   },
   {
+    link: "/admin/maintenance-guides",
+    section: "maintenance-guides",
+    icon: "lucide:book-open",
+    text: "Maintenance Guides",
+    role: ["admin"],
+  },
+  {
     link: "/admin/plumbing-codes",
     section: "plumbing-codes",
-    icon: "lucide:book-open",
+    icon: "lucide:book",
     text: "Plumbing Codes",
     role: ["admin"],
   },

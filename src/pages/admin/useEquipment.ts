@@ -12,6 +12,7 @@ import {
   deleteEquipment,
   getHomeOwnerEquipment,
 } from "../../service/apis/equipment.api";
+import { getEquipmentCategories } from "../../service/apis/equipmentCategory.api";
 import { userDetails, userApi } from "../../service/apis/user.api";
 
 export interface IEquipment {
@@ -27,6 +28,7 @@ export interface IEquipment {
   category: string;
   brand: string;
   model: string;
+  serialNumber?: string;
   installationDate?: string;
   nextServiceDate?: string;
   image?: string;
@@ -49,6 +51,7 @@ export function useEquipment() {
   const [plumberName, setPlumberName] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
 
   // Modals / Dialogs states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,6 +61,17 @@ export function useEquipment() {
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [equipmentToDelete, setEquipmentToDelete] = useState<string | null>(null);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await getEquipmentCategories();
+      if (response?.status === 200) {
+        setCategories(response.categories || response.data?.categories || []);
+      }
+    } catch (error) {
+      console.error("Failed to load equipment categories", error);
+    }
+  };
 
   const fetchPlumberInfo = async () => {
     if (!plumberId) return;
@@ -113,6 +127,10 @@ export function useEquipment() {
   }, [user]);
 
   useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
     if (user?.role === "admin") {
       fetchEquipment();
     } else if (plumberId) {
@@ -132,10 +150,11 @@ export function useEquipment() {
 
   const validationSchema = yup.object({
     category: yup.string().required("Category is required"),
-    brand: yup.string().optional(),
-    model: yup.string().optional(),
-    installationDate: yup.string().optional(),
-    nextServiceDate: yup.string().optional(),
+    brand: yup.string().required("Brand is required"),
+    model: yup.string().required("Model is required"),
+    serialNumber: yup.string().required("Serial Number is required"),
+    installationDate: yup.string().required("Installation Date is required"),
+    nextServiceDate: yup.string().required("Next Service Date is required"),
   });
 
   const formik = useFormik({
@@ -143,6 +162,7 @@ export function useEquipment() {
       category: "",
       brand: "",
       model: "",
+      serialNumber: "",
       installationDate: "",
       nextServiceDate: "",
     },
@@ -156,14 +176,11 @@ export function useEquipment() {
           formData.append("plumberId", plumberId);
         }
         formData.append("category", values.category);
-        formData.append("brand", values.brand || "");
-        formData.append("model", values.model || "");
-        if (values.installationDate) {
-          formData.append("installationDate", values.installationDate);
-        }
-        if (values.nextServiceDate) {
-          formData.append("nextServiceDate", values.nextServiceDate);
-        }
+        formData.append("brand", values.brand);
+        formData.append("model", values.model);
+        formData.append("serialNumber", values.serialNumber);
+        formData.append("installationDate", values.installationDate);
+        formData.append("nextServiceDate", values.nextServiceDate);
         if (imageFile) {
           formData.append("image", imageFile);
         }
@@ -194,9 +211,10 @@ export function useEquipment() {
     setImageFile(null);
     formik.resetForm({
       values: {
-        category: "Water Heaters",
+        category: categories[0]?.name || "",
         brand: "",
         model: "",
+        serialNumber: "",
         installationDate: "",
         nextServiceDate: "",
       },
@@ -213,6 +231,7 @@ export function useEquipment() {
         category: eq.category,
         brand: eq.brand || "",
         model: eq.model || "",
+        serialNumber: eq.serialNumber || "",
         installationDate: eq.installationDate ? new Date(eq.installationDate).toISOString().split("T")[0] : "",
         nextServiceDate: eq.nextServiceDate ? new Date(eq.nextServiceDate).toISOString().split("T")[0] : "",
       },
@@ -283,5 +302,6 @@ export function useEquipment() {
     selectedPlumberId,
     setSelectedPlumberId,
     paramPlumberId,
+    categories,
   };
 }

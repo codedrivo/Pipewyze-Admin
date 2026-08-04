@@ -17,6 +17,11 @@ export interface IEssentialTool {
   tag?: string;
   recommendationLink?: string;
   image?: string;
+  purpose?: string;
+  bestUsedFor?: string[];
+  howToUse?: string[];
+  safetyTips?: string[];
+  recommendedVideo?: string;
   createdAt?: string;
 }
 

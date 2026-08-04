@@ -12,6 +12,12 @@ function AddEssentialTool() {
     imagePreview,
     formik,
     handleImageChange,
+    bestUsedFor,
+    howToUse,
+    safetyTips,
+    handleListChange,
+    addListItem,
+    removeListItem,
   } = useAddEssentialTool();
 
   const DEFAULT_TOOL_IMAGE = "/no_image.png";
@@ -34,7 +40,7 @@ function AddEssentialTool() {
           </button>
         </div>
 
-        {/* Profile Image Upload */}
+        {/* Image Upload */}
         <div className='profile-picture-upload'>
           <input
             ref={fileInputRef}
@@ -125,6 +131,23 @@ function AddEssentialTool() {
               </div>
             </div>
 
+            {/* Purpose */}
+            <div className={form.profileformcol}>
+              <div className='formgrp'>
+                <label htmlFor='purpose'>Purpose</label>
+                <Input
+                  classes='passwordlabel'
+                  type='text'
+                  id='purpose'
+                  name='purpose'
+                  placeholder='e.g. Used to tighten and loosen threaded pipe.'
+                  value={formik.values.purpose}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+            </div>
+
             {/* Recommendation Link */}
             <div className={form.profileformcol}>
               <div className='formgrp'>
@@ -136,6 +159,23 @@ function AddEssentialTool() {
                   name='recommendationLink'
                   placeholder='e.g. www.amazon.com'
                   value={formik.values.recommendationLink}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+            </div>
+
+            {/* Recommended Video Link */}
+            <div className={form.profileformcol} style={{ width: "100%", flex: "1 0 100%" }}>
+              <div className='formgrp'>
+                <label htmlFor='recommendedVideo'>Recommended Video Link</label>
+                <Input
+                  classes='passwordlabel'
+                  type='text'
+                  id='recommendedVideo'
+                  name='recommendedVideo'
+                  placeholder='e.g. https://www.youtube.com/watch?v=...'
+                  value={formik.values.recommendedVideo}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
@@ -177,6 +217,130 @@ function AddEssentialTool() {
                 )}
               </div>
             </div>
+
+            {/* Dynamic Best Used For */}
+            <div style={{ width: "100%", marginTop: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                <label style={{ fontWeight: "bold", fontSize: "15px" }}>Best Used For</label>
+                <button
+                  type='button'
+                  onClick={() => addListItem("bestUsedFor")}
+                  className='custom-button w-auto'
+                  style={{ padding: "6px 12px", fontSize: "13px", height: "auto" }}
+                >
+                  + Add Item
+                </button>
+              </div>
+              {bestUsedFor.map((item, index) => (
+                <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px", alignItems: "center" }}>
+                  <input
+                    type='text'
+                    placeholder='e.g. Steel Pipe'
+                    value={item}
+                    onChange={(e) => handleListChange("bestUsedFor", index, e.target.value)}
+                    style={{
+                      flex: 1,
+                      border: "1px solid #c7c7c7",
+                      backgroundColor: "transparent",
+                      borderRadius: "10px",
+                      padding: "10px 14px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
+                  />
+                  <button
+                    type='button'
+                    onClick={() => removeListItem("bestUsedFor", index)}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Dynamic How To Use */}
+            <div style={{ width: "100%", marginTop: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                <label style={{ fontWeight: "bold", fontSize: "15px" }}>How to Use</label>
+                <button
+                  type='button'
+                  onClick={() => addListItem("howToUse")}
+                  className='custom-button w-auto'
+                  style={{ padding: "6px 12px", fontSize: "13px", height: "auto" }}
+                >
+                  + Add Step
+                </button>
+              </div>
+              {howToUse.map((item, index) => (
+                <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px", alignItems: "center" }}>
+                  <input
+                    type='text'
+                    placeholder='e.g. Apply pressure evenly'
+                    value={item}
+                    onChange={(e) => handleListChange("howToUse", index, e.target.value)}
+                    style={{
+                      flex: 1,
+                      border: "1px solid #c7c7c7",
+                      backgroundColor: "transparent",
+                      borderRadius: "10px",
+                      padding: "10px 14px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
+                  />
+                  <button
+                    type='button'
+                    onClick={() => removeListItem("howToUse", index)}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Dynamic Safety Tips */}
+            <div style={{ width: "100%", marginTop: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                <label style={{ fontWeight: "bold", fontSize: "15px" }}>Safety Tips</label>
+                <button
+                  type='button'
+                  onClick={() => addListItem("safetyTips")}
+                  className='custom-button w-auto'
+                  style={{ padding: "6px 12px", fontSize: "13px", height: "auto" }}
+                >
+                  + Add Tip
+                </button>
+              </div>
+              {safetyTips.map((item, index) => (
+                <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px", alignItems: "center" }}>
+                  <input
+                    type='text'
+                    placeholder='e.g. Wear protective gloves'
+                    value={item}
+                    onChange={(e) => handleListChange("safetyTips", index, e.target.value)}
+                    style={{
+                      flex: 1,
+                      border: "1px solid #c7c7c7",
+                      backgroundColor: "transparent",
+                      borderRadius: "10px",
+                      padding: "10px 14px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
+                  />
+                  <button
+                    type='button'
+                    onClick={() => removeListItem("safetyTips", index)}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+
           </div>
 
           {/* Submit Actions */}

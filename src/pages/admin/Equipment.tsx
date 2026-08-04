@@ -52,18 +52,8 @@ function Equipment() {
     selectedPlumberId,
     setSelectedPlumberId,
     paramPlumberId,
+    categories,
   } = useEquipment();
-
-  const CATEGORIES = [
-    "Water Heaters",
-    "Pressure Reducing Valves",
-    "Shut-off Valves",
-    "Water Softeners",
-    "Whole-house Filters",
-    "Toilets",
-    "Faucets",
-    "Showerheads",
-  ];
 
   return (
     <div style={{ position: "relative" }} className='dsp'>
@@ -108,11 +98,22 @@ function Equipment() {
 
 
 
-          {user?.role !== "admin" && (isPlumber || paramPlumberId) && (
-            <button className='custom-button equipment-add-btn sm' onClick={handleOpenAddModal}>
-              Add Equipment
-            </button>
-          )}
+          <div style={{ display: "flex", gap: "10px" }}>
+            {user?.role === "admin" && (
+              <button
+                className='custom-button equipment-add-btn'
+                style={{ backgroundColor: "#4b5563" }}
+                onClick={() => navigate("/admin/equipment/categories")}
+              >
+                Manage Categories
+              </button>
+            )}
+            {user?.role !== "admin" && (isPlumber || paramPlumberId) && (
+              <button className='custom-button equipment-add-btn sm' onClick={handleOpenAddModal}>
+                Add Equipment
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Content Area */}
@@ -314,9 +315,14 @@ function Equipment() {
                           {row.brand || "—"}
                         </div>
                         {row.model && (
-                          <span style={{ fontSize: "12px", color: "#6b7280" }}>
+                          <div style={{ fontSize: "12px", color: "#6b7280" }}>
                             Model: {row.model}
-                          </span>
+                          </div>
+                        )}
+                        {row.serialNumber && (
+                          <div style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>
+                            S/N: {row.serialNumber}
+                          </div>
                         )}
                       </TableCell>
                       <TableCell align='left'>
@@ -507,9 +513,9 @@ function Equipment() {
                 }}
               >
                 <option value="" disabled>Select a Category</option>
-                {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
+                {categories.map((cat) => (
+                  <option key={cat._id || cat.id} value={cat.name}>
+                    {cat.name}
                   </option>
                 ))}
               </select>
@@ -531,7 +537,7 @@ function Equipment() {
                   marginBottom: "8px",
                 }}
               >
-                Brand
+                Brand <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type='text'
@@ -549,6 +555,11 @@ function Equipment() {
                   outline: "none",
                 }}
               />
+              {formik.touched.brand && formik.errors.brand && (
+                <div style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {formik.errors.brand}
+                </div>
+              )}
             </div>
 
             {/* Model */}
@@ -562,7 +573,7 @@ function Equipment() {
                   marginBottom: "8px",
                 }}
               >
-                Model
+                Model <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type='text'
@@ -580,6 +591,47 @@ function Equipment() {
                   outline: "none",
                 }}
               />
+              {formik.touched.model && formik.errors.model && (
+                <div style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {formik.errors.model}
+                </div>
+              )}
+            </div>
+
+            {/* Serial Number */}
+            <div style={{ marginBottom: "20px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "8px",
+                }}
+              >
+                Serial Number <span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type='text'
+                name='serialNumber'
+                placeholder='e.g. RH123456789'
+                value={formik.values.serialNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: "1.5px solid #d1d5db",
+                  fontSize: "16px",
+                  outline: "none",
+                }}
+              />
+              {formik.touched.serialNumber && formik.errors.serialNumber && (
+                <div style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {formik.errors.serialNumber}
+                </div>
+              )}
             </div>
 
             {/* Installation Date */}
@@ -593,7 +645,7 @@ function Equipment() {
                   marginBottom: "8px",
                 }}
               >
-                Installation Date
+                Installation Date <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type='date'
@@ -610,6 +662,11 @@ function Equipment() {
                   outline: "none",
                 }}
               />
+              {formik.touched.installationDate && formik.errors.installationDate && (
+                <div style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {formik.errors.installationDate}
+                </div>
+              )}
             </div>
 
             {/* Next Service Date */}
@@ -623,7 +680,7 @@ function Equipment() {
                   marginBottom: "8px",
                 }}
               >
-                Next Service Date
+                Next Service Date <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type='date'
@@ -640,6 +697,11 @@ function Equipment() {
                   outline: "none",
                 }}
               />
+              {formik.touched.nextServiceDate && formik.errors.nextServiceDate && (
+                <div style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+                  {formik.errors.nextServiceDate}
+                </div>
+              )}
             </div>
 
             {/* Action Buttons */}
