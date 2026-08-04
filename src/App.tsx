@@ -22,9 +22,13 @@ const UsersPage = React.lazy(() => import("./pages/admin/Users"));
 const AddUserPage = React.lazy(() => import("./pages/admin/AddUser"));
 const EditUserPage = React.lazy(() => import("./pages/admin/EditUser"));
 const EquipmentPage = React.lazy(() => import("./pages/admin/Equipment"));
+const EquipmentCategoriesPage = React.lazy(() => import("./pages/admin/EquipmentCategories"));
 const EssentialToolsPage = React.lazy(() => import("./pages/admin/EssentialTools"));
 const AddEssentialToolPage = React.lazy(() => import("./pages/admin/AddEssentialTool"));
 const EditEssentialToolPage = React.lazy(() => import("./pages/admin/EditEssentialTool"));
+const AddMaintenanceGuidePage = React.lazy(() => import("./pages/admin/AddMaintenanceGuide"));
+const EditMaintenanceGuidePage = React.lazy(() => import("./pages/admin/EditMaintenanceGuide"));
+const MaintenanceGuidesPage = React.lazy(() => import("./pages/admin/MaintenanceGuides"));
 const PlumbingCodesPage = React.lazy(() => import("./pages/admin/PlumbingCodes"));
 const AddPlumbingCodePage = React.lazy(() => import("./pages/admin/AddPlumbingCode"));
 const EditPlumbingCodePage = React.lazy(() => import("./pages/admin/EditPlumbingCode"));
@@ -45,10 +49,14 @@ function App() {
               <Route path='/admin/users/add-user' element={<AddUserPage />} />
               <Route path='/admin/users/update-user/:id' element={<EditUserPage />} />
               <Route path='/admin/equipment/:plumberId' element={<EquipmentPage />} />
+              <Route path='/admin/equipment/categories' element={<EquipmentCategoriesPage />} />
               <Route path='/admin/equipment' element={<EquipmentPage />} />
               <Route path='/admin/essential-tools' element={<EssentialToolsPage />} />
               <Route path='/admin/essential-tools/add' element={<AddEssentialToolPage />} />
               <Route path='/admin/essential-tools/edit/:id' element={<EditEssentialToolPage />} />
+              <Route path='/admin/maintenance-guides' element={<MaintenanceGuidesPage />} />
+              <Route path='/admin/maintenance-guides/add' element={<AddMaintenanceGuidePage />} />
+              <Route path='/admin/maintenance-guides/edit/:id' element={<EditMaintenanceGuidePage />} />
               <Route path='/admin/plumbing-codes' element={<PlumbingCodesPage />} />
               <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
