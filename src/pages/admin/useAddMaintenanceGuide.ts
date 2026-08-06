@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { addMaintenanceGuide } from "../../service/apis/maintenanceGuide.api";
 import { getEssentialTools } from "../../service/apis/essentialTool.api";
 import { getPlumbingCodes } from "../../service/apis/plumbingCode.api";
+import { getHomeOwnerEquipment } from "../../service/apis/equipment.api";
 
 export interface IChecklistItem {
   task: string;
@@ -21,14 +22,16 @@ export function useAddMaintenanceGuide() {
 
   const [toolsList, setToolsList] = useState<any[]>([]);
   const [codesList, setCodesList] = useState<any[]>([]);
+  const [equipmentsList, setEquipmentsList] = useState<any[]>([]);
   const [checklist, setChecklist] = useState<IChecklistItem[]>([{ task: "", frequency: "" }]);
 
   useEffect(() => {
     const loadResources = async () => {
       try {
-        const [toolsResponse, codesResponse] = await Promise.all([
+        const [toolsResponse, codesResponse, equipResponse] = await Promise.all([
           getEssentialTools(),
-          getPlumbingCodes()
+          getPlumbingCodes(),
+          getHomeOwnerEquipment()
         ]);
         if (toolsResponse?.status === 200) {
           setToolsList(toolsResponse.tools || toolsResponse.data?.tools || []);
@@ -36,8 +39,11 @@ export function useAddMaintenanceGuide() {
         if (codesResponse?.status === 200) {
           setCodesList(codesResponse.codes || codesResponse.data?.codes || []);
         }
+        if (equipResponse?.status === 200) {
+          setEquipmentsList(equipResponse.equipment || equipResponse.data?.equipment || []);
+        }
       } catch (error) {
-        console.error("Failed to load dependency tools or codes", error);
+        console.error("Failed to load dependency tools, codes, or equipments", error);
       }
     };
     loadResources();
@@ -150,5 +156,6 @@ export function useAddMaintenanceGuide() {
     removeChecklistItem,
     handleChecklistChange,
     handleCheckboxChange,
+    equipmentsList,
   };
 }

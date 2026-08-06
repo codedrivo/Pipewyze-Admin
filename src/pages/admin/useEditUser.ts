@@ -71,7 +71,6 @@ export function useEditUser() {
         navigate("/admin/users");
       } catch (error: any) {
         console.error("Failed to update user", error);
-        toast.error(error?.response?.data?.message || "Failed to update user");
       } finally {
         setSaving(false);
       }

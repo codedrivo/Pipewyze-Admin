@@ -220,7 +220,7 @@ function AddEssentialTool() {
 
             {/* Dynamic Best Used For */}
             <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>Best Used For</label>
                 <button
                   type='button'
@@ -251,7 +251,7 @@ function AddEssentialTool() {
                   <button
                     type='button'
                     onClick={() => removeListItem("bestUsedFor", index)}
-                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer", width: "24px", padding: 0 }}
                   >
                     ×
                   </button>
@@ -261,7 +261,7 @@ function AddEssentialTool() {
 
             {/* Dynamic How To Use */}
             <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>How to Use</label>
                 <button
                   type='button'
@@ -292,7 +292,7 @@ function AddEssentialTool() {
                   <button
                     type='button'
                     onClick={() => removeListItem("howToUse", index)}
-                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer", width: "24px", padding: 0 }}
                   >
                     ×
                   </button>
@@ -302,7 +302,7 @@ function AddEssentialTool() {
 
             {/* Dynamic Safety Tips */}
             <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>Safety Tips</label>
                 <button
                   type='button'
@@ -333,7 +333,7 @@ function AddEssentialTool() {
                   <button
                     type='button'
                     onClick={() => removeListItem("safetyTips", index)}
-                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                    style={{ background: "none", border: "none", color: "red", fontSize: "20px", cursor: "pointer", width: "24px", padding: 0 }}
                   >
                     ×
                   </button>
