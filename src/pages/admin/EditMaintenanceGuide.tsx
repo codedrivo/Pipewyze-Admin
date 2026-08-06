@@ -21,7 +21,21 @@ function EditMaintenanceGuide() {
     removeChecklistItem,
     handleChecklistChange,
     handleCheckboxChange,
+    equipmentsList,
   } = useEditMaintenanceGuide();
+
+  const uniqueBrandModels = Array.from(
+    new Set(
+      equipmentsList
+        .map((e: any) => {
+          const b = (e.brand || "").trim();
+          const m = (e.model || "").trim();
+          if (b && m) return `${b} • ${m}`;
+          return b || m || "";
+        })
+        .filter(Boolean)
+    )
+  ) as string[];
 
   const DEFAULT_IMAGE = "/no_image.png";
 
@@ -122,16 +136,30 @@ function EditMaintenanceGuide() {
             <div className={form.profileformcol}>
               <div className='formgrp'>
                 <label htmlFor='brandModel'>Brand / Model</label>
-                <Input
-                  classes='passwordlabel'
-                  type='text'
+                <select
                   id='brandModel'
                   name='brandModel'
-                  placeholder='e.g. Rheem • PER 40'
                   value={formik.values.brandModel}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                />
+                  style={{
+                    width: "100%",
+                    border: "1px solid #c7c7c7",
+                    backgroundColor: "transparent",
+                    borderRadius: "10px",
+                    padding: "12px 16px",
+                    outline: "none",
+                    fontFamily: "inherit",
+                    fontSize: "15px",
+                  }}
+                >
+                  <option value="">Select Brand / Model</option>
+                  {uniqueBrandModels.map((bm: string) => (
+                    <option key={bm} value={bm}>
+                      {bm}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -224,7 +252,7 @@ function EditMaintenanceGuide() {
 
             {/* Dynamic Checklist section */}
             <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "between", alignItems: "center", marginBottom: "15px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px", marginRight: "34px" }}>
                 <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "bold" }}>Maintenance Checklist</h3>
                 <button
                   type='button'
@@ -285,7 +313,8 @@ function EditMaintenanceGuide() {
                       color: "red",
                       fontSize: "20px",
                       cursor: "pointer",
-                      padding: "0 10px"
+                      width: "24px",
+                      padding: 0
                     }}
                   >
                     ×

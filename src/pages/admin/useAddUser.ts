@@ -82,7 +82,6 @@ export function useAddUser() {
         navigate("/admin/users");
       } catch (error: any) {
         console.error("Failed to add user", error);
-        toast.error(error?.response?.data?.message || "Failed to create user");
       } finally {
         setLoading(false);
       }

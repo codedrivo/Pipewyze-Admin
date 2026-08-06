@@ -7,6 +7,7 @@ import { getPlumbingCode, updatePlumbingCode } from "../../service/apis/plumbing
 import { IPlumbingCode } from "./usePlumbingCodes";
 import { getPlumbingCodeCategories } from "../../service/apis/plumbingCodeCategory.api";
 import { IPlumbingCodeCategory } from "./usePlumbingCodeCategories";
+import { decodeHTMLEntities } from "../../utils/htmlDecoder";
 
 export function useEditPlumbingCode() {
   const { id } = useParams<{ id: string }>();
@@ -40,9 +41,9 @@ export function useEditPlumbingCode() {
             code: code.code || "",
             title: code.title || "",
             category: code.category || (catsList.length > 0 ? catsList[0].name : ""),
-            description: code.description || "",
-            exception: code.exception || "",
-            plainLanguageInterpretation: code.plainLanguageInterpretation || "",
+            description: decodeHTMLEntities(code.description || ""),
+            exception: decodeHTMLEntities(code.exception || ""),
+            plainLanguageInterpretation: decodeHTMLEntities(code.plainLanguageInterpretation || ""),
           },
         });
       }
