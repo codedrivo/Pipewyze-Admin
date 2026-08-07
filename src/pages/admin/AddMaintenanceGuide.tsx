@@ -269,6 +269,17 @@ function AddMaintenanceGuide() {
                   }}
                 >
                   <input
+                    type='checkbox'
+                    checked={!!item.checked}
+                    onChange={(e) => handleChecklistChange(index, "checked", e.target.checked)}
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      cursor: "pointer",
+                      marginRight: "5px",
+                    }}
+                  />
+                  <input
                     type='text'
                     placeholder='Task (e.g. Flush Tank)'
                     value={item.task}

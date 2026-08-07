@@ -11,6 +11,7 @@ import { getHomeOwnerEquipment } from "../../service/apis/equipment.api";
 export interface IChecklistItem {
   task: string;
   frequency: string;
+  checked?: boolean;
 }
 
 export function useAddMaintenanceGuide() {
@@ -23,7 +24,7 @@ export function useAddMaintenanceGuide() {
   const [toolsList, setToolsList] = useState<any[]>([]);
   const [codesList, setCodesList] = useState<any[]>([]);
   const [equipmentsList, setEquipmentsList] = useState<any[]>([]);
-  const [checklist, setChecklist] = useState<IChecklistItem[]>([{ task: "", frequency: "" }]);
+  const [checklist, setChecklist] = useState<IChecklistItem[]>([{ task: "", frequency: "", checked: false }]);
 
   useEffect(() => {
     const loadResources = async () => {
@@ -115,15 +116,15 @@ export function useAddMaintenanceGuide() {
   };
 
   const addChecklistItem = () => {
-    setChecklist([...checklist, { task: "", frequency: "" }]);
+    setChecklist([...checklist, { task: "", frequency: "", checked: false }]);
   };
 
   const removeChecklistItem = (index: number) => {
     const updated = checklist.filter((_, i) => i !== index);
-    setChecklist(updated.length ? updated : [{ task: "", frequency: "" }]);
+    setChecklist(updated.length ? updated : [{ task: "", frequency: "", checked: false }]);
   };
 
-  const handleChecklistChange = (index: number, field: keyof IChecklistItem, value: string) => {
+  const handleChecklistChange = (index: number, field: keyof IChecklistItem, value: any) => {
     const updated = checklist.map((item, i) => {
       if (i === index) {
         return { ...item, [field]: value };
