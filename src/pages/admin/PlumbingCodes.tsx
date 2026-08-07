@@ -140,19 +140,25 @@ function PlumbingCodes() {
                         </span>
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.description}>
-                          {row.description}
-                        </div>
+                        <div 
+                          style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} 
+                          title={row.description ? row.description.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.description || "" }}
+                        />
                         {row.exception && (
-                          <div style={{ color: "#dc2626", fontSize: "12px", marginTop: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.exception}>
-                            <strong>Exception:</strong> {row.exception}
-                          </div>
+                          <div 
+                            style={{ color: "#dc2626", fontSize: "12px", marginTop: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} 
+                            title={row.exception ? row.exception.replace(/<[^>]*>/g, "") : ""}
+                            dangerouslySetInnerHTML={{ __html: `<strong>Exception:</strong> ${row.exception}` }}
+                          />
                         )}
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.plainLanguageInterpretation}>
-                          {row.plainLanguageInterpretation}
-                        </div>
+                        <div 
+                          style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} 
+                          title={row.plainLanguageInterpretation ? row.plainLanguageInterpretation.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.plainLanguageInterpretation || "" }}
+                        />
                       </TableCell>
                       <TableCell align='center'>
                         <div

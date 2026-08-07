@@ -135,9 +135,11 @@ function EssentialTools() {
                         </div>
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {row.description}
-                        </div>
+                        <div 
+                          style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} 
+                          title={row.description ? row.description.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.description || "" }}
+                        />
                       </TableCell>
                       <TableCell align='left'>
                         {row.tag ? (

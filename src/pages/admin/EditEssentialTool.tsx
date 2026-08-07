@@ -225,8 +225,8 @@ function EditEssentialTool() {
             </div>
 
             {/* Dynamic Best Used For */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
+            <div style={{ width: "100%", marginTop: "20px", padding: "0 12px", boxSizing: "border-box" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>Best Used For</label>
                 <button
                   type='button'
@@ -246,6 +246,7 @@ function EditEssentialTool() {
                     onChange={(e) => handleListChange("bestUsedFor", index, e.target.value)}
                     style={{
                       flex: 1,
+                      width: "100%",
                       border: "1px solid #c7c7c7",
                       backgroundColor: "transparent",
                       borderRadius: "10px",
@@ -266,8 +267,8 @@ function EditEssentialTool() {
             </div>
 
             {/* Dynamic How To Use */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
+            <div style={{ width: "100%", marginTop: "20px", padding: "0 12px", boxSizing: "border-box" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>How to Use</label>
                 <button
                   type='button'
@@ -287,6 +288,7 @@ function EditEssentialTool() {
                     onChange={(e) => handleListChange("howToUse", index, e.target.value)}
                     style={{
                       flex: 1,
+                      width: "100%",
                       border: "1px solid #c7c7c7",
                       backgroundColor: "transparent",
                       borderRadius: "10px",
@@ -307,8 +309,8 @@ function EditEssentialTool() {
             </div>
 
             {/* Dynamic Safety Tips */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", marginRight: "34px" }}>
+            <div style={{ width: "100%", marginTop: "20px", padding: "0 12px", boxSizing: "border-box" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                 <label style={{ fontWeight: "bold", fontSize: "15px" }}>Safety Tips</label>
                 <button
                   type='button'
@@ -328,6 +330,7 @@ function EditEssentialTool() {
                     onChange={(e) => handleListChange("safetyTips", index, e.target.value)}
                     style={{
                       flex: 1,
+                      width: "100%",
                       border: "1px solid #c7c7c7",
                       backgroundColor: "transparent",
                       borderRadius: "10px",
