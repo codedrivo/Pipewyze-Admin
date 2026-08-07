@@ -245,8 +245,8 @@ function AddMaintenanceGuide() {
             </div>
 
             {/* Dynamic Checklist section */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px", marginRight: "34px" }}>
+            <div style={{ width: "100%", marginTop: "20px", padding: "0 12px", boxSizing: "border-box" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
                 <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "bold" }}>Maintenance Checklist</h3>
                 <button
                   type='button'
@@ -275,6 +275,7 @@ function AddMaintenanceGuide() {
                     onChange={(e) => handleChecklistChange(index, "task", e.target.value)}
                     style={{
                       flex: 2,
+                      width: "100%",
                       border: "1px solid #c7c7c7",
                       backgroundColor: "transparent",
                       borderRadius: "10px",
@@ -290,6 +291,7 @@ function AddMaintenanceGuide() {
                     onChange={(e) => handleChecklistChange(index, "frequency", e.target.value)}
                     style={{
                       flex: 1,
+                      width: "100%",
                       border: "1px solid #c7c7c7",
                       backgroundColor: "transparent",
                       borderRadius: "10px",
