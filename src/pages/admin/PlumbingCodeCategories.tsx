@@ -109,6 +109,7 @@ function PlumbingCodeCategories() {
                 <TableHead>
                   <TableRow>
                     <TableCell align='left'>Category Name</TableCell>
+                    <TableCell align='left'>Category Full Name</TableCell>
                     <TableCell align='left'>Description</TableCell>
                     <TableCell align='center'>Actions</TableCell>
                   </TableRow>
@@ -135,6 +136,11 @@ function PlumbingCodeCategories() {
                         >
                           {row.name}
                         </span>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <div style={{ color: "#111827", fontWeight: 500 }}>
+                          {row.fullName || "—"}
+                        </div>
                       </TableCell>
                       <TableCell align='left'>
                         <div style={{ color: "#4b5563" }}>
@@ -249,6 +255,45 @@ function PlumbingCodeCategories() {
               />
               {formik.touched.name && formik.errors.name && (
                 <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
+              )}
+            </div>
+
+            {/* Category Full Name */}
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Category Full Name <span style={{ color: "red" }}>*</span>
+              </label>
+              <Input
+                classes='passwordlabel'
+                type='text'
+                id='fullName'
+                name='fullName'
+                placeholder='e.g. Massachusetts Uniform Plumbing Code'
+                value={formik.values.fullName}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  formik.setFieldValue("fullName", val);
+                  if (!editingCategory) {
+                    const acronym = val
+                      .split(/\s+/)
+                      .map((word) => word.charAt(0))
+                      .join("")
+                      .toUpperCase();
+                    formik.setFieldValue("name", acronym);
+                  }
+                }}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.fullName && formik.errors.fullName && (
+                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.fullName}</div>
               )}
             </div>
 
