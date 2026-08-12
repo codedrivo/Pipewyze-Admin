@@ -136,7 +136,7 @@ function PlumbingCodes() {
                             fontWeight: 600,
                           }}
                         >
-                          {row.category}
+                          {row.categoryFullName || row.category}
                         </span>
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "250px" }}>

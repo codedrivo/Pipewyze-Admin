@@ -18,6 +18,7 @@ export interface IPlumbingCode {
   description: string;
   exception?: string;
   plainLanguageInterpretation: string;
+  categoryFullName?: string;
   createdAt?: string;
 }
 
