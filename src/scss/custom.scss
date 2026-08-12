@@ -53,7 +53,8 @@
 }
 
 /*--- Input Styles ---*/
-input {
+input, select, textarea {
+  font-family: 'DM Sans', sans-serif !important;
   &:focus {
     outline: none;
   }

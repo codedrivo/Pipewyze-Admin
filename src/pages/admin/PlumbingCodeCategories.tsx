@@ -230,34 +230,6 @@ function PlumbingCodeCategories() {
 
         <DialogContent style={{ padding: "10px 0" }}>
           <form onSubmit={formik.handleSubmit}>
-            {/* Category Name */}
-            <div style={{ marginBottom: "16px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
-                Category Name <span style={{ color: "red" }}>*</span>
-              </label>
-              <Input
-                classes='passwordlabel'
-                type='text'
-                id='name'
-                name='name'
-                placeholder='e.g. MUPC or IPC'
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
-              )}
-            </div>
-
             {/* Category Full Name */}
             <div style={{ marginBottom: "16px" }}>
               <label
@@ -294,6 +266,34 @@ function PlumbingCodeCategories() {
               />
               {formik.touched.fullName && formik.errors.fullName && (
                 <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.fullName}</div>
+              )}
+            </div>
+
+            {/* Category Name */}
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#374151",
+                  marginBottom: "6px",
+                }}
+              >
+                Category Name <span style={{ color: "red" }}>*</span>
+              </label>
+              <Input
+                classes='passwordlabel'
+                type='text'
+                id='name'
+                name='name'
+                placeholder='e.g. MUPC or IPC'
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.name && formik.errors.name && (
+                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
               )}
             </div>
 
