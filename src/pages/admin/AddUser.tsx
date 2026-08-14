@@ -215,6 +215,60 @@ function AddUser() {
               </div>
             </div>
 
+            {formik.values.role === "licensed-plumber" && (
+              <>
+                {/* Latitude */}
+                <div className={form.profileformcol}>
+                  <div className='formgrp'>
+                    <label htmlFor='latitude'>Latitude</label>
+                    <Input
+                      classes='passwordlabel'
+                      type='number'
+                      id='latitude'
+                      name='latitude'
+                      placeholder='e.g. 23.3251'
+                      value={formik.values.latitude}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.latitude && formik.errors.latitude && (
+                      <div
+                        className='error'
+                        style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                      >
+                        {formik.errors.latitude}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Longitude */}
+                <div className={form.profileformcol}>
+                  <div className='formgrp'>
+                    <label htmlFor='longitude'>Longitude</label>
+                    <Input
+                      classes='passwordlabel'
+                      type='number'
+                      id='longitude'
+                      name='longitude'
+                      placeholder='e.g. 85.3058'
+                      value={formik.values.longitude}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.longitude && formik.errors.longitude && (
+                      <div
+                        className='error'
+                        style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                      >
+                        {formik.errors.longitude}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
             {/* Password */}
             <div className={form.profileformcol}>
               <div className='formgrp'>
