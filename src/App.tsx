@@ -64,9 +64,9 @@ function App() {
               <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/categories' element={<PlumbingCodeCategoriesPage />} />
-              <Route path='/admin/trending-videos' element={<TrendingVideosPage />} />
-              <Route path='/admin/trending-videos/add' element={<AddTrendingVideoPage />} />
-              <Route path='/admin/trending-videos/edit/:id' element={<EditTrendingVideoPage />} />
+              <Route path='/admin/trending-videos/:audience' element={<TrendingVideosPage />} />
+              <Route path='/admin/trending-videos/:audience/add' element={<AddTrendingVideoPage />} />
+              <Route path='/admin/trending-videos/:audience/edit/:id' element={<EditTrendingVideoPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />

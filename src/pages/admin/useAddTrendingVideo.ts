@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import { addTrendingVideo } from "../../service/apis/trendingVideo.api";
 
 export function useAddTrendingVideo() {
   const navigate = useNavigate();
+  const { audience } = useParams<{ audience: string }>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
@@ -33,6 +34,7 @@ export function useAddTrendingVideo() {
         formData.append("title", values.title);
         formData.append("videoUrl", values.videoUrl);
         formData.append("description", values.description || "");
+        formData.append("targetAudience", audience || "apprentice");
 
         if (thumbnailFile) {
           formData.append("thumbnail", thumbnailFile);
@@ -40,7 +42,7 @@ export function useAddTrendingVideo() {
 
         await addTrendingVideo(formData);
         toast.success("Trending video added successfully!");
-        navigate("/admin/trending-videos");
+        navigate(`/admin/trending-videos/${audience}`);
       } catch (error: any) {
         console.error("Failed to save trending video", error);
         toast.error(error?.response?.data?.message || "Failed to save trending video");
@@ -65,5 +67,6 @@ export function useAddTrendingVideo() {
     thumbnailPreview,
     formik,
     handleThumbnailChange,
+    audience,
   };
 }

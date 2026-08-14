@@ -12,9 +12,11 @@ function AddTrendingVideo() {
     thumbnailPreview,
     formik,
     handleThumbnailChange,
+    audience,
   } = useAddTrendingVideo();
 
   const DEFAULT_IMAGE = "/no_image.png";
+  const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
   return (
     <div
@@ -24,10 +26,10 @@ function AddTrendingVideo() {
       <div className='profile-card'>
         {/* Header */}
         <div className='gc-profile-flex'>
-          <h2>Add Trending Video</h2>
+          <h2>Add Trending Video ({formattedAudience})</h2>
           <button
             type='button'
-            onClick={() => navigate("/admin/trending-videos")}
+            onClick={() => navigate(`/admin/trending-videos/${audience}`)}
             className='custom-button gc-back-btn mtop-0'
           >
             Back

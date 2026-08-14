@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getTrendingVideos, deleteTrendingVideo } from "../../service/apis/trendingVideo.api";
 
 export function useTrendingVideos() {
+  const { audience } = useParams<{ audience: string }>();
   const [videosList, setVideosList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -11,7 +13,7 @@ export function useTrendingVideos() {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await getTrendingVideos();
+      const response = await getTrendingVideos(audience);
       if (response?.status === 200) {
         setVideosList(response.videos || response.data?.videos || []);
       }
@@ -25,7 +27,7 @@ export function useTrendingVideos() {
 
   useEffect(() => {
     fetchVideos();
-  }, []);
+  }, [audience]);
 
   const handleDeleteClick = (id: string) => {
     setVideoToDelete(id);
@@ -59,5 +61,6 @@ export function useTrendingVideos() {
     handleDeleteClick,
     handleCloseDelete,
     handleDeleteConfirm,
+    audience,
   };
 }
