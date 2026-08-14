@@ -33,6 +33,9 @@ const PlumbingCodesPage = React.lazy(() => import("./pages/admin/PlumbingCodes")
 const AddPlumbingCodePage = React.lazy(() => import("./pages/admin/AddPlumbingCode"));
 const EditPlumbingCodePage = React.lazy(() => import("./pages/admin/EditPlumbingCode"));
 const PlumbingCodeCategoriesPage = React.lazy(() => import("./pages/admin/PlumbingCodeCategories"));
+const TrendingVideosPage = React.lazy(() => import("./pages/admin/TrendingVideos"));
+const AddTrendingVideoPage = React.lazy(() => import("./pages/admin/AddTrendingVideo"));
+const EditTrendingVideoPage = React.lazy(() => import("./pages/admin/EditTrendingVideo"));
 
 function App() {
   return (
@@ -61,6 +64,9 @@ function App() {
               <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/categories' element={<PlumbingCodeCategoriesPage />} />
+              <Route path='/admin/trending-videos' element={<TrendingVideosPage />} />
+              <Route path='/admin/trending-videos/add' element={<AddTrendingVideoPage />} />
+              <Route path='/admin/trending-videos/edit/:id' element={<EditTrendingVideoPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />

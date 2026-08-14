@@ -56,6 +56,13 @@ const sidebarNav: SidebarNavItem[] = [
     text: "Plumbing Codes",
     role: ["admin"],
   },
+  {
+    link: "/admin/trending-videos",
+    section: "trending-videos",
+    icon: "lucide:video",
+    text: "Trending Videos",
+    role: ["admin"],
+  },
 ];
 
 export default sidebarNav;
