@@ -7,7 +7,7 @@ import { getTrendingVideo, updateTrendingVideo } from "../../service/apis/trendi
 
 export function useEditTrendingVideo() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id, audience } = useParams<{ id: string; audience: string }>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [loading, setLoading] = useState(true);
@@ -64,6 +64,7 @@ export function useEditTrendingVideo() {
         formData.append("title", values.title);
         formData.append("videoUrl", values.videoUrl);
         formData.append("description", values.description || "");
+        formData.append("targetAudience", audience || "apprentice");
 
         if (thumbnailFile) {
           formData.append("thumbnail", thumbnailFile);
@@ -71,7 +72,7 @@ export function useEditTrendingVideo() {
 
         await updateTrendingVideo(id!, formData);
         toast.success("Trending video updated successfully!");
-        navigate("/admin/trending-videos");
+        navigate(`/admin/trending-videos/${audience}`);
       } catch (error: any) {
         console.error("Failed to update trending video", error);
         toast.error(error?.response?.data?.message || "Failed to update trending video");
@@ -97,5 +98,6 @@ export function useEditTrendingVideo() {
     thumbnailPreview,
     formik,
     handleThumbnailChange,
+    audience,
   };
 }

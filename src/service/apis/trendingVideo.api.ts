@@ -1,8 +1,12 @@
 import catchAsync from "../../utils/catchAsync";
 import httpsCall from "../httpsCall";
 
-export const getTrendingVideos = catchAsync(async (search?: string) => {
-  const url = search ? `/admin/trending-video?search=${search}` : `/admin/trending-video`;
+export const getTrendingVideos = catchAsync(async (targetAudience?: string, search?: string) => {
+  const params = new URLSearchParams();
+  if (targetAudience) params.append("targetAudience", targetAudience);
+  if (search) params.append("search", search);
+  const queryStr = params.toString();
+  const url = queryStr ? `/admin/trending-video?${queryStr}` : `/admin/trending-video`;
   const data = await httpsCall.get(url);
   return data;
 });

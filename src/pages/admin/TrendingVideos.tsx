@@ -32,7 +32,10 @@ function TrendingVideos() {
     handleDeleteClick,
     handleCloseDelete,
     handleDeleteConfirm,
+    audience,
   } = useTrendingVideos();
+
+  const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
   return (
     <div style={{ position: "relative" }} className='dsp'>
@@ -50,11 +53,11 @@ function TrendingVideos() {
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              Trending Videos
+              Trending Videos ({formattedAudience})
             </h2>
           </div>
 
-          <button className='custom-button guide-add-btn' onClick={() => navigate("/admin/trending-videos/add")}>
+          <button className='custom-button guide-add-btn' onClick={() => navigate(`/admin/trending-videos/${audience}/add`)}>
             Add Video
           </button>
         </div>
@@ -156,7 +159,7 @@ function TrendingVideos() {
                         >
                           <p
                             className={dataTable.edit}
-                            onClick={() => navigate(`/admin/trending-videos/edit/${row._id || row.id}`)}
+                            onClick={() => navigate(`/admin/trending-videos/${audience}/edit/${row._id || row.id}`)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
                             title="Edit"
                           >

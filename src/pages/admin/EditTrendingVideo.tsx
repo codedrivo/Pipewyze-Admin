@@ -14,9 +14,11 @@ function EditTrendingVideo() {
     thumbnailPreview,
     formik,
     handleThumbnailChange,
+    audience,
   } = useEditTrendingVideo();
 
   const DEFAULT_IMAGE = "/no_image.png";
+  const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
   return (
     <div
@@ -28,10 +30,10 @@ function EditTrendingVideo() {
       <div className='profile-card'>
         {/* Header */}
         <div className='gc-profile-flex'>
-          <h2>Edit Trending Video</h2>
+          <h2>Edit Trending Video ({formattedAudience})</h2>
           <button
             type='button'
-            onClick={() => navigate("/admin/trending-videos")}
+            onClick={() => navigate(`/admin/trending-videos/${audience}`)}
             className='custom-button gc-back-btn mtop-0'
           >
             Back

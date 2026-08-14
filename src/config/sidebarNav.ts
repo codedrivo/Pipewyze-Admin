@@ -62,6 +62,18 @@ const sidebarNav: SidebarNavItem[] = [
     icon: "lucide:video",
     text: "Trending Videos",
     role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/trending-videos/apprentice",
+        icon: "lucide:video",
+        text: "Apprentice",
+      },
+      {
+        link: "/admin/trending-videos/licensed-plumber",
+        icon: "lucide:video",
+        text: "Licensed Plumber",
+      },
+    ],
   },
 ];
 
