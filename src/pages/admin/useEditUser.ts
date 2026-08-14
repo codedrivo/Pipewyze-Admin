@@ -44,6 +44,8 @@ export function useEditUser() {
         (value) => normalizeUSPhoneNumber(value || "").length === 10
       ),
     role: yup.string().required(VALIDATION_MESSAGES.roleRequired),
+    latitude: yup.number().nullable().optional(),
+    longitude: yup.number().nullable().optional(),
   });
 
   const formik = useFormik({
@@ -52,6 +54,8 @@ export function useEditUser() {
       phone: "",
       role: "home-owner",
       profileImage: null as File | null,
+      latitude: "",
+      longitude: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -62,6 +66,10 @@ export function useEditUser() {
         formData.append("fullName", values.fullName);
         formData.append("phone", normalizeUSPhoneNumber(values.phone));
         formData.append("role", values.role);
+        if (values.role === "licensed-plumber") {
+          formData.append("latitude", values.latitude || "");
+          formData.append("longitude", values.longitude || "");
+        }
         if (values.profileImage) {
           formData.append("profileimageurl", values.profileImage);
         }
@@ -89,6 +97,8 @@ export function useEditUser() {
           phone: formatUSPhoneNumber(data.phone || ""),
           role: data.role || "home-owner",
           profileImage: null,
+          latitude: data.latitude !== undefined ? String(data.latitude) : "",
+          longitude: data.longitude !== undefined ? String(data.longitude) : "",
         });
         setEmail(data.email || "");
         setImagePreview(data.profileimageurl || null);

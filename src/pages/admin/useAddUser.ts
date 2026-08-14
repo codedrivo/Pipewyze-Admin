@@ -52,6 +52,8 @@ export function useAddUser() {
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         VALIDATION_MESSAGES.passwordComplexity
       ),
+    latitude: yup.number().nullable().optional(),
+    longitude: yup.number().nullable().optional(),
   });
 
   const formik = useFormik({
@@ -62,6 +64,8 @@ export function useAddUser() {
       role: "home-owner",
       password: "",
       profileImage: null as File | null,
+      latitude: "",
+      longitude: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -73,6 +77,10 @@ export function useAddUser() {
         formData.append("phone", normalizeUSPhoneNumber(values.phone));
         formData.append("role", values.role);
         formData.append("password", values.password);
+        if (values.role === "licensed-plumber") {
+          formData.append("latitude", values.latitude || "");
+          formData.append("longitude", values.longitude || "");
+        }
         if (values.profileImage) {
           formData.append("profileimageurl", values.profileImage);
         }
