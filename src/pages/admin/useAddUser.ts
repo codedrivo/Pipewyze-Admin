@@ -54,6 +54,7 @@ export function useAddUser() {
       ),
     latitude: yup.number().nullable().optional(),
     longitude: yup.number().nullable().optional(),
+    address: yup.string().optional(),
   });
 
   const formik = useFormik({
@@ -66,6 +67,7 @@ export function useAddUser() {
       profileImage: null as File | null,
       latitude: "",
       longitude: "",
+      address: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -80,6 +82,7 @@ export function useAddUser() {
         if (values.role === "licensed-plumber") {
           formData.append("latitude", values.latitude || "");
           formData.append("longitude", values.longitude || "");
+          formData.append("address", values.address || "");
         }
         if (values.profileImage) {
           formData.append("profileimageurl", values.profileImage);

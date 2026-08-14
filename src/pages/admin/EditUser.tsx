@@ -5,6 +5,7 @@ import Input from "../../components/UI/input/Input";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
 import withRole from "../withRole";
 import { USER_FORM_FIELDS } from "../../utils/message/messages";
+import GoogleAutoComplete from "../../layout/GoogleAutoComplete";
 
 function EditUser() {
   const {
@@ -206,6 +207,22 @@ function EditUser() {
 
             {formik.values.role === "licensed-plumber" && (
               <>
+                {/* Google Maps Location Autocomplete */}
+                <div className={form.profileformcol} style={{ width: "100%", flex: "1 0 100%" }}>
+                  <div className='formgrp'>
+                    <label htmlFor='autocomplete'>Address / Location (Google Maps)</label>
+                    <GoogleAutoComplete
+                      onChange={(fullAddress, locationName, lat, lng) => {
+                        formik.setFieldValue("latitude", lat ? String(lat) : "");
+                        formik.setFieldValue("longitude", lng ? String(lng) : "");
+                        formik.setFieldValue("address", fullAddress || "");
+                      }}
+                      currentState={formik.values.address}
+                      placeholder="Enter the address"
+                    />
+                  </div>
+                </div>
+
                 {/* Latitude */}
                 <div className={form.profileformcol}>
                   <div className='formgrp'>
@@ -215,7 +232,8 @@ function EditUser() {
                       type='number'
                       id='latitude'
                       name='latitude'
-                      placeholder='e.g. 23.3251'
+                      readonly={true}
+                      placeholder='Auto-populated'
                       value={formik.values.latitude}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -240,7 +258,8 @@ function EditUser() {
                       type='number'
                       id='longitude'
                       name='longitude'
-                      placeholder='e.g. 85.3058'
+                      readonly={true}
+                      placeholder='Auto-populated'
                       value={formik.values.longitude}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
