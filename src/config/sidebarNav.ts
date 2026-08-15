@@ -75,6 +75,20 @@ const sidebarNav: SidebarNavItem[] = [
       },
     ],
   },
+  {
+    link: "/admin/faqs",
+    section: "faqs",
+    icon: "lucide:help-circle",
+    text: "Support & FAQs",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/support",
+    section: "support",
+    icon: "lucide:message-square",
+    text: "Support Requests",
+    role: ["admin"],
+  },
 ];
 
 export default sidebarNav;

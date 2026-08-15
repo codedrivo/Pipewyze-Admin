@@ -36,6 +36,10 @@ const PlumbingCodeCategoriesPage = React.lazy(() => import("./pages/admin/Plumbi
 const TrendingVideosPage = React.lazy(() => import("./pages/admin/TrendingVideos"));
 const AddTrendingVideoPage = React.lazy(() => import("./pages/admin/AddTrendingVideo"));
 const EditTrendingVideoPage = React.lazy(() => import("./pages/admin/EditTrendingVideo"));
+const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
+const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
+const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
+const SupportRequestsPage = React.lazy(() => import("./pages/admin/SupportRequests"));
 
 function App() {
   return (
@@ -67,6 +71,10 @@ function App() {
               <Route path='/admin/trending-videos/:audience' element={<TrendingVideosPage />} />
               <Route path='/admin/trending-videos/:audience/add' element={<AddTrendingVideoPage />} />
               <Route path='/admin/trending-videos/:audience/edit/:id' element={<EditTrendingVideoPage />} />
+              <Route path='/admin/faqs' element={<FaqsPage />} />
+              <Route path='/admin/add-faq' element={<AddFaqPage />} />
+              <Route path='/admin/edit-faq/:id' element={<EditFaqPage />} />
+              <Route path='/admin/support' element={<SupportRequestsPage />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />
