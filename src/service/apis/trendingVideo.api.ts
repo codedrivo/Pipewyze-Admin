@@ -1,10 +1,11 @@
 import catchAsync from "../../utils/catchAsync";
 import httpsCall from "../httpsCall";
 
-export const getTrendingVideos = catchAsync(async (targetAudience?: string, search?: string) => {
+export const getTrendingVideos = catchAsync(async (targetAudience?: string, search?: string, isAiVideo?: boolean) => {
   const params = new URLSearchParams();
   if (targetAudience) params.append("targetAudience", targetAudience);
   if (search) params.append("search", search);
+  if (isAiVideo !== undefined) params.append("isAiVideo", String(isAiVideo));
   const queryStr = params.toString();
   const url = queryStr ? `/admin/trending-video?${queryStr}` : `/admin/trending-video`;
   const data = await httpsCall.get(url);
@@ -16,7 +17,7 @@ export const addTrendingVideo = catchAsync(async (values: FormData) => {
   return data;
 });
 
-export const updateTrendingVideo = catchAsync(async (id: string, values: FormData) => {
+export const updateTrendingVideo = catchAsync(async (id: string, values: FormData | any) => {
   const data = await httpsCall.patch(`/admin/trending-video/${id}`, values);
   return data;
 });
