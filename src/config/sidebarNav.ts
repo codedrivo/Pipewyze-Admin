@@ -76,6 +76,13 @@ const sidebarNav: SidebarNavItem[] = [
     ],
   },
   {
+    link: "/admin/ai-videos",
+    section: "ai-videos",
+    icon: "lucide:sparkles",
+    text: "AI Videos",
+    role: ["admin"],
+  },
+  {
     link: "/admin/faqs",
     section: "faqs",
     icon: "lucide:help-circle",
