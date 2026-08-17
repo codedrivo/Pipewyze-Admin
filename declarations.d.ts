@@ -1,6 +1,10 @@
+declare module "*.module.scss" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
 declare module "*.scss" {
   const content: { [className: string]: string };
-  export = content;
+  export default content;
 }
 declare module "*.svg" {
   const content: any; // eslint-disable-line
