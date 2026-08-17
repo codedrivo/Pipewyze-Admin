@@ -37,6 +37,8 @@ const TrendingVideosPage = React.lazy(() => import("./pages/admin/TrendingVideos
 const AddTrendingVideoPage = React.lazy(() => import("./pages/admin/AddTrendingVideo"));
 const EditTrendingVideoPage = React.lazy(() => import("./pages/admin/EditTrendingVideo"));
 const AiVideosPage = React.lazy(() => import("./pages/admin/AiVideos"));
+const AddAiVideoPage = React.lazy(() => import("./pages/admin/AddAiVideo"));
+const EditAiVideoPage = React.lazy(() => import("./pages/admin/EditAiVideo"));
 const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
 const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
 const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
@@ -73,6 +75,8 @@ function App() {
               <Route path='/admin/trending-videos/:audience/add' element={<AddTrendingVideoPage />} />
               <Route path='/admin/trending-videos/:audience/edit/:id' element={<EditTrendingVideoPage />} />
               <Route path='/admin/ai-videos' element={<AiVideosPage />} />
+              <Route path='/admin/ai-videos/add' element={<AddAiVideoPage />} />
+              <Route path='/admin/ai-videos/edit/:id' element={<EditAiVideoPage />} />
               <Route path='/admin/faqs' element={<FaqsPage />} />
               <Route path='/admin/add-faq' element={<AddFaqPage />} />
               <Route path='/admin/edit-faq/:id' element={<EditFaqPage />} />

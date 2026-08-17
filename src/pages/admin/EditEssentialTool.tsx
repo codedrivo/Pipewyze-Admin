@@ -350,17 +350,17 @@ function EditEssentialTool() {
               ))}
             </div>
 
-          </div>
+            {/* Submit Actions */}
+            <div className='submitbtnwrap' style={{ width: "100%", marginTop: "30px", padding: "0 12px" }}>
+              <button
+                type='submit'
+                className={`custom-button w-auto`}
+                disabled={submitting}
+              >
+                {submitting ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
 
-          {/* Submit Actions */}
-          <div className='submitbtnwrap' style={{ marginTop: "30px" }}>
-            <button
-              type='submit'
-              className={`custom-button w-auto`}
-              disabled={submitting}
-            >
-              {submitting ? "Saving..." : "Save Changes"}
-            </button>
           </div>
         </form>
       </div>
