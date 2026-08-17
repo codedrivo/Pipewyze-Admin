@@ -169,7 +169,7 @@ function TrendingVideos() {
                             />
                           </p>
                           <p
-                            className={dataTable.edit}
+                            className={dataTable.delete}
                             onClick={() => handleDeleteClick(row.id || row._id)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
                             title="Delete"

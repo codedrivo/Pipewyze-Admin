@@ -55,10 +55,11 @@ function Faqs() {
           display: flex;
           align-items: center;
           background: #fff;
-          border: 1px solid #d1d5db;
-          border-radius: 12px;
-          padding: 8px 16px;
-          width: 100%;
+          border: 1px solid #e5e7eb;
+          border-radius: 10px;
+          height: 40px;
+          max-width: 400px;
+          padding: 0 12px;
         }
         .searchgrp input {
           border: none;
@@ -169,7 +170,7 @@ function Faqs() {
                             />
                           </p>
                           <p
-                            className={dataTable.edit}
+                            className={dataTable.delete}
                             onClick={() => handleDeleteClick(row.id || row._id)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
                             title="Delete"

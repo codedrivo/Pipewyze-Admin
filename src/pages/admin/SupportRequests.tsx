@@ -138,14 +138,20 @@ function SupportRequests() {
                       <TableCell align='center'>
                         {row.status === "open" ? (
                           <button
-                            className="custom-button mtop-0"
                             onClick={() => handleOpenReply(row)}
                             style={{
-                              padding: "6px 12px",
-                              fontSize: "12px",
+                              padding: "6px 16px",
+                              fontSize: "13px",
+                              fontWeight: 600,
                               backgroundColor: "#335AFF",
                               color: "#fff",
                               borderRadius: "8px",
+                              border: "none",
+                              cursor: "pointer",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              height: "32px",
                             }}
                           >
                             Reply
