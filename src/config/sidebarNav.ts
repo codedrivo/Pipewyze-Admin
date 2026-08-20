@@ -57,19 +57,19 @@ const sidebarNav: SidebarNavItem[] = [
     role: ["admin"],
   },
   {
-    link: "/admin/trending-videos",
-    section: "trending-videos",
+    link: "/admin/training-videos",
+    section: "training-videos",
     icon: "lucide:video",
-    text: "Trending Videos",
+    text: "Training Videos",
     role: ["admin"],
     submenu: [
       {
-        link: "/admin/trending-videos/apprentice",
+        link: "/admin/training-videos/apprentice",
         icon: "lucide:video",
         text: "Apprentice",
       },
       {
-        link: "/admin/trending-videos/licensed-plumber",
+        link: "/admin/training-videos/licensed-plumber",
         icon: "lucide:video",
         text: "Licensed Plumber",
       },
