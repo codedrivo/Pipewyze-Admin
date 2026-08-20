@@ -1,11 +1,11 @@
 import React from "react";
-import { useEditTrendingVideo } from "./useEditTrendingVideo";
+import { useEditTrainingVideo } from "./useEditTrainingVideo";
 import form from "../../components/UI/form/formcus.module.scss";
 import Input from "../../components/UI/input/Input";
 import withRole from "../withRole";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
 
-function EditTrendingVideo() {
+function EditTrainingVideo() {
   const {
     navigate,
     fileInputRef,
@@ -15,14 +15,14 @@ function EditTrendingVideo() {
     formik,
     handleThumbnailChange,
     audience,
-  } = useEditTrendingVideo();
+  } = useEditTrainingVideo();
 
   const DEFAULT_IMAGE = "/no_image.png";
   const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
   return (
     <div
-      id='edittrendingvideo'
+      id='edittrainingvideo'
       className={`${form.myprofilewrapper} dashboard-card-global edit-profile-wrap`}
     >
       {loading ? <LoadingSpinner /> : null}
@@ -30,10 +30,10 @@ function EditTrendingVideo() {
       <div className='profile-card'>
         {/* Header */}
         <div className='gc-profile-flex'>
-          <h2>Edit Trending Video ({formattedAudience})</h2>
+          <h2>Edit Training Video ({formattedAudience})</h2>
           <button
             type='button'
-            onClick={() => navigate(`/admin/trending-videos/${audience}`)}
+            onClick={() => navigate(`/admin/training-videos/${audience}`)}
             className='custom-button gc-back-btn mtop-0'
           >
             Back
@@ -55,7 +55,7 @@ function EditTrendingVideo() {
           >
             <img
               src={thumbnailPreview || DEFAULT_IMAGE}
-              alt='Trending Video Thumbnail'
+              alt='Training Video Thumbnail'
               className='image-preview-img'
               onError={(e) => {
                 e.currentTarget.src = DEFAULT_IMAGE;
@@ -180,4 +180,4 @@ function EditTrendingVideo() {
   );
 }
 
-export default withRole(EditTrendingVideo, ["admin"]);
+export default withRole(EditTrainingVideo, ["admin"]);

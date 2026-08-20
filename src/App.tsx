@@ -33,9 +33,9 @@ const PlumbingCodesPage = React.lazy(() => import("./pages/admin/PlumbingCodes")
 const AddPlumbingCodePage = React.lazy(() => import("./pages/admin/AddPlumbingCode"));
 const EditPlumbingCodePage = React.lazy(() => import("./pages/admin/EditPlumbingCode"));
 const PlumbingCodeCategoriesPage = React.lazy(() => import("./pages/admin/PlumbingCodeCategories"));
-const TrendingVideosPage = React.lazy(() => import("./pages/admin/TrendingVideos"));
-const AddTrendingVideoPage = React.lazy(() => import("./pages/admin/AddTrendingVideo"));
-const EditTrendingVideoPage = React.lazy(() => import("./pages/admin/EditTrendingVideo"));
+const TrainingVideosPage = React.lazy(() => import("./pages/admin/TrainingVideos"));
+const AddTrainingVideoPage = React.lazy(() => import("./pages/admin/AddTrainingVideo"));
+const EditTrainingVideoPage = React.lazy(() => import("./pages/admin/EditTrainingVideo"));
 const AiVideosPage = React.lazy(() => import("./pages/admin/AiVideos"));
 const AddAiVideoPage = React.lazy(() => import("./pages/admin/AddAiVideo"));
 const EditAiVideoPage = React.lazy(() => import("./pages/admin/EditAiVideo"));
@@ -71,9 +71,9 @@ function App() {
               <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/categories' element={<PlumbingCodeCategoriesPage />} />
-              <Route path='/admin/trending-videos/:audience' element={<TrendingVideosPage />} />
-              <Route path='/admin/trending-videos/:audience/add' element={<AddTrendingVideoPage />} />
-              <Route path='/admin/trending-videos/:audience/edit/:id' element={<EditTrendingVideoPage />} />
+              <Route path='/admin/training-videos/:audience' element={<TrainingVideosPage />} />
+              <Route path='/admin/training-videos/:audience/add' element={<AddTrainingVideoPage />} />
+              <Route path='/admin/training-videos/:audience/edit/:id' element={<EditTrainingVideoPage />} />
               <Route path='/admin/ai-videos' element={<AiVideosPage />} />
               <Route path='/admin/ai-videos/add' element={<AddAiVideoPage />} />
               <Route path='/admin/ai-videos/edit/:id' element={<EditAiVideoPage />} />
