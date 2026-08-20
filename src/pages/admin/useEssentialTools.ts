@@ -22,6 +22,7 @@ export interface IEssentialTool {
   howToUse?: string[];
   safetyTips?: string[];
   recommendedVideo?: string;
+  audience?: string;
   createdAt?: string;
 }
 
@@ -64,6 +65,7 @@ export function useEssentialTools() {
     description: yup.string().required("Description is required"),
     tag: yup.string().optional(),
     recommendationLink: yup.string().optional(),
+    audience: yup.string().optional(),
   });
 
   const formik = useFormik({
@@ -72,6 +74,7 @@ export function useEssentialTools() {
       description: "",
       tag: "",
       recommendationLink: "",
+      audience: "home-owner",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -82,6 +85,7 @@ export function useEssentialTools() {
         formData.append("description", values.description);
         formData.append("tag", values.tag || "");
         formData.append("recommendationLink", values.recommendationLink || "");
+        formData.append("audience", values.audience || "home-owner");
         if (imageFile) {
           formData.append("image", imageFile);
         }
@@ -116,6 +120,7 @@ export function useEssentialTools() {
         description: "",
         tag: "",
         recommendationLink: "",
+        audience: "home-owner",
       },
     });
     setIsModalOpen(true);
@@ -131,6 +136,7 @@ export function useEssentialTools() {
         description: tool.description,
         tag: tool.tag || "",
         recommendationLink: tool.recommendationLink || "",
+        audience: tool.audience || "home-owner",
       },
     });
     setIsModalOpen(true);
