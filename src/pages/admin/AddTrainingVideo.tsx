@@ -1,10 +1,10 @@
 import React from "react";
-import { useAddTrendingVideo } from "./useAddTrendingVideo";
+import { useAddTrainingVideo } from "./useAddTrainingVideo";
 import form from "../../components/UI/form/formcus.module.scss";
 import Input from "../../components/UI/input/Input";
 import withRole from "../withRole";
 
-function AddTrendingVideo() {
+function AddTrainingVideo() {
   const {
     navigate,
     fileInputRef,
@@ -13,23 +13,23 @@ function AddTrendingVideo() {
     formik,
     handleThumbnailChange,
     audience,
-  } = useAddTrendingVideo();
+  } = useAddTrainingVideo();
 
   const DEFAULT_IMAGE = "/no_image.png";
   const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
   return (
     <div
-      id='addtrendingvideo'
+      id='addtrainingvideo'
       className={`${form.myprofilewrapper} dashboard-card-global edit-profile-wrap`}
     >
       <div className='profile-card'>
         {/* Header */}
         <div className='gc-profile-flex'>
-          <h2>Add Trending Video ({formattedAudience})</h2>
+          <h2>Add Training Video ({formattedAudience})</h2>
           <button
             type='button'
-            onClick={() => navigate(`/admin/trending-videos/${audience}`)}
+            onClick={() => navigate(`/admin/training-videos/${audience}`)}
             className='custom-button gc-back-btn mtop-0'
           >
             Back
@@ -51,7 +51,7 @@ function AddTrendingVideo() {
           >
             <img
               src={thumbnailPreview || DEFAULT_IMAGE}
-              alt='Trending Video Thumbnail'
+              alt='Training Video Thumbnail'
               className='image-preview-img'
               onError={(e) => {
                 e.currentTarget.src = DEFAULT_IMAGE;
@@ -176,4 +176,4 @@ function AddTrendingVideo() {
   );
 }
 
-export default withRole(AddTrendingVideo, ["admin"]);
+export default withRole(AddTrainingVideo, ["admin"]);

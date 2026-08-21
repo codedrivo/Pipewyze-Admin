@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getTrendingVideos, deleteTrendingVideo } from "../../service/apis/trendingVideo.api";
+import { getTrainingVideos, deleteTrainingVideo } from "../../service/apis/trainingVideo.api";
 
-export function useTrendingVideos() {
+export function useTrainingVideos() {
   const { audience } = useParams<{ audience: string }>();
   const [videosList, setVideosList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,13 +13,13 @@ export function useTrendingVideos() {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await getTrendingVideos(audience);
+      const response = await getTrainingVideos(audience);
       if (response?.status === 200) {
         setVideosList(response.videos || response.data?.videos || []);
       }
     } catch (error) {
-      console.error("Failed to load trending videos", error);
-      toast.error("Failed to load trending videos");
+      console.error("Failed to load training videos", error);
+      toast.error("Failed to load training videos");
     } finally {
       setLoading(false);
     }
@@ -43,13 +43,13 @@ export function useTrendingVideos() {
     if (!videoToDelete) return;
     try {
       setLoading(true);
-      await deleteTrendingVideo(videoToDelete);
-      toast.success("Trending video deleted successfully!");
+      await deleteTrainingVideo(videoToDelete);
+      toast.success("Training video deleted successfully!");
       handleCloseDelete();
       fetchVideos();
     } catch (error) {
-      console.error("Failed to delete trending video", error);
-      toast.error("Failed to delete trending video");
+      console.error("Failed to delete training video", error);
+      toast.error("Failed to delete training video");
       setLoading(false);
     }
   };

@@ -1,47 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
-import { getTrendingVideo, updateTrendingVideo } from "../../service/apis/trendingVideo.api";
+import { addTrainingVideo } from "../../service/apis/trainingVideo.api";
 
-export function useEditTrendingVideo() {
+export function useAddTrainingVideo() {
   const navigate = useNavigate();
-  const { id, audience } = useParams<{ id: string; audience: string }>();
+  const { audience } = useParams<{ audience: string }>();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    const loadVideo = async () => {
-      try {
-        setLoading(true);
-        const response = await getTrendingVideo(id!);
-        if (response?.status === 200) {
-          const video = response.video || response.data?.video;
-          if (video) {
-            formik.resetForm({
-              values: {
-                title: video.title || "",
-                videoUrl: video.videoUrl || "",
-                description: video.description || "",
-              }
-            });
-            setThumbnailPreview(video.thumbnail || null);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to load trending video details", error);
-        toast.error("Failed to load trending video details");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadVideo();
-  }, [id]);
 
   const validationSchema = yup.object({
     title: yup.string().required("Title is required"),
@@ -70,12 +40,12 @@ export function useEditTrendingVideo() {
           formData.append("thumbnail", thumbnailFile);
         }
 
-        await updateTrendingVideo(id!, formData);
-        toast.success("Trending video updated successfully!");
-        navigate(`/admin/trending-videos/${audience}`);
+        await addTrainingVideo(formData);
+        toast.success("Training video added successfully!");
+        navigate(`/admin/training-videos/${audience}`);
       } catch (error: any) {
-        console.error("Failed to update trending video", error);
-        toast.error(error?.response?.data?.message || "Failed to update trending video");
+        console.error("Failed to save training video", error);
+        toast.error(error?.response?.data?.message || "Failed to save training video");
       } finally {
         setSubmitting(false);
       }
@@ -93,7 +63,6 @@ export function useEditTrendingVideo() {
   return {
     navigate,
     fileInputRef,
-    loading,
     submitting,
     thumbnailPreview,
     formik,

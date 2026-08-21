@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react";
-import { useTrendingVideos } from "./useTrendingVideos";
+import { useTrainingVideos } from "./useTrainingVideos";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -23,7 +23,7 @@ import dataTable from "../../components/tables/customTable/datatable.module.scss
 import del from "../../assets/images/ic_outline-delete.png";
 import delt from "../../assets/images/delete.png";
 
-function TrendingVideos() {
+function TrainingVideos() {
   const navigate = useNavigate();
   const {
     videosList,
@@ -33,7 +33,7 @@ function TrendingVideos() {
     handleCloseDelete,
     handleDeleteConfirm,
     audience,
-  } = useTrendingVideos();
+  } = useTrainingVideos();
 
   const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
 
@@ -53,11 +53,11 @@ function TrendingVideos() {
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              Trending Videos ({formattedAudience})
+              Training Videos ({formattedAudience})
             </h2>
           </div>
 
-          <button className='custom-button guide-add-btn' onClick={() => navigate(`/admin/trending-videos/${audience}/add`)}>
+          <button className='custom-button guide-add-btn' onClick={() => navigate(`/admin/training-videos/${audience}/add`)}>
             Add Video
           </button>
         </div>
@@ -78,7 +78,7 @@ function TrendingVideos() {
           >
             <Icon icon='lucide:video' style={{ fontSize: "48px", color: "#9ca3af", marginBottom: "12px" }} />
             <p style={{ color: "#4b5563", fontSize: "16px", fontWeight: 500, margin: 0 }}>
-              No trending videos registered yet
+              No training videos registered yet
             </p>
           </div>
         ) : (
@@ -86,7 +86,7 @@ function TrendingVideos() {
             <TableContainer className={dataTable.tbodymain} component={Paper}>
               <Table
                 sx={{ minWidth: 1000 }}
-                aria-label='trending videos list table'
+                aria-label='training videos list table'
                 style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
               >
                 <TableHead>
@@ -159,7 +159,7 @@ function TrendingVideos() {
                         >
                           <p
                             className={dataTable.edit}
-                            onClick={() => navigate(`/admin/trending-videos/${audience}/edit/${row._id || row.id}`)}
+                            onClick={() => navigate(`/admin/training-videos/${audience}/edit/${row._id || row.id}`)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
                             title="Edit"
                           >
@@ -217,7 +217,7 @@ function TrendingVideos() {
             fontWeight: "700",
           }}
         >
-          {"Delete Trending Video"}
+          {"Delete Training Video"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText
@@ -228,7 +228,7 @@ function TrendingVideos() {
               fontSize: "16px",
             }}
           >
-            {"Are you sure you want to delete this trending video? This action cannot be undone."}
+            {"Are you sure you want to delete this training video? This action cannot be undone."}
           </DialogContentText>
         </DialogContent>
         <DialogActions style={{ justifyContent: "center", gap: "15px", marginTop: "10px" }}>
@@ -244,4 +244,4 @@ function TrendingVideos() {
   );
 }
 
-export default withRole(TrendingVideos, ["admin"]);
+export default withRole(TrainingVideos, ["admin"]);

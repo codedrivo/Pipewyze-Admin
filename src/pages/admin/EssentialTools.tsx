@@ -50,7 +50,7 @@ function EssentialTools() {
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              Homeowner Essential Tools
+              Essential Tools
             </h2>
           </div>
 
@@ -90,6 +90,7 @@ function EssentialTools() {
                   <TableRow>
                     <TableCell align='left'>Image</TableCell>
                     <TableCell align='left'>Name</TableCell>
+                    <TableCell align='left'>Audience</TableCell>
                     <TableCell align='left'>Description</TableCell>
                     <TableCell align='left'>Tag</TableCell>
                     <TableCell align='left'>Recommendation Link</TableCell>
@@ -133,6 +134,27 @@ function EssentialTools() {
                         <div style={{ fontWeight: "bold", color: "#1f2937" }}>
                           {row.name}
                         </div>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <span
+                          style={{
+                            background: row.audience === "apprentice" ? "#ecfdf5" : row.audience === "licensed-plumber" ? "#fef3c7" : "#eff6ff",
+                            color: row.audience === "apprentice" ? "#047857" : row.audience === "licensed-plumber" ? "#b45309" : "#1d4ed8",
+                            padding: "4px 10px",
+                            borderRadius: "9999px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {row.audience === "home-owner"
+                            ? "Homeowner"
+                            : row.audience === "apprentice"
+                            ? "Apprentice"
+                            : row.audience === "licensed-plumber"
+                            ? "Licensed Plumber"
+                            : "Homeowner"}
+                        </span>
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "250px" }}>
                         <div 

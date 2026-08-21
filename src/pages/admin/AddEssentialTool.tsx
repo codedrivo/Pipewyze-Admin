@@ -165,6 +165,45 @@ function AddEssentialTool() {
               </div>
             </div>
 
+            {/* Audience Selection */}
+            <div className={form.profileformcol}>
+              <div className='formgrp'>
+                <label htmlFor='audience'>
+                  Audience <span style={{ color: "red" }}>*</span>
+                </label>
+                <select
+                  id='audience'
+                  name='audience'
+                  value={formik.values.audience}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #c7c7c7",
+                    backgroundColor: "transparent",
+                    borderRadius: "10px",
+                    padding: "12px 16px",
+                    outline: "none",
+                    fontFamily: "inherit",
+                    fontSize: "15px",
+                    height: "48px",
+                  }}
+                >
+                  <option value='home-owner'>Homeowner</option>
+                  <option value='apprentice'>Apprentice</option>
+                  <option value='licensed-plumber'>Licensed Plumber</option>
+                </select>
+                {formik.touched.audience && formik.errors.audience && (
+                  <div
+                    className='error'
+                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                  >
+                    {formik.errors.audience}
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Recommended Video Link */}
             <div className={form.profileformcol} style={{ width: "100%", flex: "1 0 100%" }}>
               <div className='formgrp'>
