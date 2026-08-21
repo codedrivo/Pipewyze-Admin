@@ -90,6 +90,7 @@ function AiVideos() {
               <option value="all">All Audiences</option>
               <option value="apprentice">Apprentice</option>
               <option value="licensed-plumber">Licensed Plumber</option>
+              <option value="home-owner">Home Owner</option>
             </select>
           </div>
 
@@ -213,9 +214,17 @@ function AiVideos() {
                             whiteSpace: "nowrap",
                             textTransform: "capitalize",
                             backgroundColor:
-                              row.targetAudience === "licensed-plumber" ? "#eff6ff" : "#f0fdf4",
+                              row.targetAudience === "licensed-plumber"
+                                ? "#eff6ff"
+                                : row.targetAudience === "home-owner"
+                                ? "#faf5ff"
+                                : "#f0fdf4",
                             color:
-                              row.targetAudience === "licensed-plumber" ? "#1e40af" : "#166534",
+                              row.targetAudience === "licensed-plumber"
+                                ? "#1e40af"
+                                : row.targetAudience === "home-owner"
+                                ? "#6b21a8"
+                                : "#166534",
                             padding: "6px 12px",
                             borderRadius: "20px",
                             fontSize: "12px",
@@ -225,6 +234,8 @@ function AiVideos() {
                         >
                           {row.targetAudience === "licensed-plumber"
                             ? "Licensed Plumber"
+                            : row.targetAudience === "home-owner"
+                            ? "Home Owner"
                             : "Apprentice"}
                         </span>
                       </TableCell>
