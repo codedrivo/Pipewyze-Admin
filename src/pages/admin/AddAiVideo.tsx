@@ -138,6 +138,7 @@ function AddAiVideo() {
                 >
                   <option value="apprentice">Apprentice</option>
                   <option value="licensed-plumber">Licensed Plumber</option>
+                  <option value="home-owner">Home Owner</option>
                 </select>
                 {formik.touched.targetAudience && formik.errors.targetAudience && (
                   <div className="error" style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
