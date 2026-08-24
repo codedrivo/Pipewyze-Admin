@@ -99,15 +99,6 @@ function Equipment() {
 
 
           <div style={{ display: "flex", gap: "10px" }}>
-            {user?.role === "admin" && (
-              <button
-                className='custom-button equipment-add-btn'
-                style={{ backgroundColor: "#4b5563" }}
-                onClick={() => navigate("/admin/equipment/categories")}
-              >
-                Manage Categories
-              </button>
-            )}
             {user?.role !== "admin" && (isPlumber || paramPlumberId) && (
               <button className='custom-button equipment-add-btn sm' onClick={handleOpenAddModal}>
                 Add Equipment

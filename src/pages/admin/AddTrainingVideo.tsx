@@ -37,18 +37,22 @@ function AddTrainingVideo() {
         </div>
 
         {/* Thumbnail Upload */}
-        <div className='profile-picture-upload'>
-          <input
-            ref={fileInputRef}
-            type='file'
-            accept='image/*'
-            onChange={handleThumbnailChange}
-            style={{ display: "none" }}
-          />
-          <div
-            className='image-preview-wrap'
-            onClick={() => fileInputRef.current?.click()}
-          >
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
+          <span style={{ fontSize: "14px", color: "#4b5563", marginBottom: "8px", fontWeight: 600 }}>
+            Video Thumbnail
+          </span>
+          <div className='profile-picture-upload' style={{ marginTop: 0 }}>
+            <input
+              ref={fileInputRef}
+              type='file'
+              accept='image/*'
+              onChange={handleThumbnailChange}
+              style={{ display: "none" }}
+            />
+            <div
+              className='image-preview-wrap'
+              onClick={() => fileInputRef.current?.click()}
+            >
             <img
               src={thumbnailPreview || DEFAULT_IMAGE}
               alt='Training Video Thumbnail'
@@ -74,6 +78,7 @@ function AddTrainingVideo() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Form */}
         <form
