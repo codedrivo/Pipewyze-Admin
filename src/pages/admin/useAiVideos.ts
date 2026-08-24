@@ -7,7 +7,7 @@ export function useAiVideos() {
   const [loading, setLoading] = useState(true);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<string | null>(null);
-  const [audienceFilter, setAudienceFilter] = useState<string>("all");
+  const [audienceFilter, setAudienceFilter] = useState<string[]>([]);
 
   const fetchVideos = async () => {
     try {

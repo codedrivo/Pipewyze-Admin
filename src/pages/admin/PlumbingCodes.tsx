@@ -55,13 +55,6 @@ function PlumbingCodes() {
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              className='custom-button code-add-btn'
-              style={{ backgroundColor: "#4b5563" }}
-              onClick={() => navigate("/admin/plumbing-codes/categories")}
-            >
-              Manage Categories
-            </button>
             <button className='custom-button code-add-btn' onClick={() => navigate("/admin/plumbing-codes/add")}>
               Add Plumbing Code
             </button>
