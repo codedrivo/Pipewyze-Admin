@@ -22,6 +22,9 @@ import dataTable from "../../components/tables/customTable/datatable.module.scss
 function SupportRequests() {
   const {
     requestsList,
+    rawRequestsList,
+    searchTerm,
+    setSearchTerm,
     loading,
     replying,
     isReplyModalOpen,
@@ -37,6 +40,29 @@ function SupportRequests() {
     <div style={{ position: "relative" }} className='dsp'>
       {loading ? <LoadingSpinner /> : null}
 
+      <style>{`
+        .searchgrp-full {
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+          border-radius: 10px;
+          height: 44px;
+          width: 100%;
+          padding: 0 14px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .searchgrp-full input {
+          border: none;
+          outline: none;
+          width: 100%;
+          margin-left: 10px;
+          font-size: 14px;
+          font-family: inherit;
+        }
+      `}</style>
+
       <div className={dataTable.datatablemainwrap}>
         {/* Header */}
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
@@ -45,6 +71,33 @@ function SupportRequests() {
               Support Requests
             </h2>
           </div>
+        </div>
+
+        {/* Search */}
+        <div className="searchgrp-full">
+          <Icon icon="lucide:search" style={{ color: "#9ca3af", fontSize: "20px" }} />
+          <input
+            type="text"
+            placeholder="Search support requests by name, email, subject, or message..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm("")}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#9ca3af",
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Icon icon="lucide:x" style={{ fontSize: "18px" }} />
+            </button>
+          )}
         </div>
 
         {/* Content Area */}
@@ -208,7 +261,7 @@ function SupportRequests() {
             <textarea
               id="replyText"
               rows={5}
-              placeholder="Type reply here... (an HTML email will be sent automatically to the customer)"
+              placeholder="Type reply here..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               style={{
