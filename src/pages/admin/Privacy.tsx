@@ -79,25 +79,6 @@ function PrivacyPolicy() {
             >
               Login
             </Link>
-            <a
-              href="mailto:pipewyze-admin@yopmail.com"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "#ffffff",
-                textDecoration: "none",
-                backgroundColor: "#1e3a8a",
-                padding: "8px 20px",
-                borderRadius: "9999px",
-                transition: "all 0.2s ease",
-              }}
-            >
-              Contact Us
-              <Icon icon="lucide:arrow-up-right" style={{ fontSize: "16px" }} />
-            </a>
           </div>
         </div>
       </header>
@@ -250,60 +231,12 @@ function PrivacyPolicy() {
             </h3>
             <p style={{ margin: 0, fontSize: "14px", color: "#334155" }}>
               For any privacy-related inquiries, data requests, or compliance questions, please contact us directly at{" "}
-              <a href="mailto:pipewyze-admin@yopmail.com" style={{ color: "#2563eb", fontWeight: 600, textDecoration: "underline" }}>
-                pipewyze-admin@yopmail.com
-              </a>
+              <span style={{ color: "#1e293b", fontWeight: 600 }}>
+                PipeWyze@gmail.com
+              </span>
               .
             </p>
           </div>
-        </div>
-
-        {/* Call To Action (CTA) Banner Section */}
-        <div
-          style={{
-            background: "linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)",
-            borderRadius: "24px",
-            padding: "40px 48px",
-            marginTop: "48px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "24px",
-            color: "#ffffff",
-          }}
-        >
-          <div>
-            <span style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "#93c5fd" }}>
-              CONTACT
-            </span>
-            <h2 style={{ fontSize: "26px", fontWeight: 800, margin: "8px 0 8px 0" }}>
-              Have questions or need assistance?
-            </h2>
-            <p style={{ fontSize: "15px", color: "#dbeafe", margin: 0, maxWidth: "550px" }}>
-              Reach out to our support team anytime. We are dedicated to providing prompt and reliable help for all PipeWyze users.
-            </p>
-          </div>
-          <a
-            href="mailto:pipewyze-admin@yopmail.com"
-            style={{
-              backgroundColor: "#3b82f6",
-              color: "#ffffff",
-              padding: "12px 28px",
-              borderRadius: "9999px",
-              fontWeight: 700,
-              fontSize: "15px",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              boxShadow: "0 4px 12px rgba(59, 130, 246, 0.35)",
-              transition: "transform 0.2s ease",
-            }}
-          >
-            Get Started
-            <Icon icon="lucide:arrow-up-right" style={{ fontSize: "18px" }} />
-          </a>
         </div>
       </main>
 
@@ -340,10 +273,6 @@ function PrivacyPolicy() {
 
           {/* Links */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px" }}>
-            <a href="mailto:pipewyze-admin@yopmail.com" style={{ color: "#64748b", textDecoration: "none" }}>
-              Contact
-            </a>
-            <span style={{ color: "#cbd5e1" }}>•</span>
             <Link to="/terms" style={{ color: "#64748b", textDecoration: "none" }}>
               Terms & Conditions
             </Link>
