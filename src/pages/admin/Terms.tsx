@@ -227,7 +227,7 @@ function TermsAndConditions() {
             <p style={{ margin: 0, fontSize: "14px", color: "#334155" }}>
               If you have any questions regarding these Terms & Conditions, please contact our legal team at{" "}
               <span style={{ color: "#1e293b", fontWeight: 600 }}>
-                PipeWyze@gmail.com
+                bdespard@aol.com
               </span>
               .
             </p>
