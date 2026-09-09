@@ -57,16 +57,18 @@ function Faqs() {
           background: #fff;
           border: 1px solid #e5e7eb;
           border-radius: 10px;
-          height: 40px;
-          max-width: 400px;
-          padding: 0 12px;
+          height: 44px;
+          width: 100%;
+          padding: 0 14px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         .searchgrp input {
           border: none;
           outline: none;
           width: 100%;
-          margin-left: 8px;
+          margin-left: 10px;
           font-size: 14px;
+          font-family: inherit;
         }
       `}</style>
 
@@ -93,6 +95,22 @@ function Faqs() {
             value={search}
             onChange={handleSearchChange}
           />
+          {search && (
+            <button
+              onClick={() => handleSearchChange({ target: { value: "" } } as any)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#9ca3af",
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Icon icon="lucide:x" style={{ fontSize: "18px" }} />
+            </button>
+          )}
         </div>
 
         {/* Content Area */}

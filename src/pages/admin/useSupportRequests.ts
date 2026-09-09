@@ -20,6 +20,7 @@ export function useSupportRequests() {
   const [requestsList, setRequestsList] = useState<ISupportRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [replying, setReplying] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Modals / Dialogs states
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
@@ -43,6 +44,23 @@ export function useSupportRequests() {
   useEffect(() => {
     fetchRequests();
   }, []);
+
+  const filteredRequests = requestsList.filter((req) => {
+    if (!searchTerm.trim()) return true;
+    const term = searchTerm.toLowerCase();
+    const name = `${req.firstName || ""} ${req.lastName || ""}`.toLowerCase();
+    const email = (req.email || "").toLowerCase();
+    const subject = (req.subject || "").toLowerCase();
+    const message = (req.message || "").toLowerCase();
+    const phone = (req.phone || "").toLowerCase();
+    return (
+      name.includes(term) ||
+      email.includes(term) ||
+      subject.includes(term) ||
+      message.includes(term) ||
+      phone.includes(term)
+    );
+  });
 
   const handleOpenReply = (req: ISupportRequest) => {
     setSelectedRequest(req);
@@ -73,7 +91,10 @@ export function useSupportRequests() {
   };
 
   return {
-    requestsList,
+    requestsList: filteredRequests,
+    rawRequestsList: requestsList,
+    searchTerm,
+    setSearchTerm,
     loading,
     replying,
     isReplyModalOpen,
