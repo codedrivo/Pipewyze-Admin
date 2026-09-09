@@ -232,7 +232,7 @@ function PrivacyPolicy() {
             <p style={{ margin: 0, fontSize: "14px", color: "#334155" }}>
               For any privacy-related inquiries, data requests, or compliance questions, please contact us directly at{" "}
               <span style={{ color: "#1e293b", fontWeight: 600 }}>
-                PipeWyze@gmail.com
+                bdespard@aol.com
               </span>
               .
             </p>
