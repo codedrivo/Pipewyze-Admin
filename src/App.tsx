@@ -43,6 +43,8 @@ const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
 const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
 const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
 const SupportRequestsPage = React.lazy(() => import("./pages/admin/SupportRequests"));
+const TermsPage = React.lazy(() => import("./pages/admin/Terms"));
+const PrivacyPage = React.lazy(() => import("./pages/admin/Privacy"));
 
 function App() {
   return (
@@ -83,6 +85,10 @@ function App() {
               <Route path='/admin/support' element={<SupportRequestsPage />} />
             </Route>
           </Route>
+          <Route path='/terms' element={<TermsPage />} />
+          <Route path='/privacy' element={<PrivacyPage />} />
+          <Route path='/admin/terms' element={<TermsPage />} />
+          <Route path='/admin/privacy' element={<PrivacyPage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />
