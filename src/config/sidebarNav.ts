@@ -34,6 +34,18 @@ const sidebarNav: SidebarNavItem[] = [
     icon: "lucide:wrench",
     text: "Equipment",
     role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/equipment",
+        icon: "lucide:wrench",
+        text: "Equipment List",
+      },
+      {
+        link: "/admin/equipment/categories",
+        icon: "lucide:tags",
+        text: "Categories",
+      },
+    ],
   },
   {
     link: "/admin/essential-tools",
@@ -55,6 +67,18 @@ const sidebarNav: SidebarNavItem[] = [
     icon: "lucide:book",
     text: "Plumbing Codes",
     role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/plumbing-codes",
+        icon: "lucide:book",
+        text: "Codes List",
+      },
+      {
+        link: "/admin/plumbing-codes/categories",
+        icon: "lucide:tags",
+        text: "Categories",
+      },
+    ],
   },
   {
     link: "/admin/training-videos",

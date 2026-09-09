@@ -41,40 +41,45 @@ function EditAiVideo() {
         </div>
 
         {/* Thumbnail Upload */}
-        <div className="profile-picture-upload">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleThumbnailChange}
-            style={{ display: "none" }}
-          />
-          <div
-            className="image-preview-wrap"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <img
-              src={thumbnailPreview || DEFAULT_IMAGE}
-              alt="Video Thumbnail"
-              className="image-preview-img"
-              onError={(e) => {
-                e.currentTarget.src = DEFAULT_IMAGE;
-              }}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
+          <span style={{ fontSize: "14px", color: "#4b5563", marginBottom: "8px", fontWeight: 600 }}>
+            Video Thumbnail
+          </span>
+          <div className="profile-picture-upload" style={{ marginTop: 0 }}>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleThumbnailChange}
+              style={{ display: "none" }}
             />
-            <div className="image-edit-overlay">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#fff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-              </svg>
+            <div
+              className="image-preview-wrap"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <img
+                src={thumbnailPreview || DEFAULT_IMAGE}
+                alt="Video Thumbnail"
+                className="image-preview-img"
+                onError={(e) => {
+                  e.currentTarget.src = DEFAULT_IMAGE;
+                }}
+              />
+              <div className="image-edit-overlay">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -138,6 +143,7 @@ function EditAiVideo() {
                 >
                   <option value="apprentice">Apprentice</option>
                   <option value="licensed-plumber">Licensed Plumber</option>
+                  <option value="home-owner">Home Owner</option>
                 </select>
                 {formik.touched.targetAudience && formik.errors.targetAudience && (
                   <div className="error" style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>

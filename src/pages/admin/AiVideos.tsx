@@ -37,7 +37,7 @@ function AiVideos() {
   } = useAiVideos();
 
   const filteredVideos = videosList.filter((v) =>
-    audienceFilter === "all" ? true : v.targetAudience === audienceFilter
+    audienceFilter.length === 0 ? true : audienceFilter.includes(v.targetAudience)
   );
 
   return (
@@ -62,7 +62,7 @@ function AiVideos() {
             marginBottom: "20px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
             <h2
               style={{
                 margin: 0,
@@ -73,24 +73,54 @@ function AiVideos() {
             >
               AI Videos
             </h2>
-            <select
-              value={audienceFilter}
-              onChange={(e) => setAudienceFilter(e.target.value)}
-              style={{
-                fontSize: "14px",
-                padding: "6px 12px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-                outline: "none",
-                cursor: "pointer",
-                backgroundColor: "#fff",
-                marginLeft: "15px",
-              }}
-            >
-              <option value="all">All Audiences</option>
-              <option value="apprentice">Apprentice</option>
-              <option value="licensed-plumber">Licensed Plumber</option>
-            </select>
+            <div style={{ display: "flex", gap: "15px", alignItems: "center", marginLeft: "20px" }}>
+              <span style={{ fontSize: "14px", fontWeight: 600, color: "#4b5563" }}>Audience:</span>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("apprentice")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "apprentice"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "apprentice"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Apprentice
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("licensed-plumber")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "licensed-plumber"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "licensed-plumber"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Licensed Plumber
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("home-owner")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "home-owner"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "home-owner"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Home Owner
+              </label>
+            </div>
           </div>
 
           <button
@@ -136,7 +166,6 @@ function AiVideos() {
                   <TableRow>
                     <TableCell align="left">Question</TableCell>
                     <TableCell align="left">Thumbnail</TableCell>
-                    <TableCell align="left">Title</TableCell>
                     <TableCell align="left">Video URL</TableCell>
                     <TableCell align="left">Audience</TableCell>
                     <TableCell align="left">Description</TableCell>
@@ -176,7 +205,7 @@ function AiVideos() {
                         >
                           <img
                             src={row.thumbnail || "/no_image.png"}
-                            alt={row.title}
+                            alt={row.questionId?.question || "Thumbnail"}
                             onError={(e) => {
                               e.currentTarget.src = "/no_image.png";
                             }}
@@ -186,11 +215,6 @@ function AiVideos() {
                               objectFit: "cover",
                             }}
                           />
-                        </div>
-                      </TableCell>
-                      <TableCell align="left">
-                        <div style={{ fontWeight: "bold", color: "#1f2937" }}>
-                          {row.title}
                         </div>
                       </TableCell>
                       <TableCell align="left">
@@ -213,9 +237,17 @@ function AiVideos() {
                             whiteSpace: "nowrap",
                             textTransform: "capitalize",
                             backgroundColor:
-                              row.targetAudience === "licensed-plumber" ? "#eff6ff" : "#f0fdf4",
+                              row.targetAudience === "licensed-plumber"
+                                ? "#eff6ff"
+                                : row.targetAudience === "home-owner"
+                                ? "#faf5ff"
+                                : "#f0fdf4",
                             color:
-                              row.targetAudience === "licensed-plumber" ? "#1e40af" : "#166534",
+                              row.targetAudience === "licensed-plumber"
+                                ? "#1e40af"
+                                : row.targetAudience === "home-owner"
+                                ? "#6b21a8"
+                                : "#166534",
                             padding: "6px 12px",
                             borderRadius: "20px",
                             fontSize: "12px",
@@ -225,6 +257,8 @@ function AiVideos() {
                         >
                           {row.targetAudience === "licensed-plumber"
                             ? "Licensed Plumber"
+                            : row.targetAudience === "home-owner"
+                            ? "Home Owner"
                             : "Apprentice"}
                         </span>
                       </TableCell>
