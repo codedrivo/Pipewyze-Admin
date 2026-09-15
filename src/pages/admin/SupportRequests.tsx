@@ -46,7 +46,7 @@ function SupportRequests() {
           display: flex;
           align-items: center;
           background: #fff;
-          border: 1px solid #e5e7eb;
+          border: 1px solid #d1d5db;
           border-radius: 10px;
           height: 44px;
           width: 100%;
@@ -54,12 +54,16 @@ function SupportRequests() {
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         .searchgrp-full input {
-          border: none;
-          outline: none;
+          border: none !important;
+          outline: none !important;
           width: 100%;
+          height: 100% !important;
           margin-left: 10px;
           font-size: 14px;
           font-family: inherit;
+          background: transparent !important;
+          color: #111827;
+          padding: 0 !important;
         }
       `}</style>
 
