@@ -53,7 +53,7 @@ function App() {
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path='/' element={<MainLayout />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<DashboardPage />} />
               <Route path='/admin/profile' element={<FormCus />} />
               <Route path='/admin/changePassword' element={<ChangePass />} />
               <Route path='/admin/dashboard' element={<DashboardPage />} />

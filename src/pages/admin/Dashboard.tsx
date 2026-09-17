@@ -6,14 +6,15 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { dashboardApi } from "../../service/apis/auth.api";
 import { userApi } from "../../service/apis/user.api";
+import { getHomeOwnerEquipment } from "../../service/apis/equipment.api";
+import { getEssentialTools } from "../../service/apis/essentialTool.api";
+import { getMaintenanceGuides } from "../../service/apis/maintenanceGuide.api";
+import { getPlumbingCodes } from "../../service/apis/plumbingCode.api";
+import { getSupportRequests } from "../../service/apis/support.api";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
-import BarChart from "../../components/chart/BarChart";
-import LineChart from "../../components/chart/LineChart";
-import data from "../../constants/data";
 
 /* ── Stat card config ── */
-const buildStats = (d: any) => {
-  // If the backend wraps the payload inside a `data` object, we access it correctly
+const buildStats = (d: any, counts: any) => {
   const payload = d?.data && d.data.totalUsers !== undefined ? d.data : d;
 
   return [
@@ -26,28 +27,44 @@ const buildStats = (d: any) => {
       link: "/admin/users",
     },
     {
-      icon: "mdi:cart-outline",
-      label: "Total Orders",
-      value: payload?.totalTransactions ?? "0",
-      color: "#10B981",
+      icon: "lucide:wrench",
+      label: "Equipment List",
+      value: counts.equipment ?? "0",
+      color: "#059669",
       bg: "#ECFDF5",
-      link: "/admin/order",
+      link: "/admin/equipment",
     },
     {
-      icon: "mdi:headset",
-      label: "Support Requests",
-      value: payload?.totalSupportRequests ?? "0",
-      color: "#F59E0B",
+      icon: "lucide:hammer",
+      label: "Essential Tools",
+      value: counts.essentialTools ?? "0",
+      color: "#D97706",
       bg: "#FFFBEB",
-      link: "/admin/contact",
+      link: "/admin/essential-tools",
     },
     {
-      icon: "mdi:cog-outline",
-      label: "Total Services",
-      value: payload?.totalReports ?? "0",
-      color: "#EF4444",
+      icon: "lucide:book-open",
+      label: "Maintenance Guide",
+      value: counts.maintenanceGuides ?? "0",
+      color: "#7C3AED",
+      bg: "#F3E8FF",
+      link: "/admin/maintenance-guides",
+    },
+    {
+      icon: "lucide:book",
+      label: "Plumbing Code",
+      value: counts.plumbingCodes ?? "0",
+      color: "#0284C7",
+      bg: "#E0F2FE",
+      link: "/admin/plumbing-codes",
+    },
+    {
+      icon: "lucide:message-square",
+      label: "Support Request",
+      value: counts.supportRequests ?? "0",
+      color: "#DC2626",
       bg: "#FEF2F2",
-      link: "/admin/services",
+      link: "/admin/support",
     },
   ];
 };
@@ -69,70 +86,32 @@ function Dashboard() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [ordersChartData, setOrdersChartData] = useState<any>({
-    labels: [],
-    datasets: [
-      {
-        label: "Orders",
-        data: [],
-        backgroundColor: "rgba(43, 85, 31, 0.75)",
-      },
-    ],
-  });
-
-  const [revenueChartData, setRevenueChartData] = useState<any>({
-    labels: [],
-    datasets: [
-      {
-        label: "Revenue ($)",
-        data: [],
-        borderColor: "#335AFF",
-        backgroundColor: "rgba(43, 85, 31, 0.08)",
-      },
-    ],
+  const [counts, setCounts] = useState({
+    equipment: 0,
+    essentialTools: 0,
+    maintenanceGuides: 0,
+    plumbingCodes: 0,
+    supportRequests: 0,
   });
 
   useEffect(() => {
     const load = async () => {
       try {
-        const [dash, userList] = await Promise.all([
-          dashboardApi({}),
-          userApi({ currentPage: 1, limit: 5 }),
-        ]);
-
-        console.log("FULL RESPONSE:", dash);
+        setLoading(true);
+        const [dash, userList, eqRes, toolsRes, guideRes, codeRes, suppRes] =
+          await Promise.all([
+            dashboardApi({}),
+            userApi({ currentPage: 1, limit: 5 }),
+            getHomeOwnerEquipment().catch(() => null),
+            getEssentialTools().catch(() => null),
+            getMaintenanceGuides().catch(() => null),
+            getPlumbingCodes().catch(() => null),
+            getSupportRequests().catch(() => null),
+          ]);
 
         if (dash?.status === 200) {
           const payload = dash.data || dash;
           setDashData(payload);
-
-          // Update Charts
-          if (payload.ordersChart) {
-            setOrdersChartData({
-              labels: payload.ordersChart.labels,
-              datasets: [
-                {
-                  label: "Orders",
-                  data: payload.ordersChart.data,
-                  backgroundColor: "rgba(43, 85, 31, 0.75)",
-                },
-              ],
-            });
-          }
-
-          if (payload.revenueChart) {
-            setRevenueChartData({
-              labels: payload.revenueChart.labels,
-              datasets: [
-                {
-                  label: "Revenue ($)",
-                  data: payload.revenueChart.data,
-                  borderColor: "#335AFF",
-                  backgroundColor: "rgba(43, 85, 31, 0.08)",
-                },
-              ],
-            });
-          }
         }
 
         if (userList?.status === 200) {
@@ -142,6 +121,20 @@ function Dashboard() {
         } else {
           setUsers([]);
         }
+
+        const eqList = eqRes?.equipment || eqRes?.data?.equipment || [];
+        const toolsList = toolsRes?.tools || toolsRes?.data?.tools || [];
+        const guideList = guideRes?.guides || guideRes?.data?.guides || [];
+        const codeList = codeRes?.codes || codeRes?.data?.codes || [];
+        const suppList = suppRes?.requests || suppRes?.data?.requests || [];
+
+        setCounts({
+          equipment: Array.isArray(eqList) ? eqList.length : 0,
+          essentialTools: Array.isArray(toolsList) ? toolsList.length : 0,
+          maintenanceGuides: Array.isArray(guideList) ? guideList.length : 0,
+          plumbingCodes: Array.isArray(codeList) ? codeList.length : 0,
+          supportRequests: Array.isArray(suppList) ? suppList.length : (dashData?.totalSupportRequests ?? 0),
+        });
       } catch (error) {
         console.error("Dashboard data load failed", error);
         setUsers([]);
@@ -153,12 +146,7 @@ function Dashboard() {
     load();
   }, []);
 
-  const stats = buildStats(dashData);
-  const today = new Date().toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const stats = buildStats(dashData, counts);
   const getUserPhone = (u: DashboardUser) => u.phoneNumber || u.phone || "—";
   const getUserAvatar = (u: DashboardUser) =>
     u.profileimageurl || "/default_profile.png";
@@ -198,18 +186,6 @@ function Dashboard() {
         ))}
       </div>
 
-      {/* ── Charts ── */}
-      <div className='admin-charts-row'>
-        <div className='admin-chart-card'>
-          <h3 className='admin-card-title'>Orders by Month</h3>
-          <BarChart chartData={ordersChartData} chartTitle='Orders by Month' />
-        </div>
-        <div className='admin-chart-card'>
-          <h3 className='admin-card-title'>Revenue Trend</h3>
-          <LineChart chartData={revenueChartData} />
-        </div>
-      </div>
-
       {/* ── Recent Users ── */}
       <div className='admin-table-card'>
         <div className='admin-table-head'>
@@ -226,14 +202,13 @@ function Dashboard() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                {/* <th>Status</th> */}
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className='admin-table-empty'>
+                  <td colSpan={5} className='admin-table-empty'>
                     No users found
                   </td>
                 </tr>
@@ -257,13 +232,6 @@ function Dashboard() {
                     </td>
                     <td>{u.email}</td>
                     <td>{getUserPhone(u)}</td>
-                    {/* <td>
-                      <span
-                        className={`admin-badge ${u.isAccountVerified ? "admin-badge--active" : "admin-badge--pending"}`}
-                      >
-                        {u.isAccountVerified ? "Verified" : "Pending"}
-                      </span>
-                    </td> */}
                     <td>
                       <Link
                         to={`/admin/users/update-user/${u._id || u.id}`}
@@ -284,3 +252,4 @@ function Dashboard() {
 }
 
 export default withRole(Dashboard, ["admin"]);
+
