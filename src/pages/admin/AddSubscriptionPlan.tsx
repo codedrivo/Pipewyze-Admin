@@ -334,28 +334,6 @@ function AddSubscriptionPlan() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "6px" }}>
-                    <span style={{ fontSize: "12px", color: "#6b7280", alignSelf: "center" }}>Quick Presets:</span>
-                    {["freemium", "standard", "professional", "enterprise"].map((preset) => (
-                      <button
-                        key={preset}
-                        type="button"
-                        onClick={() => formik.setFieldValue("tier", preset)}
-                        style={{
-                          background: formik.values.tier === preset ? "#2563eb" : "#f3f4f6",
-                          color: formik.values.tier === preset ? "#ffffff" : "#374151",
-                          border: "none",
-                          borderRadius: "12px",
-                          padding: "2px 10px",
-                          fontSize: "12px",
-                          cursor: "pointer",
-                          fontWeight: formik.values.tier === preset ? 600 : 400,
-                        }}
-                      >
-                        {preset}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="form-field-group" style={{ gridColumn: "1 / -1" }}>
