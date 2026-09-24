@@ -24,24 +24,64 @@ interface IChartData {
   datasets: {
     label: string;
     data: number[];
-    backgroundColor: string;
+    backgroundColor: string | string[];
+    borderRadius?: number;
   }[];
 }
 
-const BarChart: React.FC<{ chartData: IChartData; chartTitle: string }> = (
+const BarChart: React.FC<{ chartData: IChartData; chartTitle?: string }> = (
   props
 ) => {
   const { chartTitle } = props;
   const options = useMemo(
     () => ({
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: "center" as const,
+          position: "top" as const,
+          labels: {
+            font: {
+              size: 13,
+              weight: "600" as const,
+            },
+            color: "#334155",
+            usePointStyle: true,
+            boxWidth: 8,
+          },
         },
         title: {
-          display: true,
-          text: chartTitle,
+          display: !!chartTitle,
+          text: chartTitle || "",
+          color: "#0f172a",
+          font: { size: 14, weight: "bold" as const },
+        },
+        tooltip: {
+          backgroundColor: "#0f172a",
+          titleColor: "#f8fafc",
+          bodyColor: "#f8fafc",
+          padding: 12,
+          cornerRadius: 8,
+        },
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+          ticks: {
+            color: "#64748b",
+            font: { size: 12 },
+          },
+        },
+        y: {
+          grid: {
+            color: "#f1f5f9",
+          },
+          ticks: {
+            color: "#64748b",
+            font: { size: 12 },
+          },
         },
       },
     }),

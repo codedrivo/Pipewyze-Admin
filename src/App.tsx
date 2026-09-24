@@ -39,6 +39,12 @@ const EditTrainingVideoPage = React.lazy(() => import("./pages/admin/EditTrainin
 const AiVideosPage = React.lazy(() => import("./pages/admin/AiVideos"));
 const AddAiVideoPage = React.lazy(() => import("./pages/admin/AddAiVideo"));
 const EditAiVideoPage = React.lazy(() => import("./pages/admin/EditAiVideo"));
+const AiPromptsPage = React.lazy(() => import("./pages/admin/AiPrompts"));
+const SubscriptionPlansPage = React.lazy(() => import("./pages/admin/SubscriptionPlans"));
+const AddSubscriptionPlanPage = React.lazy(() => import("./pages/admin/AddSubscriptionPlan"));
+const EditSubscriptionPlanPage = React.lazy(() => import("./pages/admin/EditSubscriptionPlan"));
+const TransactionsPage = React.lazy(() => import("./pages/admin/Transactions"));
+const PaymentHistoryPage = React.lazy(() => import("./pages/admin/PaymentHistory"));
 const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
 const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
 const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
@@ -79,6 +85,12 @@ function App() {
               <Route path='/admin/ai-videos' element={<AiVideosPage />} />
               <Route path='/admin/ai-videos/add' element={<AddAiVideoPage />} />
               <Route path='/admin/ai-videos/edit/:id' element={<EditAiVideoPage />} />
+              <Route path='/admin/ai-prompts' element={<AiPromptsPage />} />
+              <Route path='/admin/subscription-plans' element={<SubscriptionPlansPage />} />
+              <Route path='/admin/subscription-plans/add' element={<AddSubscriptionPlanPage />} />
+              <Route path='/admin/subscription-plans/edit/:id' element={<EditSubscriptionPlanPage />} />
+              <Route path='/admin/transactions' element={<TransactionsPage />} />
+              <Route path='/admin/payment-history' element={<PaymentHistoryPage />} />
               <Route path='/admin/faqs' element={<FaqsPage />} />
               <Route path='/admin/add-faq' element={<AddFaqPage />} />
               <Route path='/admin/edit-faq/:id' element={<EditFaqPage />} />
