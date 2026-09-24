@@ -17,7 +17,7 @@ interface Props {
   name?: string;
   onChange?: (_event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (_event: React.FocusEvent<HTMLInputElement>) => void;
-  value?: string;
+  value?: string | number;
   errorMsg?: string;
   title?: string;
   autoComplete?: string;
@@ -27,7 +27,7 @@ interface Props {
 
 interface IImperativeHandler {
   focus: () => void;
-  value?: string;
+  value?: string | number;
 }
 
 const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {

@@ -12,6 +12,8 @@ import { getMaintenanceGuides } from "../../service/apis/maintenanceGuide.api";
 import { getPlumbingCodes } from "../../service/apis/plumbingCode.api";
 import { getSupportRequests } from "../../service/apis/support.api";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
+import LineChart from "../../components/chart/LineChart";
+import BarChart from "../../components/chart/BarChart";
 
 /* ── Stat card config ── */
 const buildStats = (d: any, counts: any) => {
@@ -25,6 +27,14 @@ const buildStats = (d: any, counts: any) => {
       color: "#3B82F6",
       bg: "#EFF6FF",
       link: "/admin/users",
+    },
+    {
+      icon: "lucide:receipt",
+      label: "Transactions",
+      value: payload?.totalTransactions ?? "0",
+      color: "#2563EB",
+      bg: "#DBEAFE",
+      link: "/admin/transactions",
     },
     {
       icon: "lucide:wrench",
@@ -60,7 +70,7 @@ const buildStats = (d: any, counts: any) => {
     },
     {
       icon: "lucide:message-square",
-      label: "Support Request",
+      label: "Support Requests",
       value: counts.supportRequests ?? "0",
       color: "#DC2626",
       bg: "#FEF2F2",
@@ -78,6 +88,7 @@ type DashboardUser = {
   _id?: string;
   id?: string;
   email?: string;
+  subscriptionTier?: string;
 };
 
 function Dashboard() {
@@ -151,93 +162,270 @@ function Dashboard() {
   const getUserAvatar = (u: DashboardUser) =>
     u.profileimageurl || "/default_profile.png";
 
+  const payloadData = dashData?.data || dashData || {};
+
+  const revenueChartData = {
+    labels: payloadData.revenueChart?.labels || ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Monthly Revenue ($)",
+        data: payloadData.revenueChart?.data || [0, 0, 0, 0, 0, 0],
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.12)",
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  const tierChartData = {
+    labels: payloadData.tierChart?.labels || ["Free Tier", "Standard Tier", "Premium Tier"],
+    datasets: [
+      {
+        label: "Subscribers",
+        data: payloadData.tierChart?.data || [
+          payloadData.tierStats?.freemium || 0,
+          payloadData.tierStats?.standard || 0,
+          payloadData.tierStats?.professional || 0,
+        ],
+        backgroundColor: ["#94a3b8", "#2563eb", "#ff8400"],
+        borderRadius: 6,
+      },
+    ],
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className='admin-dash'>
+    <div className='admin-dash' style={{ padding: "24px" }}>
       {/* ── Header ── */}
-      <div className='admin-dash-header'>
+      <div className='admin-dash-header' style={{ marginBottom: "24px" }}>
         <div>
-          <h1 className='admin-dash-title'>Dashboard</h1>
-          <p className='admin-dash-sub'>
+          <h1 className='admin-dash-title' style={{ fontSize: "28px", fontWeight: 800, margin: 0 }}>
+            Dashboard Overview
+          </h1>
+          <p className='admin-dash-sub' style={{ margin: "4px 0 0 0", color: "#64748b" }}>
             Welcome back, <strong>{user?.fullName ?? "Admin"}</strong>
           </p>
         </div>
       </div>
 
       {/* ── Stat cards ── */}
-      <div className='admin-stat-grid'>
+      <div
+        className='admin-stat-grid'
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "16px",
+          marginBottom: "28px",
+        }}
+      >
         {stats.map((s, i) => (
-          <Link to={s.link} className='admin-stat-card' key={i}>
-            <div className='admin-stat-icon' style={{ background: s.bg }}>
-              <Icon icon={s.icon} width={26} color={s.color} />
+          <Link
+            to={s.link}
+            className='admin-stat-card'
+            key={i}
+            style={{
+              background: "#ffffff",
+              borderRadius: "14px",
+              padding: "20px",
+              border: "1px solid #e2e8f0",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+              display: "flex",
+              alignItems: "center",
+              textDecoration: "none",
+              gap: "14px",
+            }}
+          >
+            <div
+              className='admin-stat-icon'
+              style={{
+                background: s.bg,
+                borderRadius: "12px",
+                width: "48px",
+                height: "48px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon icon={s.icon} width={24} color={s.color} />
             </div>
-            <div className='admin-stat-body'>
-              <p className='admin-stat-value'>{s.value}</p>
-              <p className='admin-stat-label'>{s.label}</p>
+            <div className='admin-stat-body' style={{ flex: 1 }}>
+              <p
+                className='admin-stat-value'
+                style={{ margin: 0, fontSize: "22px", fontWeight: 800, color: "#0f172a" }}
+              >
+                {s.value}
+              </p>
+              <p
+                className='admin-stat-label'
+                style={{ margin: 0, fontSize: "13px", color: "#64748b" }}
+              >
+                {s.label}
+              </p>
             </div>
-            <Icon
-              icon='mdi:chevron-right'
-              width={20}
-              className='admin-stat-arrow'
-              color='#aaa'
-            />
           </Link>
         ))}
       </div>
 
-      {/* ── Recent Users ── */}
-      <div className='admin-table-card'>
-        <div className='admin-table-head'>
-          <h3 className='admin-card-title'>Recent Users</h3>
-          <Link to='/admin/users' className='admin-view-all'>
-            View All →
+      {/* ── Monthly Revenue & User Tier Charts ── */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+          gap: "24px",
+          marginBottom: "28px",
+        }}
+      >
+        {/* Monthly Revenue Review Chart */}
+        <div
+          style={{
+            background: "#ffffff",
+            borderRadius: "16px",
+            padding: "24px",
+            border: "1px solid #e2e8f0",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+          }}
+        >
+          <div style={{ marginBottom: "16px" }}>
+            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>
+              Monthly Revenue Review ($)
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Subscription revenue trajectory across recent months
+            </p>
+          </div>
+          <div style={{ height: "260px" }}>
+            <LineChart chartData={revenueChartData} />
+          </div>
+        </div>
+
+        {/* User Plan Distribution Chart */}
+        <div
+          style={{
+            background: "#ffffff",
+            borderRadius: "16px",
+            padding: "24px",
+            border: "1px solid #e2e8f0",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+          }}
+        >
+          <div style={{ marginBottom: "16px" }}>
+            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>
+              User Plan Distribution
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Active users grouped by Free, Standard, and Premium plans
+            </p>
+          </div>
+          <div style={{ height: "260px" }}>
+            <BarChart chartTitle='' chartData={tierChartData} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Recent Registered Users Table ── */}
+      <div
+        className='admin-table-card'
+        style={{
+          background: "#ffffff",
+          borderRadius: "16px",
+          padding: "24px",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+        }}
+      >
+        <div
+          className='admin-table-head'
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px",
+          }}
+        >
+          <div>
+            <h3 className='admin-card-title' style={{ margin: 0, fontSize: "18px", fontWeight: 700 }}>
+              Recent Registered Users
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Latest account signups
+            </p>
+          </div>
+          <Link
+            to='/admin/users'
+            className='admin-view-all'
+            style={{ color: "#2563eb", fontWeight: 600, textDecoration: "none", fontSize: "14px" }}
+          >
+            View All Users →
           </Link>
         </div>
-        <div className='admin-table-wrap'>
-          <table className='admin-table'>
+        <div className='admin-table-wrap' style={{ overflowX: "auto" }}>
+          <table className='admin-table' style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Action</th>
+              <tr style={{ background: "#f8fafc", textAlign: "left", fontSize: "13px", color: "#64748b" }}>
+                <th style={{ padding: "12px" }}>#</th>
+                <th style={{ padding: "12px" }}>Name</th>
+                <th style={{ padding: "12px" }}>Email</th>
+                <th style={{ padding: "12px" }}>Phone</th>
+                <th style={{ padding: "12px" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className='admin-table-empty'>
+                  <td colSpan={5} className='admin-table-empty' style={{ padding: "20px", textAlign: "center" }}>
                     No users found
                   </td>
                 </tr>
               ) : (
                 users.map((u, i) => (
-                  <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>
-                      <div className='admin-user-cell'>
-                        <div className='admin-user-avatar'>
+                  <tr key={i} style={{ borderBottom: "1px solid #f1f5f9", fontSize: "14px" }}>
+                    <td style={{ padding: "12px" }}>{i + 1}</td>
+                    <td style={{ padding: "12px" }}>
+                      <div className='admin-user-cell' style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <div
+                          className='admin-user-avatar'
+                          style={{
+                            width: "36px",
+                            height: "36px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            background: "#e2e8f0",
+                          }}
+                        >
                           <img
                             src={getUserAvatar(u)}
                             alt={`${u.firstName || "User"} profile`}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             onError={(e) => {
                               e.currentTarget.src = "/default_profile.png";
                             }}
                           />
                         </div>
-                        {u.firstName} {u.lastName}
+                        <span style={{ fontWeight: 600, color: "#0f172a" }}>
+                          {u.firstName} {u.lastName}
+                        </span>
                       </div>
                     </td>
-                    <td>{u.email}</td>
-                    <td>{getUserPhone(u)}</td>
-                    <td>
+                    <td style={{ padding: "12px", color: "#475569" }}>{u.email}</td>
+                    <td style={{ padding: "12px", color: "#64748b" }}>{getUserPhone(u)}</td>
+                    <td style={{ padding: "12px" }}>
                       <Link
                         to={`/admin/users/update-user/${u._id || u.id}`}
                         className='admin-btn-view'
+                        style={{
+                          backgroundColor: "#f1f5f9",
+                          color: "#2563eb",
+                          padding: "6px 14px",
+                          borderRadius: "6px",
+                          textDecoration: "none",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
                       >
-                        View
+                        View Profile
                       </Link>
                     </td>
                   </tr>
@@ -252,4 +440,3 @@ function Dashboard() {
 }
 
 export default withRole(Dashboard, ["admin"]);
-

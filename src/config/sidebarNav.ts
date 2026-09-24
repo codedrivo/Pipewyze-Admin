@@ -107,6 +107,27 @@ const sidebarNav: SidebarNavItem[] = [
     role: ["admin"],
   },
   {
+    link: "/admin/subscription-plans",
+    section: "subscription-plans",
+    icon: "lucide:credit-card",
+    text: "Subscription Plans",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/transactions",
+    section: "transactions",
+    icon: "lucide:receipt",
+    text: "Transactions",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/payment-history",
+    section: "payment-history",
+    icon: "lucide:history",
+    text: "Payment History",
+    role: ["admin"],
+  },
+  {
     link: "/admin/faqs",
     section: "faqs",
     icon: "lucide:help-circle",
