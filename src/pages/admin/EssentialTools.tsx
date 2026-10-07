@@ -50,7 +50,7 @@ function EssentialTools() {
         <div className='gc-profile-flex' style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <h2 style={{ margin: 0, fontSize: "24px", color: "#111827", fontFamily: "'DM Sans', sans-serif" }}>
-              Homeowner Essential Tools
+              Essential Tools
             </h2>
           </div>
 
@@ -80,20 +80,21 @@ function EssentialTools() {
           </div>
         ) : (
           <div className='usertabledata'>
-            <TableContainer className={dataTable.tbodymain} component={Paper}>
+            <TableContainer className={dataTable.tbodymain} component={Paper} style={{ overflowX: "hidden" }}>
               <Table
-                sx={{ minWidth: 1000 }}
+                sx={{ width: "100%", tableLayout: "fixed" }}
                 aria-label='essential tools list table'
                 style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell align='left'>Image</TableCell>
-                    <TableCell align='left'>Name</TableCell>
-                    <TableCell align='left'>Description</TableCell>
-                    <TableCell align='left'>Tag</TableCell>
-                    <TableCell align='left'>Recommendation Link</TableCell>
-                    <TableCell align='center'>Actions</TableCell>
+                    <TableCell align='left' style={{ width: "70px" }}>Image</TableCell>
+                    <TableCell align='left' style={{ width: "15%" }}>Name</TableCell>
+                    <TableCell align='left' style={{ width: "13%" }}>Audience</TableCell>
+                    <TableCell align='left' style={{ width: "26%" }}>Description</TableCell>
+                    <TableCell align='left' style={{ width: "15%" }}>Tag</TableCell>
+                    <TableCell align='left' style={{ width: "18%" }}>Recommendation Link</TableCell>
+                    <TableCell align='center' style={{ width: "13%" }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -108,8 +109,8 @@ function EssentialTools() {
                       <TableCell align='left'>
                         <div
                           style={{
-                            width: "60px",
-                            height: "60px",
+                            width: "50px",
+                            height: "50px",
                             borderRadius: "8px",
                             overflow: "hidden",
                             background: "#f3f4f6",
@@ -129,32 +130,81 @@ function EssentialTools() {
                           />
                         </div>
                       </TableCell>
-                      <TableCell align='left'>
+                      <TableCell align='left' style={{ wordBreak: "break-word" }}>
                         <div style={{ fontWeight: "bold", color: "#1f2937" }}>
                           {row.name}
                         </div>
                       </TableCell>
-                      <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {row.description}
-                        </div>
+                      <TableCell align='left'>
+                        <span
+                          style={{
+                            background: row.audience === "apprentice" ? "#ecfdf5" : row.audience === "licensed-plumber" ? "#fef3c7" : "#eff6ff",
+                            color: row.audience === "apprentice" ? "#047857" : row.audience === "licensed-plumber" ? "#b45309" : "#1d4ed8",
+                            padding: "4px 10px",
+                            borderRadius: "9999px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            display: "inline-block",
+                            maxWidth: "100%",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {row.audience === "home-owner"
+                            ? "Homeowner"
+                            : row.audience === "apprentice"
+                            ? "Apprentice"
+                            : row.audience === "licensed-plumber"
+                            ? "Licensed Plumber"
+                            : "Homeowner"}
+                        </span>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <div 
+                          style={{
+                            color: "#4b5563",
+                            fontSize: "13px",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            wordBreak: "break-word",
+                          }} 
+                          title={row.description ? row.description.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.description || "" }}
+                        />
                       </TableCell>
                       <TableCell align='left'>
                         {row.tag ? (
-                          <span
-                            style={{
-                              background: "#eff6ff",
-                              color: "#2563eb",
-                              padding: "4px 10px",
-                              borderRadius: "9999px",
-                              fontSize: "12px",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {row.tag}
-                          </span>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", alignItems: "center" }}>
+                            {(typeof row.tag === "string" ? row.tag.split(",") : Array.isArray(row.tag) ? row.tag : [String(row.tag)])
+                              .map((t) => t.trim())
+                              .filter(Boolean)
+                              .map((tagText, idx) => (
+                                <span
+                                  key={idx}
+                                  style={{
+                                    backgroundColor: "#eef2ff",
+                                    color: "#4338ca",
+                                    border: "1px solid #c7d2fe",
+                                    padding: "3px 8px",
+                                    borderRadius: "6px",
+                                    fontSize: "11px",
+                                    fontWeight: 600,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                    wordBreak: "break-word",
+                                  }}
+                                >
+                                  {tagText}
+                                </span>
+                              ))}
+                          </div>
                         ) : (
-                          "—"
+                          <span style={{ color: "#94a3b8", fontSize: "13px" }}>—</span>
                         )}
                       </TableCell>
                       <TableCell align='left'>
@@ -163,12 +213,21 @@ function EssentialTools() {
                             href={row.recommendationLink.startsWith("http") ? row.recommendationLink : `https://${row.recommendationLink}`}
                             target='_blank'
                             rel='noopener noreferrer'
-                            style={{ color: "#2563eb", textDecoration: "underline" }}
+                            style={{
+                              color: "#2563eb",
+                              textDecoration: "underline",
+                              fontSize: "13px",
+                              wordBreak: "break-all",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                            }}
                           >
                             {row.recommendationLink}
                           </a>
                         ) : (
-                          "—"
+                          <span style={{ color: "#94a3b8", fontSize: "13px" }}>—</span>
                         )}
                       </TableCell>
                       <TableCell align='center'>
@@ -192,7 +251,7 @@ function EssentialTools() {
                             />
                           </p>
                           <p
-                            className={dataTable.edit}
+                            className={dataTable.delete}
                             onClick={() => handleDeleteClick(row.id || row._id)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
                             title="Delete"

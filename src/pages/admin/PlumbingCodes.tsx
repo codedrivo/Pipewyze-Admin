@@ -55,13 +55,6 @@ function PlumbingCodes() {
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              className='custom-button code-add-btn'
-              style={{ backgroundColor: "#4b5563" }}
-              onClick={() => navigate("/admin/plumbing-codes/categories")}
-            >
-              Manage Categories
-            </button>
             <button className='custom-button code-add-btn' onClick={() => navigate("/admin/plumbing-codes/add")}>
               Add Plumbing Code
             </button>
@@ -89,21 +82,20 @@ function PlumbingCodes() {
           </div>
         ) : (
           <div className='usertabledata'>
-            <TableContainer className={dataTable.tbodymain} component={Paper}>
+            <TableContainer className={dataTable.tbodymain} component={Paper} style={{ overflowX: "hidden" }}>
               <Table
-                sx={{ minWidth: 1000 }}
+                sx={{ width: "100%", tableLayout: "fixed" }}
                 aria-label='plumbing codes list table'
                 style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell align='left'>Code Identifier</TableCell>
-                    <TableCell align='left'>Title</TableCell>
-                    <TableCell align='left'>Category</TableCell>
-                    <TableCell align='left'>Description</TableCell>
-                    <TableCell align='left'>Plain Language Interpretation</TableCell>
-                    <TableCell align='left'>Document / Link</TableCell>
-                    <TableCell align='center'>Actions</TableCell>
+                    <TableCell align='left' style={{ width: "14%" }}>Code Identifier</TableCell>
+                    <TableCell align='left' style={{ width: "18%" }}>Title</TableCell>
+                    <TableCell align='left' style={{ width: "16%" }}>Category</TableCell>
+                    <TableCell align='left' style={{ width: "24%" }}>Description</TableCell>
+                    <TableCell align='left' style={{ width: "20%" }}>Plain Language Interpretation</TableCell>
+                    <TableCell align='center' style={{ width: "8%" }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -116,44 +108,87 @@ function PlumbingCodes() {
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
                     >
-                      <TableCell align='left'>
+                      <TableCell align='left' style={{ wordBreak: "break-word" }}>
                         <div style={{ fontWeight: "bold", color: "#1f2937" }}>
                           {row.code}
                         </div>
                       </TableCell>
-                      <TableCell align='left'>
+                      <TableCell align='left' style={{ wordBreak: "break-word" }}>
                         <div style={{ fontWeight: 600, color: "#374151" }}>
                           {row.title}
                         </div>
                       </TableCell>
                       <TableCell align='left'>
-                        <span
-                          style={{
-                            background: "#eff6ff",
-                            color: "#2563eb",
-                            padding: "4px 10px",
-                            borderRadius: "9999px",
-                            fontSize: "12px",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {row.category}
-                        </span>
-                      </TableCell>
-                      <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.description}>
-                          {row.description}
-                        </div>
-                        {row.exception && (
-                          <div style={{ color: "#dc2626", fontSize: "12px", marginTop: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.exception}>
-                            <strong>Exception:</strong> {row.exception}
-                          </div>
+                        {row.categoryFullName || row.category ? (
+                          <span
+                            style={{
+                              backgroundColor: "#f0fdf4",
+                              color: "#166534",
+                              border: "1px solid #bbf7d0",
+                              padding: "4px 10px",
+                              borderRadius: "8px",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "5px",
+                              wordBreak: "break-word",
+                            }}
+                          >
+                            {row.categoryFullName || row.category}
+                          </span>
+                        ) : (
+                          <span style={{ color: "#94a3b8", fontSize: "13px" }}>—</span>
                         )}
                       </TableCell>
-                      <TableCell align='left' style={{ maxWidth: "250px" }}>
-                        <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.plainLanguageInterpretation}>
-                          {row.plainLanguageInterpretation}
-                        </div>
+                      <TableCell align='left'>
+                        <div
+                          style={{
+                            color: "#4b5563",
+                            fontSize: "13px",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            wordBreak: "break-word",
+                          }}
+                          title={row.description ? row.description.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.description || "" }}
+                        />
+                        {row.exception && (
+                          <div
+                            style={{
+                              color: "#dc2626",
+                              fontSize: "12px",
+                              marginTop: "4px",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 1,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              wordBreak: "break-word",
+                            }}
+                            title={row.exception ? row.exception.replace(/<[^>]*>/g, "") : ""}
+                            dangerouslySetInnerHTML={{ __html: `<strong>Exception:</strong> ${row.exception}` }}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell align='left'>
+                        <div
+                          style={{
+                            color: "#4b5563",
+                            fontSize: "13px",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            wordBreak: "break-word",
+                          }}
+                          title={row.plainLanguageInterpretation ? row.plainLanguageInterpretation.replace(/<[^>]*>/g, "") : ""}
+                          dangerouslySetInnerHTML={{ __html: row.plainLanguageInterpretation || "" }}
+                        />
                       </TableCell>
                       <TableCell align='left' style={{ maxWidth: "200px" }}>
                         {(() => {
@@ -205,7 +240,7 @@ function PlumbingCodes() {
                             />
                           </p>
                           <p
-                            className={dataTable.edit}
+                            className={dataTable.delete}
                             onClick={() => handleDeleteClick(row.id || row._id)}
                             style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
                             title="Delete"

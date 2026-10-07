@@ -23,9 +23,7 @@ export interface IPlumbingCode {
   description: string;
   exception?: string;
   plainLanguageInterpretation: string;
-  documentName?: string;
-  documentUrl?: string;
-  documents?: IDocumentItem[];
+  categoryFullName?: string;
   createdAt?: string;
 }
 

@@ -1,0 +1,374 @@
+import React from "react";
+import { Icon } from "@iconify/react";
+import { useAiVideos } from "./useAiVideos";
+import { useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
+import withRole from "../withRole";
+import dataTable from "../../components/tables/customTable/datatable.module.scss";
+import del from "../../assets/images/ic_outline-delete.png";
+import delt from "../../assets/images/delete.png";
+
+function AiVideos() {
+  const navigate = useNavigate();
+  const {
+    videosList,
+    loading,
+    openDeleteDialog,
+    handleDeleteClick,
+    handleCloseDelete,
+    handleDeleteConfirm,
+    audienceFilter,
+    setAudienceFilter,
+  } = useAiVideos();
+
+  const filteredVideos = videosList.filter((v) =>
+    audienceFilter.length === 0 ? true : audienceFilter.includes(v.targetAudience)
+  );
+
+  return (
+    <div style={{ position: "relative" }} className="dsp">
+      {loading ? <LoadingSpinner /> : null}
+
+      <style>{`
+        .guide-add-btn {
+          width: auto !important;
+          margin-top: 0 !important;
+        }
+      `}</style>
+
+      <div className={dataTable.datatablemainwrap}>
+        {/* Header */}
+        <div
+          className="gc-profile-flex"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: "24px",
+                color: "#111827",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            >
+              AI Videos
+            </h2>
+            <div style={{ display: "flex", gap: "15px", alignItems: "center", marginLeft: "20px" }}>
+              <span style={{ fontSize: "14px", fontWeight: 600, color: "#4b5563" }}>Audience:</span>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("apprentice")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "apprentice"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "apprentice"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Apprentice
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("licensed-plumber")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "licensed-plumber"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "licensed-plumber"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Licensed Plumber
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "#374151" }}>
+                <input
+                  type="checkbox"
+                  checked={audienceFilter.includes("home-owner")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAudienceFilter([...audienceFilter, "home-owner"]);
+                    } else {
+                      setAudienceFilter(audienceFilter.filter((a) => a !== "home-owner"));
+                    }
+                  }}
+                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                />
+                Home Owner
+              </label>
+            </div>
+          </div>
+
+          <button
+            className="custom-button guide-add-btn"
+            style={{ width: "auto", marginTop: 0 }}
+            onClick={() => navigate("/admin/ai-videos/add")}
+          >
+            Add AI Video
+          </button>
+        </div>
+
+        {/* Content Area */}
+        {filteredVideos.length === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "80px 20px",
+              background: "#ffffff",
+              borderRadius: "24px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <Icon
+              icon="lucide:video"
+              style={{ fontSize: "48px", color: "#9ca3af", marginBottom: "12px" }}
+            />
+            <p style={{ color: "#4b5563", fontSize: "16px", fontWeight: 500, margin: 0 }}>
+              No AI videos registered yet
+            </p>
+          </div>
+        ) : (
+          <div className="usertabledata">
+            <TableContainer className={dataTable.tbodymain} component={Paper}>
+              <Table
+                sx={{ minWidth: 1000 }}
+                aria-label="ai videos list table"
+                style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">Question</TableCell>
+                    <TableCell align="left">Thumbnail</TableCell>
+                    <TableCell align="left">Video URL</TableCell>
+                    <TableCell align="left">Audience</TableCell>
+                    <TableCell align="left">Description</TableCell>
+                    <TableCell align="center">Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody className={dataTable.tbodywrap}>
+                  {filteredVideos.map((row) => (
+                    <TableRow
+                      key={row.id || row._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="left" style={{ maxWidth: "250px" }}>
+                        <div
+                          style={{
+                            fontWeight: 600,
+                            color: "#374151",
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                          }}
+                        >
+                          {row.questionId?.question || "—"}
+                        </div>
+                      </TableCell>
+                      <TableCell align="left">
+                        <div
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            background: "#f3f4f6",
+                          }}
+                        >
+                          <img
+                            src={row.thumbnail || "/no_image.png"}
+                            alt={row.questionId?.question || "Thumbnail"}
+                            onError={(e) => {
+                              e.currentTarget.src = "/no_image.png";
+                            }}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell align="left">
+                        <div
+                          style={{
+                            color: "#2563eb",
+                            textDecoration: "underline",
+                            wordBreak: "break-all",
+                          }}
+                        >
+                          <a href={row.videoUrl} target="_blank" rel="noopener noreferrer">
+                            {row.videoUrl}
+                          </a>
+                        </div>
+                      </TableCell>
+                      <TableCell align="left">
+                        <span
+                          style={{
+                            display: "inline-block",
+                            whiteSpace: "nowrap",
+                            textTransform: "capitalize",
+                            backgroundColor:
+                              row.targetAudience === "licensed-plumber"
+                                ? "#eff6ff"
+                                : row.targetAudience === "home-owner"
+                                ? "#faf5ff"
+                                : "#f0fdf4",
+                            color:
+                              row.targetAudience === "licensed-plumber"
+                                ? "#1e40af"
+                                : row.targetAudience === "home-owner"
+                                ? "#6b21a8"
+                                : "#166534",
+                            padding: "6px 12px",
+                            borderRadius: "20px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            textAlign: "center",
+                          }}
+                        >
+                          {row.targetAudience === "licensed-plumber"
+                            ? "Licensed Plumber"
+                            : row.targetAudience === "home-owner"
+                            ? "Home Owner"
+                            : "Apprentice"}
+                        </span>
+                      </TableCell>
+                      <TableCell align="left">
+                        <div
+                          style={{
+                            color: "#4b5563",
+                            maxWidth: "200px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {row.description || "—"}
+                        </div>
+                      </TableCell>
+                      <TableCell align="center">
+                        <div
+                          className={dataTable.actionwrap}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <p
+                            className={dataTable.edit}
+                            onClick={() => navigate(`/admin/ai-videos/edit/${row._id || row.id}`)}
+                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#3b82f6" }}
+                            title="Edit"
+                          >
+                            <Icon
+                              icon="mdi:pencil-outline"
+                              style={{ fontSize: "20px", color: "#fff" }}
+                            />
+                          </p>
+                          <p
+                            className={dataTable.delete}
+                            onClick={() => handleDeleteClick(row.id || row._id)}
+                            style={{
+                              cursor: "pointer",
+                              margin: 0,
+                              backgroundColor: "#ef4444",
+                            }}
+                            title="Delete"
+                          >
+                            <img src={del} alt="Delete" style={{ width: "20px" }} />
+                          </p>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
+      </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        sx={{
+          "& .MuiPaper-root": {
+            borderRadius: "35px",
+            overflowY: "inherit",
+            padding: "40px",
+            maxWidth: "562px",
+          },
+        }}
+        maxWidth="md"
+        fullWidth
+        className={dataTable.custommodal}
+        open={openDeleteDialog}
+        onClose={handleCloseDelete}
+      >
+        <div className={dataTable.modalimg} style={{ textAlign: "center", marginBottom: "20px" }}>
+          <img src={delt} alt="Delete Confirmation" style={{ width: "80px" }} />
+        </div>
+        <DialogTitle
+          style={{
+            textAlign: "center",
+            fontSize: "32px",
+            color: "#000",
+            fontWeight: "700",
+          }}
+        >
+          {"Delete AI Video"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            style={{
+              textAlign: "center",
+              color: "#676767",
+              fontSize: "16px",
+            }}
+          >
+            {"Are you sure you want to delete this AI video? This action cannot be undone."}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{ justifyContent: "center", gap: "15px", marginTop: "10px" }}>
+          <Button onClick={handleCloseDelete} className="btn-cancel" style={{ border: "1px solid #ccc", borderRadius: "20px", padding: "8px 25px", textTransform: "none", color: "#666" }}>
+            {"Cancel"}
+          </Button>
+          <Button onClick={handleDeleteConfirm} className="btn" style={{ background: "#EF4444", color: "#fff", borderRadius: "20px", padding: "8px 25px", textTransform: "none" }}>
+            {"Delete"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+export default withRole(AiVideos, ["admin"]);

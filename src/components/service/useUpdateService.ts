@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { decodeHTMLEntities } from "../../utils/htmlDecoder";
 import {
   getPlansForDropdownApi,
   getServiceDetailsApi,
@@ -169,9 +170,9 @@ export const useUpdateService = (id?: string) => {
                 .filter(Boolean)
                 .join(", ")
             : serviceData?.features || "",
-          overview: serviceData?.overview || "",
-          whatWeWillDo: serviceData?.whatWeWillDo || "",
-          whatWeNeedFromYou: serviceData?.whatWeNeedFromYou || "",
+          overview: decodeHTMLEntities(serviceData?.overview || ""),
+          whatWeWillDo: decodeHTMLEntities(serviceData?.whatWeWillDo || ""),
+          whatWeNeedFromYou: decodeHTMLEntities(serviceData?.whatWeNeedFromYou || ""),
           image:
             serviceData?.image ||
             serviceData?.imageUrl ||

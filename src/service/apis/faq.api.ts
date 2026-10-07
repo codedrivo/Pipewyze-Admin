@@ -15,7 +15,6 @@ export const getFaqByIdApi = async (id: string) => {
 export const addFaqApi = async (data: {
   question: string;
   answer: string;
-  category: string;
 }) => {
   const response = await httpsCall.post("admin/faq/add-faq", data);
   return response.data;
@@ -23,7 +22,7 @@ export const addFaqApi = async (data: {
 
 export const updateFaqApi = async (
   id: string,
-  data: { question: string; answer: string; category: string }
+  data: { question: string; answer: string }
 ) => {
   const response = await httpsCall.patch(`admin/faq/update-faq/${id}`, data);
   return response.data;

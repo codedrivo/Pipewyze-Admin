@@ -37,6 +37,7 @@ export function useEditEssentialTool() {
             recommendationLink: tool.recommendationLink || "",
             purpose: tool.purpose || "",
             recommendedVideo: tool.recommendedVideo || "",
+            audience: tool.audience || "home-owner",
           },
         });
 
@@ -64,6 +65,7 @@ export function useEditEssentialTool() {
     recommendationLink: yup.string().optional(),
     purpose: yup.string().optional(),
     recommendedVideo: yup.string().optional(),
+    audience: yup.string().required("Audience is required"),
   });
 
   const formik = useFormik({
@@ -74,6 +76,7 @@ export function useEditEssentialTool() {
       recommendationLink: "",
       purpose: "",
       recommendedVideo: "",
+      audience: "home-owner",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -92,6 +95,7 @@ export function useEditEssentialTool() {
         formData.append("recommendationLink", values.recommendationLink || "");
         formData.append("purpose", values.purpose || "");
         formData.append("recommendedVideo", values.recommendedVideo || "");
+        formData.append("audience", values.audience);
         formData.append("bestUsedFor", JSON.stringify(filteredBestUsedFor));
         formData.append("howToUse", JSON.stringify(filteredHowToUse));
         formData.append("safetyTips", JSON.stringify(filteredSafetyTips));

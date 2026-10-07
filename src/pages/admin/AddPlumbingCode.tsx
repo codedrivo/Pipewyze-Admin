@@ -57,7 +57,7 @@ function AddPlumbingCode() {
                   <option value='' disabled>Select Category</option>
                   {categories.map((cat) => (
                     <option key={cat._id || cat.id} value={cat.name}>
-                      {cat.name}
+                      {cat.name} - {cat.fullName}
                     </option>
                   ))}
                 </select>

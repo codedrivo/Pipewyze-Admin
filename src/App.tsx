@@ -33,6 +33,24 @@ const PlumbingCodesPage = React.lazy(() => import("./pages/admin/PlumbingCodes")
 const AddPlumbingCodePage = React.lazy(() => import("./pages/admin/AddPlumbingCode"));
 const EditPlumbingCodePage = React.lazy(() => import("./pages/admin/EditPlumbingCode"));
 const PlumbingCodeCategoriesPage = React.lazy(() => import("./pages/admin/PlumbingCodeCategories"));
+const TrainingVideosPage = React.lazy(() => import("./pages/admin/TrainingVideos"));
+const AddTrainingVideoPage = React.lazy(() => import("./pages/admin/AddTrainingVideo"));
+const EditTrainingVideoPage = React.lazy(() => import("./pages/admin/EditTrainingVideo"));
+const AiVideosPage = React.lazy(() => import("./pages/admin/AiVideos"));
+const AddAiVideoPage = React.lazy(() => import("./pages/admin/AddAiVideo"));
+const EditAiVideoPage = React.lazy(() => import("./pages/admin/EditAiVideo"));
+const AiPromptsPage = React.lazy(() => import("./pages/admin/AiPrompts"));
+const SubscriptionPlansPage = React.lazy(() => import("./pages/admin/SubscriptionPlans"));
+const AddSubscriptionPlanPage = React.lazy(() => import("./pages/admin/AddSubscriptionPlan"));
+const EditSubscriptionPlanPage = React.lazy(() => import("./pages/admin/EditSubscriptionPlan"));
+const TransactionsPage = React.lazy(() => import("./pages/admin/Transactions"));
+const PaymentHistoryPage = React.lazy(() => import("./pages/admin/PaymentHistory"));
+const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
+const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
+const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
+const SupportRequestsPage = React.lazy(() => import("./pages/admin/SupportRequests"));
+const TermsPage = React.lazy(() => import("./pages/admin/Terms"));
+const PrivacyPage = React.lazy(() => import("./pages/admin/Privacy"));
 
 function App() {
   return (
@@ -41,7 +59,7 @@ function App() {
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path='/' element={<MainLayout />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<DashboardPage />} />
               <Route path='/admin/profile' element={<FormCus />} />
               <Route path='/admin/changePassword' element={<ChangePass />} />
               <Route path='/admin/dashboard' element={<DashboardPage />} />
@@ -61,8 +79,28 @@ function App() {
               <Route path='/admin/plumbing-codes/add' element={<AddPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/edit/:id' element={<EditPlumbingCodePage />} />
               <Route path='/admin/plumbing-codes/categories' element={<PlumbingCodeCategoriesPage />} />
+              <Route path='/admin/training-videos/:audience' element={<TrainingVideosPage />} />
+              <Route path='/admin/training-videos/:audience/add' element={<AddTrainingVideoPage />} />
+              <Route path='/admin/training-videos/:audience/edit/:id' element={<EditTrainingVideoPage />} />
+              <Route path='/admin/ai-videos' element={<AiVideosPage />} />
+              <Route path='/admin/ai-videos/add' element={<AddAiVideoPage />} />
+              <Route path='/admin/ai-videos/edit/:id' element={<EditAiVideoPage />} />
+              <Route path='/admin/ai-prompts' element={<AiPromptsPage />} />
+              <Route path='/admin/subscription-plans' element={<SubscriptionPlansPage />} />
+              <Route path='/admin/subscription-plans/add' element={<AddSubscriptionPlanPage />} />
+              <Route path='/admin/subscription-plans/edit/:id' element={<EditSubscriptionPlanPage />} />
+              <Route path='/admin/transactions' element={<TransactionsPage />} />
+              <Route path='/admin/payment-history' element={<PaymentHistoryPage />} />
+              <Route path='/admin/faqs' element={<FaqsPage />} />
+              <Route path='/admin/add-faq' element={<AddFaqPage />} />
+              <Route path='/admin/edit-faq/:id' element={<EditFaqPage />} />
+              <Route path='/admin/support' element={<SupportRequestsPage />} />
             </Route>
           </Route>
+          <Route path='/terms' element={<TermsPage />} />
+          <Route path='/privacy' element={<PrivacyPage />} />
+          <Route path='/admin/terms' element={<TermsPage />} />
+          <Route path='/admin/privacy' element={<PrivacyPage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />

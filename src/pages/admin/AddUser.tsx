@@ -6,6 +6,7 @@ import withRole from "../withRole";
 import { IconButton } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { USER_FORM_FIELDS } from "../../utils/message/messages";
+import GoogleAutoComplete from "../../layout/GoogleAutoComplete";
 
 function AddUser() {
   const {
@@ -214,6 +215,78 @@ function AddUser() {
                 )}
               </div>
             </div>
+
+            {formik.values.role === "licensed-plumber" && (
+              <>
+                {/* Google Maps Location Autocomplete */}
+                <div className={form.profileformcol} style={{ width: "100%", flex: "1 0 100%" }}>
+                  <div className='formgrp'>
+                    <label htmlFor='autocomplete'>Address / Location (Google Maps)</label>
+                    <GoogleAutoComplete
+                      onChange={(fullAddress, locationName, lat, lng) => {
+                        formik.setFieldValue("latitude", lat ? String(lat) : "");
+                        formik.setFieldValue("longitude", lng ? String(lng) : "");
+                        formik.setFieldValue("address", fullAddress || "");
+                      }}
+                      currentState={formik.values.address}
+                      placeholder="Enter the address"
+                    />
+                  </div>
+                </div>
+
+                {/* Latitude */}
+                <div className={form.profileformcol}>
+                  <div className='formgrp'>
+                    <label htmlFor='latitude'>Latitude</label>
+                    <Input
+                      classes='passwordlabel'
+                      type='number'
+                      id='latitude'
+                      name='latitude'
+                      readonly={true}
+                      placeholder='Auto-populated'
+                      value={formik.values.latitude}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.latitude && formik.errors.latitude && (
+                      <div
+                        className='error'
+                        style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                      >
+                        {formik.errors.latitude}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Longitude */}
+                <div className={form.profileformcol}>
+                  <div className='formgrp'>
+                    <label htmlFor='longitude'>Longitude</label>
+                    <Input
+                      classes='passwordlabel'
+                      type='number'
+                      id='longitude'
+                      name='longitude'
+                      readonly={true}
+                      placeholder='Auto-populated'
+                      value={formik.values.longitude}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.longitude && formik.errors.longitude && (
+                      <div
+                        className='error'
+                        style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                      >
+                        {formik.errors.longitude}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Password */}
             <div className={form.profileformcol}>

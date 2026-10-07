@@ -44,6 +44,9 @@ export function useEditUser() {
         (value) => normalizeUSPhoneNumber(value || "").length === 10
       ),
     role: yup.string().required(VALIDATION_MESSAGES.roleRequired),
+    latitude: yup.number().nullable().optional(),
+    longitude: yup.number().nullable().optional(),
+    address: yup.string().optional(),
   });
 
   const formik = useFormik({
@@ -52,6 +55,9 @@ export function useEditUser() {
       phone: "",
       role: "home-owner",
       profileImage: null as File | null,
+      latitude: "",
+      longitude: "",
+      address: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -62,6 +68,11 @@ export function useEditUser() {
         formData.append("fullName", values.fullName);
         formData.append("phone", normalizeUSPhoneNumber(values.phone));
         formData.append("role", values.role);
+        if (values.role === "licensed-plumber") {
+          formData.append("latitude", values.latitude || "");
+          formData.append("longitude", values.longitude || "");
+          formData.append("address", values.address || "");
+        }
         if (values.profileImage) {
           formData.append("profileimageurl", values.profileImage);
         }
@@ -71,7 +82,6 @@ export function useEditUser() {
         navigate("/admin/users");
       } catch (error: any) {
         console.error("Failed to update user", error);
-        toast.error(error?.response?.data?.message || "Failed to update user");
       } finally {
         setSaving(false);
       }
@@ -90,6 +100,9 @@ export function useEditUser() {
           phone: formatUSPhoneNumber(data.phone || ""),
           role: data.role || "home-owner",
           profileImage: null,
+          latitude: data.latitude !== undefined ? String(data.latitude) : "",
+          longitude: data.longitude !== undefined ? String(data.longitude) : "",
+          address: data.address || "",
         });
         setEmail(data.email || "");
         setImagePreview(data.profileimageurl || null);

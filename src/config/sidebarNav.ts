@@ -34,6 +34,18 @@ const sidebarNav: SidebarNavItem[] = [
     icon: "lucide:wrench",
     text: "Equipment",
     role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/equipment",
+        icon: "lucide:wrench",
+        text: "Equipment List",
+      },
+      {
+        link: "/admin/equipment/categories",
+        icon: "lucide:tags",
+        text: "Categories",
+      },
+    ],
   },
   {
     link: "/admin/essential-tools",
@@ -54,6 +66,79 @@ const sidebarNav: SidebarNavItem[] = [
     section: "plumbing-codes",
     icon: "lucide:book",
     text: "Plumbing Codes",
+    role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/plumbing-codes",
+        icon: "lucide:book",
+        text: "Codes List",
+      },
+      {
+        link: "/admin/plumbing-codes/categories",
+        icon: "lucide:tags",
+        text: "Categories",
+      },
+    ],
+  },
+  {
+    link: "/admin/training-videos",
+    section: "training-videos",
+    icon: "lucide:video",
+    text: "Training Videos",
+    role: ["admin"],
+    submenu: [
+      {
+        link: "/admin/training-videos/apprentice",
+        icon: "lucide:video",
+        text: "Apprentice",
+      },
+      {
+        link: "/admin/training-videos/licensed-plumber",
+        icon: "lucide:video",
+        text: "Licensed Plumber",
+      },
+    ],
+  },
+  {
+    link: "/admin/ai-videos",
+    section: "ai-videos",
+    icon: "lucide:sparkles",
+    text: "AI Videos",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/subscription-plans",
+    section: "subscription-plans",
+    icon: "lucide:credit-card",
+    text: "Subscription Plans",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/transactions",
+    section: "transactions",
+    icon: "lucide:receipt",
+    text: "Transactions",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/payment-history",
+    section: "payment-history",
+    icon: "lucide:history",
+    text: "Payment History",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/faqs",
+    section: "faqs",
+    icon: "lucide:help-circle",
+    text: "Support & FAQs",
+    role: ["admin"],
+  },
+  {
+    link: "/admin/support",
+    section: "support",
+    icon: "lucide:message-square",
+    text: "Support Requests",
     role: ["admin"],
   },
 ];

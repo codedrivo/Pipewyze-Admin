@@ -14,6 +14,7 @@ export interface IPlumbingCodeCategory {
   _id: string;
   id?: string;
   name: string;
+  fullName: string;
   description?: string;
   createdAt?: string;
 }
@@ -52,12 +53,14 @@ export function usePlumbingCodeCategories() {
 
   const validationSchema = yup.object({
     name: yup.string().required("Category Name is required"),
+    fullName: yup.string().required("Category Full Name is required"),
     description: yup.string().optional(),
   });
 
   const formik = useFormik({
     initialValues: {
       name: "",
+      fullName: "",
       description: "",
     },
     validationSchema,
@@ -89,6 +92,7 @@ export function usePlumbingCodeCategories() {
     formik.resetForm({
       values: {
         name: "",
+        fullName: "",
         description: "",
       },
     });
@@ -100,6 +104,7 @@ export function usePlumbingCodeCategories() {
     formik.resetForm({
       values: {
         name: cat.name,
+        fullName: cat.fullName || "",
         description: cat.description || "",
       },
     });

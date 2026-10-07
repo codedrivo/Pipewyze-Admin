@@ -52,6 +52,9 @@ export function useAddUser() {
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         VALIDATION_MESSAGES.passwordComplexity
       ),
+    latitude: yup.number().nullable().optional(),
+    longitude: yup.number().nullable().optional(),
+    address: yup.string().optional(),
   });
 
   const formik = useFormik({
@@ -62,6 +65,9 @@ export function useAddUser() {
       role: "home-owner",
       password: "",
       profileImage: null as File | null,
+      latitude: "",
+      longitude: "",
+      address: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -73,6 +79,11 @@ export function useAddUser() {
         formData.append("phone", normalizeUSPhoneNumber(values.phone));
         formData.append("role", values.role);
         formData.append("password", values.password);
+        if (values.role === "licensed-plumber") {
+          formData.append("latitude", values.latitude || "");
+          formData.append("longitude", values.longitude || "");
+          formData.append("address", values.address || "");
+        }
         if (values.profileImage) {
           formData.append("profileimageurl", values.profileImage);
         }
@@ -82,7 +93,6 @@ export function useAddUser() {
         navigate("/admin/users");
       } catch (error: any) {
         console.error("Failed to add user", error);
-        toast.error(error?.response?.data?.message || "Failed to create user");
       } finally {
         setLoading(false);
       }

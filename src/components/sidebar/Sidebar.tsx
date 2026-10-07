@@ -17,12 +17,13 @@ function Sidebar() {
   const location = useLocation();
   const curPath = location.pathname;
 
-  const [openSubmenu, setOpenSubmenu] = useState(() => {
-    return sidebarNav.some(
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(() => {
+    const activeNav = sidebarNav.find(
       (nav) =>
         nav.submenu &&
         nav.submenu.some((subNav) => subNav.link === curPath || curPath.startsWith(subNav.link + "/"))
     );
+    return activeNav ? activeNav.section : null;
   });
 
   const { width } = useWindowSize();
@@ -39,20 +40,20 @@ function Sidebar() {
     openSidebarHandler();
   }
 
-  function toggleSubmenu() {
-    setOpenSubmenu((prev) => !prev);
+  function toggleSubmenu(section: string) {
+    setOpenSubmenu((prev) => (prev === section ? null : section));
   }
 
   useEffect(() => {
-    const hasActiveSub = sidebarNav.some(
+    const activeNav = sidebarNav.find(
       (nav) =>
         nav.submenu &&
         nav.submenu.some(
           (subNav) => subNav.link === curPath || curPath.startsWith(subNav.link + "/")
         )
     );
-    if (hasActiveSub) {
-      setOpenSubmenu(true);
+    if (activeNav) {
+      setOpenSubmenu(activeNav.section);
     }
   }, [curPath]);
 
@@ -95,14 +96,14 @@ function Sidebar() {
                 <div
                   className={`${classes.sidebar__menu__item} ${activeIndex === index ? "active" : ""} sidenav-li gc-nav-item`}
                   style={{ cursor: "pointer" }}
-                  onClick={toggleSubmenu}
+                  onClick={() => toggleSubmenu(nav.section)}
                 >
                   <div className={classes.sidebar__menu__item__icon}>
                     <Icon icon={nav.icon} />
                   </div>
                   <div className={classes.sidebar__menu__item__txt} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingRight: "16px" }}>
                     <span>{t(nav.text)}</span>
-                    <Icon icon={openSubmenu ? 'lucide:chevron-up' : 'lucide:chevron-down'} style={{ fontSize: "16px" }} />
+                    <Icon icon={openSubmenu === nav.section ? 'lucide:chevron-up' : 'lucide:chevron-down'} style={{ fontSize: "16px" }} />
                   </div>
                 </div>
               ) : (
@@ -119,7 +120,7 @@ function Sidebar() {
                   </div>
                 </Link>
               )}
-              {hasSubmenu && openSubmenu && (
+              {hasSubmenu && openSubmenu === nav.section && (
                 <div style={{ paddingLeft: "24px", marginTop: "-5px", display: "flex", flexDirection: "column", width: "100%" }}>
                   {nav.submenu!.map((subNav, subIndex) => (
                     <Link

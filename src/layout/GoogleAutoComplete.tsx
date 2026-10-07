@@ -11,11 +11,13 @@ interface GoogleAutoCompleteProps {
     lng: number | null
   ) => void;
   currentState?: string | null;
+  placeholder?: string;
 }
 
 const GoogleAutoComplete = ({
   onChange,
   currentState,
+  placeholder,
 }: GoogleAutoCompleteProps) => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const { isLoaded } = useJsApiLoader({
@@ -81,7 +83,7 @@ const GoogleAutoComplete = ({
         type='text'
         value={inputValue}
         onChange={handleInputChange} // Update state on input change
-        placeholder='Enter your location'
+        placeholder={placeholder || "Enter your location"}
       />
     </Autocomplete>
   ) : (

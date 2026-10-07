@@ -6,14 +6,17 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { dashboardApi } from "../../service/apis/auth.api";
 import { userApi } from "../../service/apis/user.api";
+import { getHomeOwnerEquipment } from "../../service/apis/equipment.api";
+import { getEssentialTools } from "../../service/apis/essentialTool.api";
+import { getMaintenanceGuides } from "../../service/apis/maintenanceGuide.api";
+import { getPlumbingCodes } from "../../service/apis/plumbingCode.api";
+import { getSupportRequests } from "../../service/apis/support.api";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
-import BarChart from "../../components/chart/BarChart";
 import LineChart from "../../components/chart/LineChart";
-import data from "../../constants/data";
+import BarChart from "../../components/chart/BarChart";
 
 /* ── Stat card config ── */
-const buildStats = (d: any) => {
-  // If the backend wraps the payload inside a `data` object, we access it correctly
+const buildStats = (d: any, counts: any) => {
   const payload = d?.data && d.data.totalUsers !== undefined ? d.data : d;
 
   return [
@@ -26,28 +29,52 @@ const buildStats = (d: any) => {
       link: "/admin/users",
     },
     {
-      icon: "mdi:cart-outline",
-      label: "Total Orders",
+      icon: "lucide:receipt",
+      label: "Transactions",
       value: payload?.totalTransactions ?? "0",
-      color: "#10B981",
+      color: "#2563EB",
+      bg: "#DBEAFE",
+      link: "/admin/transactions",
+    },
+    {
+      icon: "lucide:wrench",
+      label: "Equipment List",
+      value: counts.equipment ?? "0",
+      color: "#059669",
       bg: "#ECFDF5",
-      link: "/admin/order",
+      link: "/admin/equipment",
     },
     {
-      icon: "mdi:headset",
-      label: "Support Requests",
-      value: payload?.totalSupportRequests ?? "0",
-      color: "#F59E0B",
+      icon: "lucide:hammer",
+      label: "Essential Tools",
+      value: counts.essentialTools ?? "0",
+      color: "#D97706",
       bg: "#FFFBEB",
-      link: "/admin/contact",
+      link: "/admin/essential-tools",
     },
     {
-      icon: "mdi:cog-outline",
-      label: "Total Services",
-      value: payload?.totalReports ?? "0",
-      color: "#EF4444",
+      icon: "lucide:book-open",
+      label: "Maintenance Guide",
+      value: counts.maintenanceGuides ?? "0",
+      color: "#7C3AED",
+      bg: "#F3E8FF",
+      link: "/admin/maintenance-guides",
+    },
+    {
+      icon: "lucide:book",
+      label: "Plumbing Code",
+      value: counts.plumbingCodes ?? "0",
+      color: "#0284C7",
+      bg: "#E0F2FE",
+      link: "/admin/plumbing-codes",
+    },
+    {
+      icon: "lucide:message-square",
+      label: "Support Requests",
+      value: counts.supportRequests ?? "0",
+      color: "#DC2626",
       bg: "#FEF2F2",
-      link: "/admin/services",
+      link: "/admin/support",
     },
   ];
 };
@@ -61,6 +88,7 @@ type DashboardUser = {
   _id?: string;
   id?: string;
   email?: string;
+  subscriptionTier?: string;
 };
 
 function Dashboard() {
@@ -69,70 +97,32 @@ function Dashboard() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [ordersChartData, setOrdersChartData] = useState<any>({
-    labels: [],
-    datasets: [
-      {
-        label: "Orders",
-        data: [],
-        backgroundColor: "rgba(43, 85, 31, 0.75)",
-      },
-    ],
-  });
-
-  const [revenueChartData, setRevenueChartData] = useState<any>({
-    labels: [],
-    datasets: [
-      {
-        label: "Revenue ($)",
-        data: [],
-        borderColor: "#335AFF",
-        backgroundColor: "rgba(43, 85, 31, 0.08)",
-      },
-    ],
+  const [counts, setCounts] = useState({
+    equipment: 0,
+    essentialTools: 0,
+    maintenanceGuides: 0,
+    plumbingCodes: 0,
+    supportRequests: 0,
   });
 
   useEffect(() => {
     const load = async () => {
       try {
-        const [dash, userList] = await Promise.all([
-          dashboardApi({}),
-          userApi({ currentPage: 1, limit: 5 }),
-        ]);
-
-        console.log("FULL RESPONSE:", dash);
+        setLoading(true);
+        const [dash, userList, eqRes, toolsRes, guideRes, codeRes, suppRes] =
+          await Promise.all([
+            dashboardApi({}),
+            userApi({ currentPage: 1, limit: 5 }),
+            getHomeOwnerEquipment().catch(() => null),
+            getEssentialTools().catch(() => null),
+            getMaintenanceGuides().catch(() => null),
+            getPlumbingCodes().catch(() => null),
+            getSupportRequests().catch(() => null),
+          ]);
 
         if (dash?.status === 200) {
           const payload = dash.data || dash;
           setDashData(payload);
-
-          // Update Charts
-          if (payload.ordersChart) {
-            setOrdersChartData({
-              labels: payload.ordersChart.labels,
-              datasets: [
-                {
-                  label: "Orders",
-                  data: payload.ordersChart.data,
-                  backgroundColor: "rgba(43, 85, 31, 0.75)",
-                },
-              ],
-            });
-          }
-
-          if (payload.revenueChart) {
-            setRevenueChartData({
-              labels: payload.revenueChart.labels,
-              datasets: [
-                {
-                  label: "Revenue ($)",
-                  data: payload.revenueChart.data,
-                  borderColor: "#335AFF",
-                  backgroundColor: "rgba(43, 85, 31, 0.08)",
-                },
-              ],
-            });
-          }
         }
 
         if (userList?.status === 200) {
@@ -142,6 +132,20 @@ function Dashboard() {
         } else {
           setUsers([]);
         }
+
+        const eqList = eqRes?.equipment || eqRes?.data?.equipment || [];
+        const toolsList = toolsRes?.tools || toolsRes?.data?.tools || [];
+        const guideList = guideRes?.guides || guideRes?.data?.guides || [];
+        const codeList = codeRes?.codes || codeRes?.data?.codes || [];
+        const suppList = suppRes?.requests || suppRes?.data?.requests || [];
+
+        setCounts({
+          equipment: Array.isArray(eqList) ? eqList.length : 0,
+          essentialTools: Array.isArray(toolsList) ? toolsList.length : 0,
+          maintenanceGuides: Array.isArray(guideList) ? guideList.length : 0,
+          plumbingCodes: Array.isArray(codeList) ? codeList.length : 0,
+          supportRequests: Array.isArray(suppList) ? suppList.length : (dashData?.totalSupportRequests ?? 0),
+        });
       } catch (error) {
         console.error("Dashboard data load failed", error);
         setUsers([]);
@@ -153,123 +157,275 @@ function Dashboard() {
     load();
   }, []);
 
-  const stats = buildStats(dashData);
-  const today = new Date().toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const stats = buildStats(dashData, counts);
   const getUserPhone = (u: DashboardUser) => u.phoneNumber || u.phone || "—";
   const getUserAvatar = (u: DashboardUser) =>
     u.profileimageurl || "/default_profile.png";
 
+  const payloadData = dashData?.data || dashData || {};
+
+  const revenueChartData = {
+    labels: payloadData.revenueChart?.labels || ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Monthly Revenue ($)",
+        data: payloadData.revenueChart?.data || [0, 0, 0, 0, 0, 0],
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.12)",
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  const tierChartData = {
+    labels: payloadData.tierChart?.labels || ["Free Tier", "Standard Tier", "Premium Tier"],
+    datasets: [
+      {
+        label: "Subscribers",
+        data: payloadData.tierChart?.data || [
+          payloadData.tierStats?.freemium || 0,
+          payloadData.tierStats?.standard || 0,
+          payloadData.tierStats?.professional || 0,
+        ],
+        backgroundColor: ["#94a3b8", "#2563eb", "#ff8400"],
+        borderRadius: 6,
+      },
+    ],
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className='admin-dash'>
+    <div className='admin-dash' style={{ padding: "24px" }}>
       {/* ── Header ── */}
-      <div className='admin-dash-header'>
+      <div className='admin-dash-header' style={{ marginBottom: "24px" }}>
         <div>
-          <h1 className='admin-dash-title'>Dashboard</h1>
-          <p className='admin-dash-sub'>
+          <h1 className='admin-dash-title' style={{ fontSize: "28px", fontWeight: 800, margin: 0 }}>
+            Dashboard Overview
+          </h1>
+          <p className='admin-dash-sub' style={{ margin: "4px 0 0 0", color: "#64748b" }}>
             Welcome back, <strong>{user?.fullName ?? "Admin"}</strong>
           </p>
         </div>
       </div>
 
       {/* ── Stat cards ── */}
-      <div className='admin-stat-grid'>
+      <div
+        className='admin-stat-grid'
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "16px",
+          marginBottom: "28px",
+        }}
+      >
         {stats.map((s, i) => (
-          <Link to={s.link} className='admin-stat-card' key={i}>
-            <div className='admin-stat-icon' style={{ background: s.bg }}>
-              <Icon icon={s.icon} width={26} color={s.color} />
+          <Link
+            to={s.link}
+            className='admin-stat-card'
+            key={i}
+            style={{
+              background: "#ffffff",
+              borderRadius: "14px",
+              padding: "20px",
+              border: "1px solid #e2e8f0",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+              display: "flex",
+              alignItems: "center",
+              textDecoration: "none",
+              gap: "14px",
+            }}
+          >
+            <div
+              className='admin-stat-icon'
+              style={{
+                background: s.bg,
+                borderRadius: "12px",
+                width: "48px",
+                height: "48px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon icon={s.icon} width={24} color={s.color} />
             </div>
-            <div className='admin-stat-body'>
-              <p className='admin-stat-value'>{s.value}</p>
-              <p className='admin-stat-label'>{s.label}</p>
+            <div className='admin-stat-body' style={{ flex: 1 }}>
+              <p
+                className='admin-stat-value'
+                style={{ margin: 0, fontSize: "22px", fontWeight: 800, color: "#0f172a" }}
+              >
+                {s.value}
+              </p>
+              <p
+                className='admin-stat-label'
+                style={{ margin: 0, fontSize: "13px", color: "#64748b" }}
+              >
+                {s.label}
+              </p>
             </div>
-            <Icon
-              icon='mdi:chevron-right'
-              width={20}
-              className='admin-stat-arrow'
-              color='#aaa'
-            />
           </Link>
         ))}
       </div>
 
-      {/* ── Charts ── */}
-      <div className='admin-charts-row'>
-        <div className='admin-chart-card'>
-          <h3 className='admin-card-title'>Orders by Month</h3>
-          <BarChart chartData={ordersChartData} chartTitle='Orders by Month' />
+      {/* ── Monthly Revenue & User Tier Charts ── */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+          gap: "24px",
+          marginBottom: "28px",
+        }}
+      >
+        {/* Monthly Revenue Review Chart */}
+        <div
+          style={{
+            background: "#ffffff",
+            borderRadius: "16px",
+            padding: "24px",
+            border: "1px solid #e2e8f0",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+          }}
+        >
+          <div style={{ marginBottom: "16px" }}>
+            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>
+              Monthly Revenue Review ($)
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Subscription revenue trajectory across recent months
+            </p>
+          </div>
+          <div style={{ height: "260px" }}>
+            <LineChart chartData={revenueChartData} />
+          </div>
         </div>
-        <div className='admin-chart-card'>
-          <h3 className='admin-card-title'>Revenue Trend</h3>
-          <LineChart chartData={revenueChartData} />
+
+        {/* User Plan Distribution Chart */}
+        <div
+          style={{
+            background: "#ffffff",
+            borderRadius: "16px",
+            padding: "24px",
+            border: "1px solid #e2e8f0",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+          }}
+        >
+          <div style={{ marginBottom: "16px" }}>
+            <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>
+              User Plan Distribution
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Active users grouped by Free, Standard, and Premium plans
+            </p>
+          </div>
+          <div style={{ height: "260px" }}>
+            <BarChart chartTitle='' chartData={tierChartData} />
+          </div>
         </div>
       </div>
 
-      {/* ── Recent Users ── */}
-      <div className='admin-table-card'>
-        <div className='admin-table-head'>
-          <h3 className='admin-card-title'>Recent Users</h3>
-          <Link to='/admin/users' className='admin-view-all'>
-            View All →
+      {/* ── Recent Registered Users Table ── */}
+      <div
+        className='admin-table-card'
+        style={{
+          background: "#ffffff",
+          borderRadius: "16px",
+          padding: "24px",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
+        }}
+      >
+        <div
+          className='admin-table-head'
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px",
+          }}
+        >
+          <div>
+            <h3 className='admin-card-title' style={{ margin: 0, fontSize: "18px", fontWeight: 700 }}>
+              Recent Registered Users
+            </h3>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>
+              Latest account signups
+            </p>
+          </div>
+          <Link
+            to='/admin/users'
+            className='admin-view-all'
+            style={{ color: "#2563eb", fontWeight: 600, textDecoration: "none", fontSize: "14px" }}
+          >
+            View All Users →
           </Link>
         </div>
-        <div className='admin-table-wrap'>
-          <table className='admin-table'>
+        <div className='admin-table-wrap' style={{ overflowX: "auto" }}>
+          <table className='admin-table' style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                {/* <th>Status</th> */}
-                <th>Action</th>
+              <tr style={{ background: "#f8fafc", textAlign: "left", fontSize: "13px", color: "#64748b" }}>
+                <th style={{ padding: "12px" }}>#</th>
+                <th style={{ padding: "12px" }}>Name</th>
+                <th style={{ padding: "12px" }}>Email</th>
+                <th style={{ padding: "12px" }}>Phone</th>
+                <th style={{ padding: "12px" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className='admin-table-empty'>
+                  <td colSpan={5} className='admin-table-empty' style={{ padding: "20px", textAlign: "center" }}>
                     No users found
                   </td>
                 </tr>
               ) : (
                 users.map((u, i) => (
-                  <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>
-                      <div className='admin-user-cell'>
-                        <div className='admin-user-avatar'>
+                  <tr key={i} style={{ borderBottom: "1px solid #f1f5f9", fontSize: "14px" }}>
+                    <td style={{ padding: "12px" }}>{i + 1}</td>
+                    <td style={{ padding: "12px" }}>
+                      <div className='admin-user-cell' style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <div
+                          className='admin-user-avatar'
+                          style={{
+                            width: "36px",
+                            height: "36px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            background: "#e2e8f0",
+                          }}
+                        >
                           <img
                             src={getUserAvatar(u)}
                             alt={`${u.firstName || "User"} profile`}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             onError={(e) => {
                               e.currentTarget.src = "/default_profile.png";
                             }}
                           />
                         </div>
-                        {u.firstName} {u.lastName}
+                        <span style={{ fontWeight: 600, color: "#0f172a" }}>
+                          {u.firstName} {u.lastName}
+                        </span>
                       </div>
                     </td>
-                    <td>{u.email}</td>
-                    <td>{getUserPhone(u)}</td>
-                    {/* <td>
-                      <span
-                        className={`admin-badge ${u.isAccountVerified ? "admin-badge--active" : "admin-badge--pending"}`}
-                      >
-                        {u.isAccountVerified ? "Verified" : "Pending"}
-                      </span>
-                    </td> */}
-                    <td>
+                    <td style={{ padding: "12px", color: "#475569" }}>{u.email}</td>
+                    <td style={{ padding: "12px", color: "#64748b" }}>{getUserPhone(u)}</td>
+                    <td style={{ padding: "12px" }}>
                       <Link
                         to={`/admin/users/update-user/${u._id || u.id}`}
                         className='admin-btn-view'
+                        style={{
+                          backgroundColor: "#f1f5f9",
+                          color: "#2563eb",
+                          padding: "6px 14px",
+                          borderRadius: "6px",
+                          textDecoration: "none",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
                       >
-                        View
+                        View Profile
                       </Link>
                     </td>
                   </tr>

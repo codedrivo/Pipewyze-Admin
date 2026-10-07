@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { getMaintenanceGuide, updateMaintenanceGuide } from "../../service/apis/maintenanceGuide.api";
 import { getEssentialTools } from "../../service/apis/essentialTool.api";
 import { getPlumbingCodes } from "../../service/apis/plumbingCode.api";
+import { getHomeOwnerEquipment } from "../../service/apis/equipment.api";
 import { IChecklistItem } from "./useAddMaintenanceGuide";
 
 export function useEditMaintenanceGuide() {
@@ -20,15 +21,17 @@ export function useEditMaintenanceGuide() {
 
   const [toolsList, setToolsList] = useState<any[]>([]);
   const [codesList, setCodesList] = useState<any[]>([]);
-  const [checklist, setChecklist] = useState<IChecklistItem[]>([{ task: "", frequency: "" }]);
+  const [equipmentsList, setEquipmentsList] = useState<any[]>([]);
+  const [checklist, setChecklist] = useState<IChecklistItem[]>([{ task: "", frequency: "", checked: false }]);
 
   useEffect(() => {
     const loadResources = async () => {
       try {
         setLoading(true);
-        const [toolsResponse, codesResponse, guideResponse] = await Promise.all([
+        const [toolsResponse, codesResponse, equipResponse, guideResponse] = await Promise.all([
           getEssentialTools(),
           getPlumbingCodes(),
+          getHomeOwnerEquipment(),
           getMaintenanceGuide(id!)
         ]);
 
@@ -37,6 +40,9 @@ export function useEditMaintenanceGuide() {
         }
         if (codesResponse?.status === 200) {
           setCodesList(codesResponse.codes || codesResponse.data?.codes || []);
+        }
+        if (equipResponse?.status === 200) {
+          setEquipmentsList(equipResponse.equipment || equipResponse.data?.equipment || []);
         }
 
         if (guideResponse?.status === 200) {
@@ -54,7 +60,13 @@ export function useEditMaintenanceGuide() {
                 recommendedVideo: guide.recommendedVideo || "",
               }
             });
-            setChecklist(guide.checklist || [{ task: "", frequency: "" }]);
+            setChecklist(
+              (guide.checklist || []).map((item: any) => ({
+                task: item.task || "",
+                frequency: item.frequency || "",
+                checked: !!item.checked,
+              }))
+            );
             setImagePreview(guide.image || null);
           }
         }
@@ -133,15 +145,15 @@ export function useEditMaintenanceGuide() {
   };
 
   const addChecklistItem = () => {
-    setChecklist([...checklist, { task: "", frequency: "" }]);
+    setChecklist([...checklist, { task: "", frequency: "", checked: false }]);
   };
 
   const removeChecklistItem = (index: number) => {
     const updated = checklist.filter((_, i) => i !== index);
-    setChecklist(updated.length ? updated : [{ task: "", frequency: "" }]);
+    setChecklist(updated.length ? updated : [{ task: "", frequency: "", checked: false }]);
   };
 
-  const handleChecklistChange = (index: number, field: keyof IChecklistItem, value: string) => {
+  const handleChecklistChange = (index: number, field: keyof IChecklistItem, value: any) => {
     const updated = checklist.map((item, i) => {
       if (i === index) {
         return { ...item, [field]: value };
@@ -175,5 +187,6 @@ export function useEditMaintenanceGuide() {
     removeChecklistItem,
     handleChecklistChange,
     handleCheckboxChange,
+    equipmentsList,
   };
 }

@@ -264,7 +264,7 @@ function Users() {
                           <p
                             className={dataTable.delete}
                             onClick={() => handleDeleteClick(row._id)}
-                            style={{ cursor: "pointer", margin: 0 }}
+                            style={{ cursor: "pointer", margin: 0, backgroundColor: "#ef4444" }}
                           >
                             <img src={del} alt='Delete' style={{ width: "20px" }} />
                           </p>
