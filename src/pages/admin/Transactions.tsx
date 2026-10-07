@@ -4,7 +4,6 @@ import { dashboardApi } from "../../service/apis/auth.api";
 import { userApi } from "../../service/apis/user.api";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
 import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
 
 type UserItem = {
   _id?: string;
@@ -515,14 +514,13 @@ function Transactions() {
                 <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>User</th>
                 <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>Email</th>
                 <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>Phone</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>Plan Tier</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0", textAlign: "right", borderRadius: "0 8px 8px 0" }}>Action</th>
+                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0", borderRadius: "0 8px 8px 0" }}>Plan Tier</th>
               </tr>
             </thead>
             <tbody>
               {paginatedUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: "40px 24px", textAlign: "center", color: "#94a3b8" }}>
+                  <td colSpan={5} style={{ padding: "40px 24px", textAlign: "center", color: "#94a3b8" }}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
                       <Icon icon="ph:user-minus-bold" width={32} color="#cbd5e1" />
                       <p style={{ margin: 0, fontSize: "14px", fontWeight: 500 }}>No users found matching your filter criteria.</p>
@@ -588,27 +586,6 @@ function Transactions() {
                       </td>
                       <td style={{ padding: "14px 16px" }}>
                         {renderTierBadge(u)}
-                      </td>
-                      <td style={{ padding: "14px 16px", textAlign: "right" }}>
-                        <Link
-                          to={`/admin/users/update-user/${u._id || u.id}`}
-                          style={{
-                            backgroundColor: "#f1f5f9",
-                            color: "#2563eb",
-                            padding: "6px 14px",
-                            borderRadius: "8px",
-                            textDecoration: "none",
-                            fontSize: "13px",
-                            fontWeight: 600,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            transition: "all 0.15s ease",
-                          }}
-                        >
-                          <span>View User</span>
-                          <Icon icon="ph:arrow-right-bold" width={14} />
-                        </Link>
                       </td>
                     </tr>
                   );
