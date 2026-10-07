@@ -188,6 +188,51 @@ function EditPlumbingCode() {
                 )}
               </div>
             </div>
+
+            {/* Document Reference / Link */}
+            <div className={form.profileformcol}>
+              <div className='formgrp'>
+                <label htmlFor='documentName'>
+                  Document Name (Optional)
+                </label>
+                <Input
+                  classes='passwordlabel'
+                  type='text'
+                  id='documentName'
+                  name='documentName'
+                  placeholder='e.g. 248 CMR 10 Uniform State Plumbing Code'
+                  value={formik.values.documentName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+            </div>
+
+            <div className={form.profileformcol}>
+              <div className='formgrp'>
+                <label htmlFor='documentUrl'>
+                  Document Link / PDF URL (Optional)
+                </label>
+                <Input
+                  classes='passwordlabel'
+                  type='url'
+                  id='documentUrl'
+                  name='documentUrl'
+                  placeholder='https://www.mass.gov/doc/248-cmr-10-uniform-state-plumbing-code/download'
+                  value={formik.values.documentUrl}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.documentUrl && formik.errors.documentUrl && (
+                  <div
+                    className='error'
+                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
+                  >
+                    {formik.errors.documentUrl}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Submit Actions */}

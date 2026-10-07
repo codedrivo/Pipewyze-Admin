@@ -38,6 +38,13 @@ export function useAddPlumbingCode() {
     description: yup.string().required("Description is required"),
     exception: yup.string().optional(),
     plainLanguageInterpretation: yup.string().required("Plain Language Interpretation is required"),
+    documentName: yup.string().optional(),
+    documentUrl: yup
+      .string()
+      .transform((value) => (value === "" ? null : value))
+      .nullable()
+      .optional()
+      .url("Must be a valid URL (e.g. https://...)"),
   });
 
   const formik = useFormik({
@@ -48,12 +55,23 @@ export function useAddPlumbingCode() {
       description: "",
       exception: "",
       plainLanguageInterpretation: "",
+      documentName: "",
+      documentUrl: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
         setSubmitting(true);
-        await addPlumbingCode(values);
+        const payload: any = { ...values };
+        if (values.documentName || values.documentUrl) {
+          payload.documents = [
+            {
+              name: values.documentName || "Reference Document / PDF",
+              url: values.documentUrl || "",
+            },
+          ];
+        }
+        await addPlumbingCode(payload);
         toast.success("Plumbing code added successfully!");
         navigate("/admin/plumbing-codes");
       } catch (error: any) {

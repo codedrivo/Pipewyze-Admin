@@ -102,6 +102,7 @@ function PlumbingCodes() {
                     <TableCell align='left'>Category</TableCell>
                     <TableCell align='left'>Description</TableCell>
                     <TableCell align='left'>Plain Language Interpretation</TableCell>
+                    <TableCell align='left'>Document / Link</TableCell>
                     <TableCell align='center'>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -153,6 +154,35 @@ function PlumbingCodes() {
                         <div style={{ color: "#4b5563", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={row.plainLanguageInterpretation}>
                           {row.plainLanguageInterpretation}
                         </div>
+                      </TableCell>
+                      <TableCell align='left' style={{ maxWidth: "200px" }}>
+                        {(() => {
+                          const docUrl = row.documentUrl || (row.documents && row.documents[0]?.url);
+                          const docName = row.documentName || (row.documents && row.documents[0]?.name) || "View Document";
+                          if (!docUrl) return <span style={{ color: "#9ca3af", fontSize: "13px" }}>N/A</span>;
+                          return (
+                            <a
+                              href={docUrl}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "4px",
+                                color: "#2563eb",
+                                fontWeight: 500,
+                                fontSize: "13px",
+                                textDecoration: "underline",
+                              }}
+                              title={docName}
+                            >
+                              <Icon icon='mdi:file-pdf-box' style={{ fontSize: "18px", color: "#dc2626", flexShrink: 0 }} />
+                              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {docName}
+                              </span>
+                            </a>
+                          );
+                        })()}
                       </TableCell>
                       <TableCell align='center'>
                         <div
