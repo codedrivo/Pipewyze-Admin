@@ -88,6 +88,11 @@ const sidebarNav: SidebarNavItem[] = [
     role: ["admin"],
     submenu: [
       {
+        link: "/admin/training-videos/homeowner",
+        icon: "lucide:video",
+        text: "Homeowner",
+      },
+      {
         link: "/admin/training-videos/apprentice",
         icon: "lucide:video",
         text: "Apprentice",

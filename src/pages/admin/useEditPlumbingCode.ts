@@ -46,6 +46,8 @@ export function useEditPlumbingCode() {
             description: decodeHTMLEntities(code.description || ""),
             exception: decodeHTMLEntities(code.exception || ""),
             plainLanguageInterpretation: decodeHTMLEntities(code.plainLanguageInterpretation || ""),
+            documentName: docName,
+            documentUrl: docUrl,
           },
         });
       }

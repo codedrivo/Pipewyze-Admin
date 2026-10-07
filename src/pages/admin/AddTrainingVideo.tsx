@@ -16,7 +16,12 @@ function AddTrainingVideo() {
   } = useAddTrainingVideo();
 
   const DEFAULT_IMAGE = "/no_image.png";
-  const formattedAudience = audience === "licensed-plumber" ? "Licensed Plumber" : "Apprentice";
+  const formattedAudience =
+    audience === "licensed-plumber"
+      ? "Licensed Plumber"
+      : audience === "homeowner"
+      ? "Homeowner"
+      : "Apprentice";
 
   return (
     <div

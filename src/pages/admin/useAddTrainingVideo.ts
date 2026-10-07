@@ -33,8 +33,8 @@ export function useAddTrainingVideo() {
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("videoUrl", values.videoUrl);
-        formData.append("description", values.description || "");
-        formData.append("targetAudience", audience || "apprentice");
+        const targetAudience = audience === "homeowner" ? "home-owner" : audience || "apprentice";
+        formData.append("targetAudience", targetAudience);
 
         if (thumbnailFile) {
           formData.append("thumbnail", thumbnailFile);
