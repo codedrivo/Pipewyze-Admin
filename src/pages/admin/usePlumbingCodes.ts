@@ -9,16 +9,24 @@ import {
   deletePlumbingCode,
 } from "../../service/apis/plumbingCode.api";
 
+export interface IDocumentItem {
+  name: string;
+  url: string;
+}
+
 export interface IPlumbingCode {
   _id: string;
   id?: string;
   code: string;
   title: string;
-  category: "MUPC" | "IPC";
+  category: "MUPC" | "IPC" | string;
   description: string;
   exception?: string;
   plainLanguageInterpretation: string;
   categoryFullName?: string;
+  documentUrl?: string;
+  documentName?: string;
+  documents?: IDocumentItem[];
   createdAt?: string;
 }
 
@@ -116,7 +124,7 @@ export function usePlumbingCodes() {
       values: {
         code: codeItem.code,
         title: codeItem.title,
-        category: codeItem.category,
+        category: (codeItem.category as "MUPC" | "IPC") || "MUPC",
         description: codeItem.description,
         exception: codeItem.exception || "",
         plainLanguageInterpretation: codeItem.plainLanguageInterpretation,

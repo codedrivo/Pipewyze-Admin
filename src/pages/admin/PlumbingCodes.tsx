@@ -90,11 +90,12 @@ function PlumbingCodes() {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell align='left' style={{ width: "14%" }}>Code Identifier</TableCell>
-                    <TableCell align='left' style={{ width: "18%" }}>Title</TableCell>
-                    <TableCell align='left' style={{ width: "16%" }}>Category</TableCell>
-                    <TableCell align='left' style={{ width: "24%" }}>Description</TableCell>
-                    <TableCell align='left' style={{ width: "20%" }}>Plain Language Interpretation</TableCell>
+                    <TableCell align='left' style={{ width: "12%" }}>Code Identifier</TableCell>
+                    <TableCell align='left' style={{ width: "16%" }}>Title</TableCell>
+                    <TableCell align='left' style={{ width: "14%" }}>Category</TableCell>
+                    <TableCell align='left' style={{ width: "22%" }}>Description</TableCell>
+                    <TableCell align='left' style={{ width: "18%" }}>Plain Language Interpretation</TableCell>
+                    <TableCell align='left' style={{ width: "10%" }}>Document</TableCell>
                     <TableCell align='center' style={{ width: "8%" }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -104,17 +105,29 @@ function PlumbingCodes() {
                     <TableRow
                       key={row.id || row._id}
                       sx={{
-                        "& > td": { verticalAlign: "top", paddingTop: "20px", paddingBottom: "20px" },
+                        "& > td": { verticalAlign: "top", paddingTop: "18px", paddingBottom: "18px" },
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
                     >
                       <TableCell align='left' style={{ wordBreak: "break-word" }}>
-                        <div style={{ fontWeight: "bold", color: "#1f2937" }}>
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            color: "#1e293b",
+                            fontSize: "13px",
+                            fontFamily: "monospace",
+                            backgroundColor: "#f1f5f9",
+                            padding: "4px 8px",
+                            borderRadius: "6px",
+                            display: "inline-block",
+                            border: "1px solid #e2e8f0",
+                          }}
+                        >
                           {row.code}
-                        </div>
+                        </span>
                       </TableCell>
                       <TableCell align='left' style={{ wordBreak: "break-word" }}>
-                        <div style={{ fontWeight: 600, color: "#374151" }}>
+                        <div style={{ fontWeight: 600, color: "#111827", fontSize: "14px", lineHeight: "1.4" }}>
                           {row.title}
                         </div>
                       </TableCell>
@@ -122,9 +135,9 @@ function PlumbingCodes() {
                         {row.categoryFullName || row.category ? (
                           <span
                             style={{
-                              backgroundColor: "#f0fdf4",
-                              color: "#166534",
-                              border: "1px solid #bbf7d0",
+                              backgroundColor: "#eff6ff",
+                              color: "#1d4ed8",
+                              border: "1px solid #bfdbfe",
                               padding: "4px 10px",
                               borderRadius: "8px",
                               fontSize: "12px",
@@ -142,53 +155,96 @@ function PlumbingCodes() {
                         )}
                       </TableCell>
                       <TableCell align='left'>
-                        <div 
+                        <div
                           style={{
-                            color: "#4b5563",
+                            color: "#374151",
                             fontSize: "13px",
+                            lineHeight: "1.5",
                             display: "-webkit-box",
-                            WebkitLineClamp: 2,
+                            WebkitLineClamp: 3,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             wordBreak: "break-word",
-                          }} 
+                          }}
                           title={row.description ? row.description.replace(/<[^>]*>/g, "") : ""}
                           dangerouslySetInnerHTML={{ __html: row.description || "" }}
                         />
                         {row.exception && (
-                          <div 
+                          <div
                             style={{
-                              color: "#dc2626",
+                              color: "#b91c1c",
+                              backgroundColor: "#fef2f2",
+                              borderLeft: "3px solid #ef4444",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
                               fontSize: "12px",
-                              marginTop: "4px",
+                              marginTop: "6px",
+                              lineHeight: "1.4",
                               display: "-webkit-box",
-                              WebkitLineClamp: 1,
+                              WebkitLineClamp: 2,
                               WebkitBoxOrient: "vertical",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               wordBreak: "break-word",
-                            }} 
+                            }}
                             title={row.exception ? row.exception.replace(/<[^>]*>/g, "") : ""}
-                            dangerouslySetInnerHTML={{ __html: `<strong>Exception:</strong> ${row.exception}` }}
-                          />
+                          >
+                            <strong style={{ fontWeight: 700 }}>Exception:</strong>{" "}
+                            <span dangerouslySetInnerHTML={{ __html: row.exception }} />
+                          </div>
                         )}
                       </TableCell>
                       <TableCell align='left'>
-                        <div 
+                        <div
                           style={{
                             color: "#4b5563",
                             fontSize: "13px",
+                            lineHeight: "1.5",
                             display: "-webkit-box",
-                            WebkitLineClamp: 2,
+                            WebkitLineClamp: 3,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             wordBreak: "break-word",
-                          }} 
+                          }}
                           title={row.plainLanguageInterpretation ? row.plainLanguageInterpretation.replace(/<[^>]*>/g, "") : ""}
                           dangerouslySetInnerHTML={{ __html: row.plainLanguageInterpretation || "" }}
                         />
+                      </TableCell>
+                      <TableCell align='left'>
+                        {(() => {
+                          const docUrl = row.documentUrl || (row.documents && row.documents[0]?.url);
+                          const docName = row.documentName || (row.documents && row.documents[0]?.name) || "View Document";
+                          if (!docUrl) return <span style={{ color: "#9ca3af", fontSize: "13px" }}>—</span>;
+                          return (
+                            <a
+                              href={docUrl}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "5px",
+                                color: "#2563eb",
+                                fontWeight: 500,
+                                fontSize: "12px",
+                                backgroundColor: "#eff6ff",
+                                padding: "4px 8px",
+                                borderRadius: "6px",
+                                border: "1px solid #dbeafe",
+                                textDecoration: "none",
+                                maxWidth: "100%",
+                              }}
+                              title={docName}
+                            >
+                              <Icon icon='mdi:file-pdf-box' style={{ fontSize: "18px", color: "#dc2626", flexShrink: 0 }} />
+                              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {docName}
+                              </span>
+                            </a>
+                          );
+                        })()}
                       </TableCell>
                       <TableCell align='center'>
                         <div

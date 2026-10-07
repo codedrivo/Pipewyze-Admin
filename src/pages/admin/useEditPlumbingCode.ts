@@ -36,6 +36,8 @@ export function useEditPlumbingCode() {
       if (response?.status === 200) {
         const code = response.code || response.data?.code;
         setCodeDetails(code);
+        const docName = code.documentName || (code.documents && code.documents[0] ? code.documents[0].name : "");
+        const docUrl = code.documentUrl || (code.documents && code.documents[0] ? code.documents[0].url : "");
         formik.resetForm({
           values: {
             code: code.code || "",
@@ -44,6 +46,8 @@ export function useEditPlumbingCode() {
             description: decodeHTMLEntities(code.description || ""),
             exception: decodeHTMLEntities(code.exception || ""),
             plainLanguageInterpretation: decodeHTMLEntities(code.plainLanguageInterpretation || ""),
+            documentName: docName,
+            documentUrl: docUrl,
           },
         });
       }
@@ -67,6 +71,13 @@ export function useEditPlumbingCode() {
     description: yup.string().required("Description is required"),
     exception: yup.string().optional(),
     plainLanguageInterpretation: yup.string().required("Plain Language Interpretation is required"),
+    documentName: yup.string().optional(),
+    documentUrl: yup
+      .string()
+      .transform((value) => (value === "" ? null : value))
+      .nullable()
+      .optional()
+      .url("Must be a valid URL (e.g. https://...)"),
   });
 
   const formik = useFormik({
@@ -77,13 +88,26 @@ export function useEditPlumbingCode() {
       description: "",
       exception: "",
       plainLanguageInterpretation: "",
+      documentName: "",
+      documentUrl: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       if (!id) return;
       try {
         setSubmitting(true);
-        await updatePlumbingCode(id, values);
+        const payload: any = { ...values };
+        if (values.documentName || values.documentUrl) {
+          payload.documents = [
+            {
+              name: values.documentName || "Reference Document / PDF",
+              url: values.documentUrl || "",
+            },
+          ];
+        } else {
+          payload.documents = [];
+        }
+        await updatePlumbingCode(id, payload);
         toast.success("Plumbing code updated successfully!");
         navigate("/admin/plumbing-codes");
       } catch (error: any) {

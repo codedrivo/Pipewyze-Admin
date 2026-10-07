@@ -12,8 +12,8 @@ export function useTrainingVideos() {
 
   const fetchVideos = async () => {
     try {
-      setLoading(true);
-      const response = await getTrainingVideos(audience);
+      const targetAudience = audience === "homeowner" ? "home-owner" : audience;
+      const response = await getTrainingVideos(targetAudience);
       if (response?.status === 200) {
         setVideosList(response.videos || response.data?.videos || []);
       }
