@@ -251,9 +251,9 @@ function EditMaintenanceGuide() {
             </div>
 
             {/* Dynamic Checklist section */}
-            <div style={{ width: "100%", marginTop: "20px", padding: "0 12px", boxSizing: "border-box" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
-                <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "bold" }}>Maintenance Checklist</h3>
+            <div style={{ width: "100%", marginTop: "16px", padding: "0 12px", boxSizing: "border-box" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                <h3 style={{ margin: 0, fontSize: "15px", fontWeight: "600", color: "#374151" }}>Maintenance Checklist</h3>
                 <button
                   type='button'
                   onClick={addChecklistItem}
@@ -270,7 +270,7 @@ function EditMaintenanceGuide() {
                   style={{
                     display: "flex",
                     gap: "10px",
-                    marginBottom: "10px",
+                    marginBottom: "8px",
                     alignItems: "center"
                   }}
                 >
@@ -337,9 +337,9 @@ function EditMaintenanceGuide() {
             </div>
 
             {/* Required Tools */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <h3 style={{ margin: "0 0 10px 0", fontSize: "16px", fontWeight: "bold" }}>Required Tools</h3>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", border: "1px solid #c7c7c7", padding: "15px", borderRadius: "10px" }}>
+            <div style={{ width: "100%", marginTop: "16px", padding: "0 12px", boxSizing: "border-box" }}>
+              <h3 style={{ margin: "0 0 8px 0", fontSize: "15px", fontWeight: "600", color: "#374151" }}>Required Tools</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", border: "1px solid #c7c7c7", padding: "12px 15px", borderRadius: "10px" }}>
                 {toolsList.length === 0 ? (
                   <span style={{ color: "#777", fontSize: "14px" }}>No tools available. Add some in Essential Tools first.</span>
                 ) : (
@@ -358,9 +358,9 @@ function EditMaintenanceGuide() {
             </div>
 
             {/* Related Plumbing Codes */}
-            <div style={{ width: "100%", marginTop: "20px" }}>
-              <h3 style={{ margin: "0 0 10px 0", fontSize: "16px", fontWeight: "bold" }}>Related Plumbing Codes</h3>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", border: "1px solid #c7c7c7", padding: "15px", borderRadius: "10px" }}>
+            <div style={{ width: "100%", marginTop: "16px", padding: "0 12px", boxSizing: "border-box" }}>
+              <h3 style={{ margin: "0 0 8px 0", fontSize: "15px", fontWeight: "600", color: "#374151" }}>Related Plumbing Codes</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", border: "1px solid #c7c7c7", padding: "12px 15px", borderRadius: "10px" }}>
                 {codesList.length === 0 ? (
                   <span style={{ color: "#777", fontSize: "14px" }}>No plumbing codes available. Add some first.</span>
                 ) : (

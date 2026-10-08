@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { userApi, deleteUser } from "../../service/apis/user.api";
 import toast from "react-hot-toast";
 
@@ -18,12 +18,15 @@ export type UserType = {
 
 export function useUsers() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlSearch = searchParams.get("search") || "";
+
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalResult, setTotalResult] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(urlSearch);
   const [selectedRole, setSelectedRole] = useState("");
   const [addClass, setAddClass] = useState("");
 
@@ -32,6 +35,11 @@ export function useUsers() {
   const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
   const rowsPerPage = 10;
+
+  useEffect(() => {
+    setSearchTerm(urlSearch);
+    setCurrentPage(1);
+  }, [urlSearch]);
 
   const fetchUsers = async () => {
     try {
@@ -69,8 +77,18 @@ export function useUsers() {
   }, [currentPage, selectedRole, searchTerm]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const val = e.target.value;
+    setSearchTerm(val);
     setCurrentPage(1);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (val) {
+        newParams.set("search", val);
+      } else {
+        newParams.delete("search");
+      }
+      return newParams;
+    });
   };
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -81,6 +99,11 @@ export function useUsers() {
   const clearSearch = () => {
     setSearchTerm("");
     setCurrentPage(1);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.delete("search");
+      return newParams;
+    });
   };
 
   const handleDeleteClick = (userId: string) => {

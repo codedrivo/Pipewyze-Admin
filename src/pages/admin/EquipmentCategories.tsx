@@ -237,19 +237,24 @@ function EquipmentCategories() {
               >
                 Category Name <span style={{ color: "red" }}>*</span>
               </label>
-              <Input
-                classes='passwordlabel'
-                type='text'
-                id='name'
-                name='name'
-                placeholder='e.g. Water Heaters or Toilets'
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
-              )}
+              <div style={{ position: "relative" }}>
+                <Input
+                  classes='passwordlabel'
+                  type='text'
+                  id='name'
+                  name='name'
+                  hideLabel
+                  placeholder='e.g. Water Heaters or Toilets'
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  errorMsg={
+                    formik.touched.name && formik.errors.name
+                      ? formik.errors.name
+                      : undefined
+                  }
+                />
+              </div>
             </div>
 
             {/* Description */}

@@ -54,77 +54,139 @@ function Users() {
         className={`${dataTable.datatablemainwrap} ${addClass ? dataTable[addClass] : ""
           } colorAction`}
       >
-        {/* Gravecare Search & Add Button wrapper */}
-        <div className='search-wrap'>
-          <div className='button-holder-wrap'>
-            <button
-              className='custom-button mt-0 sm'
-              onClick={() => navigate("/admin/users/add-user")}
-            >
-              Add User
-            </button>
-          </div>
-          <div
-            className='searchwrap'
+        {/* Header Section */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+            flexWrap: "wrap",
+            gap: "16px",
+          }}
+        >
+          <h2
             style={{
-              marginBottom: "20px",
-              display: "flex",
-              justifyContent: "flex-start",
-              position: "relative",
-              marginTop: "20px",
-              gap: "15px",
+              margin: 0,
+              fontSize: "24px",
+              fontWeight: 700,
+              color: "#111827",
+              fontFamily: "'DM Sans', sans-serif",
             }}
           >
-            {/* Search Input */}
-            <div style={{ position: "relative", flex: 1 }}>
-              <input
-                type='text'
-                placeholder='Search by Name/Email...'
-                value={searchTerm}
-                onChange={handleSearchChange}
-                style={{
-                  padding: "8px 12px",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(51, 90, 255, 0.3)",
-                  height: "50px",
-                  width: "100%",
-                }}
-              />
-              {searchTerm && (
-                <button
-                  onClick={clearSearch}
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                    color: "#999",
-                  }}
-                >
-                  &times;
-                </button>
-              )}
-            </div>
+            User Management
+          </h2>
 
-            {/* Role dropdown filter */}
+          <button
+            className='custom-button w-auto sm'
+            onClick={() => navigate("/admin/users/add-user")}
+            style={{
+              margin: 0,
+              width: "auto",
+              whiteSpace: "nowrap",
+              height: "44px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              padding: "0 18px",
+              borderRadius: "10px",
+            }}
+          >
+            <Icon icon='mdi:plus' style={{ fontSize: "18px" }} />
+            Add User
+          </button>
+        </div>
+
+        {/* Filter & Search Control Row */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            marginBottom: "20px",
+            width: "100%",
+          }}
+        >
+          {/* Search Input */}
+          <div style={{ position: "relative", flex: 1, minWidth: "200px" }}>
+            <Icon
+              icon='fluent:search-28-filled'
+              style={{
+                position: "absolute",
+                left: "14px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                fontSize: "18px",
+                color: "#9CA3AF",
+                pointerEvents: "none",
+              }}
+            />
+            <input
+              type='text'
+              placeholder='Search by Name or Email...'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{
+                padding: "8px 36px 8px 40px",
+                borderRadius: "10px",
+                border: "1px solid #E5E7EB",
+                backgroundColor: "#FFFFFF",
+                height: "46px",
+                width: "100%",
+                fontSize: "14px",
+                color: "#1F2937",
+                outline: "none",
+                boxSizing: "border-box",
+                transition: "all 0.2s ease",
+              }}
+            />
+            {searchTerm && (
+              <button
+                onClick={clearSearch}
+                type='button'
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#9CA3AF",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                }}
+              >
+                &times;
+              </button>
+            )}
+          </div>
+
+          {/* Role dropdown filter */}
+          <div style={{ position: "relative", width: "220px", flexShrink: 0 }}>
             <select
               value={selectedRole}
               onChange={handleRoleChange}
               style={{
-                padding: "8px 12px",
+                padding: "8px 36px 8px 14px",
                 borderRadius: "10px",
-                border: "1.5px solid rgba(51, 90, 255, 0.3)",
-                height: "50px",
-                width: "220px",
-                backgroundColor: "#fff",
-                color: "#333",
+                border: "1px solid #E5E7EB",
+                height: "46px",
+                width: "100%",
+                backgroundColor: "#FFFFFF",
+                color: "#1F2937",
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: "16px",
+                fontSize: "14px",
+                fontWeight: "500",
                 cursor: "pointer",
+                boxSizing: "border-box",
+                appearance: "none",
+                WebkitAppearance: "none",
+                outline: "none",
               }}
             >
               <option value=''>All Roles</option>
@@ -132,6 +194,18 @@ function Users() {
               <option value='apprentice'>Apprentice</option>
               <option value='licensed-plumber'>Licensed Plumber</option>
             </select>
+            <Icon
+              icon='mdi:chevron-down'
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                fontSize: "20px",
+                color: "#6B7280",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         </div>
 
