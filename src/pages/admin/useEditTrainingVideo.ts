@@ -63,6 +63,7 @@ export function useEditTrainingVideo() {
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("videoUrl", values.videoUrl);
+        formData.append("description", values.description || "");
         const targetAudience = audience === "homeowner" ? "home-owner" : audience || "apprentice";
         formData.append("targetAudience", targetAudience);
 
