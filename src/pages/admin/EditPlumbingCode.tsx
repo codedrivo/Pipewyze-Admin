@@ -88,20 +88,14 @@ function EditPlumbingCode() {
                   type='text'
                   id='code'
                   name='code'
+                  hideLabel
                   required
                   placeholder='e.g. 248 CMR 10.05'
                   value={formik.values.code}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  errorMsg={formik.touched.code && formik.errors.code ? formik.errors.code : undefined}
                 />
-                {formik.touched.code && formik.errors.code && (
-                  <div
-                    className='error'
-                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
-                  >
-                    {formik.errors.code}
-                  </div>
-                )}
               </div>
             </div>
 
@@ -116,20 +110,14 @@ function EditPlumbingCode() {
                   type='text'
                   id='title'
                   name='title'
+                  hideLabel
                   required
                   placeholder='e.g. Traps and Cleanouts'
                   value={formik.values.title}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  errorMsg={formik.touched.title && formik.errors.title ? formik.errors.title : undefined}
                 />
-                {formik.touched.title && formik.errors.title && (
-                  <div
-                    className='error'
-                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
-                  >
-                    {formik.errors.title}
-                  </div>
-                )}
               </div>
             </div>
 
@@ -200,10 +188,12 @@ function EditPlumbingCode() {
                   type='text'
                   id='documentName'
                   name='documentName'
-                  placeholder='e.g. 248 CMR 10 Uniform State Plumbing Code'
+                  hideLabel
+                  placeholder='e.g. Uniform State Plumbing Code Document'
                   value={formik.values.documentName}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  errorMsg={formik.touched.documentName && formik.errors.documentName ? formik.errors.documentName : undefined}
                 />
               </div>
             </div>
@@ -215,22 +205,16 @@ function EditPlumbingCode() {
                 </label>
                 <Input
                   classes='passwordlabel'
-                  type='url'
+                  type='text'
                   id='documentUrl'
                   name='documentUrl'
-                  placeholder='https://www.mass.gov/doc/248-cmr-10-uniform-state-plumbing-code/download'
+                  hideLabel
+                  placeholder='e.g. https://example.com/document.pdf'
                   value={formik.values.documentUrl}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  errorMsg={formik.touched.documentUrl && formik.errors.documentUrl ? formik.errors.documentUrl : undefined}
                 />
-                {formik.touched.documentUrl && formik.errors.documentUrl && (
-                  <div
-                    className='error'
-                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
-                  >
-                    {formik.errors.documentUrl}
-                  </div>
-                )}
               </div>
             </div>
           </div>

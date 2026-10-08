@@ -69,15 +69,23 @@ export function useEditPlumbingCode() {
     title: yup.string().required("Title is required"),
     category: yup.string().required("Category is required"),
     description: yup.string().required("Description is required"),
-    exception: yup.string().optional(),
+    exception: yup.string().optional().nullable(),
     plainLanguageInterpretation: yup.string().required("Plain Language Interpretation is required"),
-    documentName: yup.string().optional(),
+    documentName: yup.string().transform((val) => (val === null ? "" : val)).optional().nullable(),
     documentUrl: yup
       .string()
-      .transform((value) => (value === "" ? null : value))
-      .nullable()
+      .transform((val) => (val === null ? "" : val))
       .optional()
-      .url("Must be a valid URL (e.g. https://...)"),
+      .nullable()
+      .test("valid-url", "Must be a valid URL starting with http:// or https://", (value) => {
+        if (!value || typeof value !== "string" || value.trim() === "") return true;
+        try {
+          const parsed = new URL(value.trim());
+          return parsed.protocol === "http:" || parsed.protocol === "https:";
+        } catch {
+          return false;
+        }
+      }),
   });
 
   const formik = useFormik({
@@ -96,7 +104,16 @@ export function useEditPlumbingCode() {
       if (!id) return;
       try {
         setSubmitting(true);
-        const payload: any = { ...values };
+        const payload: any = {
+          code: values.code,
+          title: values.title,
+          category: values.category,
+          description: values.description,
+          exception: values.exception || "",
+          plainLanguageInterpretation: values.plainLanguageInterpretation,
+          documentName: values.documentName || "",
+          documentUrl: values.documentUrl || "",
+        };
         if (values.documentName || values.documentUrl) {
           payload.documents = [
             {

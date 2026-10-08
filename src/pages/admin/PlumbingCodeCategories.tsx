@@ -248,6 +248,7 @@ function PlumbingCodeCategories() {
                 type='text'
                 id='fullName'
                 name='fullName'
+                hideLabel
                 placeholder='e.g. Massachusetts Uniform Plumbing Code'
                 value={formik.values.fullName}
                 onChange={(e) => {
@@ -263,10 +264,12 @@ function PlumbingCodeCategories() {
                   }
                 }}
                 onBlur={formik.handleBlur}
+                errorMsg={
+                  formik.touched.fullName && formik.errors.fullName
+                    ? formik.errors.fullName
+                    : undefined
+                }
               />
-              {formik.touched.fullName && formik.errors.fullName && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.fullName}</div>
-              )}
             </div>
 
             {/* Category Name */}
@@ -287,14 +290,17 @@ function PlumbingCodeCategories() {
                 type='text'
                 id='name'
                 name='name'
+                hideLabel
                 placeholder='e.g. MUPC or IPC'
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                errorMsg={
+                  formik.touched.name && formik.errors.name
+                    ? formik.errors.name
+                    : undefined
+                }
               />
-              {formik.touched.name && formik.errors.name && (
-                <div style={{ color: "#ef4444", fontSize: "12px", marginTop: "4px" }}>{formik.errors.name}</div>
-              )}
             </div>
 
             {/* Description */}

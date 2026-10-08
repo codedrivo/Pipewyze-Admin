@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useSearchParams } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -61,12 +62,31 @@ function AdminListPage<T>({
   headerAction,
   searchPlaceholder = "Search...",
 }: AdminListPageProps<T>) {
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlSearch = searchParams.get("search") || "";
+  const [searchTerm, setSearchTerm] = useState(urlSearch || initialSearch);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setSearchTerm(urlSearch || initialSearch);
+  }, [urlSearch, initialSearch]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
+
+  const handleSearchChange = (val: string) => {
+    setSearchTerm(val);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (val) {
+        newParams.set("search", val);
+      } else {
+        newParams.delete("search");
+      }
+      return newParams;
+    });
+  };
 
   const filteredRows = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -125,16 +145,18 @@ function AdminListPage<T>({
             type='text'
             placeholder={searchPlaceholder}
             value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
+            onChange={(event) => handleSearchChange(event.target.value)}
             style={{
               padding: "8px 12px",
               borderRadius: "10px",
               border: "1px solid rgba(51, 90, 255, 0.3)",
-              maxWidth: "350px",
+              maxWidth: "550px",
+              minWidth: "250px",
               height: "50px",
               width: "100%",
               marginLeft: "auto",
-              flex: "1 1 350px",
+              flex: "1 1 450px",
+              boxSizing: "border-box",
             }}
           />
         </div>

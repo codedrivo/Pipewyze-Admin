@@ -39,13 +39,11 @@ function TopNav() {
             </div>
           </div>
           <div className={classes.search_desktop_wrapper}>
-            {/* <SearchBox /> */}
           </div>
         </div>
         <TopNavRightBox />
         <br />
         <div className={classes.search_tablet_wrapper}>
-          <SearchBox />
         </div>
       </div>
     </div>

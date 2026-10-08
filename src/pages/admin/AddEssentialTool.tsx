@@ -93,6 +93,7 @@ function AddEssentialTool() {
                   Tool Name <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
+                  hideLabel
                   classes='passwordlabel'
                   type='text'
                   id='name'
@@ -102,15 +103,8 @@ function AddEssentialTool() {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  errorMsg={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
                 />
-                {formik.touched.name && formik.errors.name && (
-                  <div
-                    className='error'
-                    style={{ color: "red", fontSize: "12px", marginTop: "4px" }}
-                  >
-                    {formik.errors.name}
-                  </div>
-                )}
               </div>
             </div>
 
