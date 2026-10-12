@@ -45,6 +45,7 @@ const AddSubscriptionPlanPage = React.lazy(() => import("./pages/admin/AddSubscr
 const EditSubscriptionPlanPage = React.lazy(() => import("./pages/admin/EditSubscriptionPlan"));
 const TransactionsPage = React.lazy(() => import("./pages/admin/Transactions"));
 const PaymentHistoryPage = React.lazy(() => import("./pages/admin/PaymentHistory"));
+const PaymentDetailsPage = React.lazy(() => import("./pages/admin/PaymentDetails"));
 const FaqsPage = React.lazy(() => import("./pages/admin/Faqs"));
 const AddFaqPage = React.lazy(() => import("./pages/admin/AddFaq"));
 const EditFaqPage = React.lazy(() => import("./pages/admin/EditFaq"));
@@ -91,6 +92,7 @@ function App() {
               <Route path='/admin/subscription-plans/edit/:id' element={<EditSubscriptionPlanPage />} />
               <Route path='/admin/transactions' element={<TransactionsPage />} />
               <Route path='/admin/payment-history' element={<PaymentHistoryPage />} />
+              <Route path='/admin/payment-history/:id' element={<PaymentDetailsPage />} />
               <Route path='/admin/faqs' element={<FaqsPage />} />
               <Route path='/admin/add-faq' element={<AddFaqPage />} />
               <Route path='/admin/edit-faq/:id' element={<EditFaqPage />} />
