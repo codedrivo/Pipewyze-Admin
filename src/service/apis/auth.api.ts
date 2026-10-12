@@ -63,3 +63,8 @@ export const dashboardApi = catchAsync(async (values: any) => {
   const data = await httpsCall.get(`/admin/dashboard/get`, values);
   return data;
 });
+
+export const getTransactionDetailsApi = catchAsync(async (id: string) => {
+  const data = await httpsCall.get(`/admin/dashboard/transaction/${id}`);
+  return data;
+});

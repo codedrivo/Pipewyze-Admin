@@ -4,6 +4,18 @@ import { dashboardApi } from "../../service/apis/auth.api";
 import { userApi } from "../../service/apis/user.api";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
 import { Icon } from "@iconify/react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
+  Stack,
+} from "@mui/material";
+import dataTable from "../../components/tables/customTable/datatable.module.scss";
 
 type UserItem = {
   _id?: string;
@@ -17,6 +29,12 @@ type UserItem = {
   profileimageurl?: string;
   subscriptionTier?: string;
   subscriptionStatus?: string;
+  activePlan?: {
+    name?: string;
+    monthlyPrice?: number;
+    yearlyPrice?: number;
+    tier?: string;
+  } | null;
   createdAt?: string;
 };
 
@@ -138,6 +156,10 @@ function Transactions() {
     }
 
     const t = (user.subscriptionTier || "freemium").toLowerCase();
+    const plan = user.activePlan;
+    const planPrice = plan?.monthlyPrice;
+    const priceText = typeof planPrice === "number" ? `$${planPrice.toFixed(2)}` : null;
+
     switch (t) {
       case "standard":
         return (
@@ -156,7 +178,7 @@ function Transactions() {
             }}
           >
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6" }} />
-            Standard ($7.99/mo)
+            {plan?.name ? `${plan.name} (${priceText || "$7.99"})` : `Standard (${priceText || "$7.99"})`}
           </span>
         );
       case "professional":
@@ -177,7 +199,7 @@ function Transactions() {
             }}
           >
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#f97316" }} />
-            Premium ($19.99/mo)
+            {plan?.name ? `${plan.name} (${priceText || "$19.99"})` : `Premium (${priceText || "$19.99"})`}
           </span>
         );
       default:
@@ -206,210 +228,46 @@ function Transactions() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div style={{ padding: "32px 24px", width: "100%", boxSizing: "border-box", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* ── Page Header ── */}
-      <div style={{ marginBottom: "28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
-            <div style={{ background: "#e0e7ff", padding: "8px", borderRadius: "10px", display: "flex", color: "#4f46e5" }}>
-              <Icon icon="ph:receipt-bold" width={24} />
-            </div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "26px",
-                fontWeight: 800,
-                color: "#0f172a",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              User Plan Tiers & Transactions
-            </h1>
-          </div>
-          <p style={{ margin: 0, color: "#64748b", fontSize: "14px" }}>
-            Monitor subscription tiers, billing status, and member directory details across your platform.
-          </p>
-        </div>
-      </div>
+    <div style={{ position: "relative" }} className='dsp'>
+      <style>{`
+        .searchgrp-full {
+          display: flex;
+          align-items: center;
+          background: #fff;
+          border: 1px solid #d1d5db;
+          border-radius: 10px;
+          height: 46px;
+          flex: 1;
+          min-width: 240px;
+          padding: 0 14px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+        .searchgrp-full input {
+          border: none !important;
+          outline: none !important;
+          width: 100%;
+          height: 100% !important;
+          margin-left: 10px;
+          font-size: 14px;
+          font-family: 'DM Sans', sans-serif !important;
+          background: transparent !important;
+          color: #111827;
+          padding: 0 !important;
+        }
+        .stat-badge-tab {
+          padding: 8px 16px;
+          border-radius: 10px;
+          font-size: 13px;
+          cursor: pointer;
+          font-family: 'DM Sans', sans-serif;
+          transition: all 0.2s ease;
+        }
+      `}</style>
 
-      {/* ── Summary Stat Cards ── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
-          gap: "16px",
-          marginBottom: "28px",
-        }}
-      >
+      <div className={dataTable.datatablemainwrap}>
+        {/* Header Section */}
         <div
-          onClick={() => handleFilterChange("freemium")}
-          style={{
-            background: tierFilter === "freemium" ? "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)" : "#ffffff",
-            borderRadius: "14px",
-            padding: "20px",
-            border: tierFilter === "freemium" ? "2px solid #64748b" : "1px solid #e2e8f0",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-        >
-          <div
-            style={{
-              background: "#f1f5f9",
-              borderRadius: "12px",
-              width: "48px",
-              height: "48px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#475569",
-            }}
-          >
-            <Icon icon="ph:user-bold" width={24} />
-          </div>
-          <div>
-            <p style={{ margin: 0, fontSize: "24px", fontWeight: 800, color: "#0f172a", lineHeight: 1.2 }}>
-              {tierStats.freemium}
-            </p>
-            <p style={{ margin: "2px 0 0 0", fontSize: "13px", fontWeight: 500, color: "#64748b" }}>
-              Free Users
-            </p>
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleFilterChange("standard")}
-          style={{
-            background: tierFilter === "standard" ? "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)" : "#ffffff",
-            borderRadius: "14px",
-            padding: "20px",
-            border: tierFilter === "standard" ? "2px solid #2563eb" : "1px solid #e2e8f0",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-        >
-          <div
-            style={{
-              background: "#dbeafe",
-              borderRadius: "12px",
-              width: "48px",
-              height: "48px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#1d4ed8",
-            }}
-          >
-            <Icon icon="ph:star-bold" width={24} />
-          </div>
-          <div>
-            <p style={{ margin: 0, fontSize: "24px", fontWeight: 800, color: "#0f172a", lineHeight: 1.2 }}>
-              {tierStats.standard}
-            </p>
-            <p style={{ margin: "2px 0 0 0", fontSize: "13px", fontWeight: 500, color: "#64748b" }}>
-              Standard ($7.99)
-            </p>
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleFilterChange("professional")}
-          style={{
-            background: tierFilter === "professional" ? "linear-gradient(135deg, #ffffff 0%, #fff7ed 100%)" : "#ffffff",
-            borderRadius: "14px",
-            padding: "20px",
-            border: tierFilter === "professional" ? "2px solid #ea580c" : "1px solid #e2e8f0",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-        >
-          <div
-            style={{
-              background: "#ffedd5",
-              borderRadius: "12px",
-              width: "48px",
-              height: "48px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#c2410c",
-            }}
-          >
-            <Icon icon="ph:crown-bold" width={24} />
-          </div>
-          <div>
-            <p style={{ margin: 0, fontSize: "24px", fontWeight: 800, color: "#0f172a", lineHeight: 1.2 }}>
-              {tierStats.professional}
-            </p>
-            <p style={{ margin: "2px 0 0 0", fontSize: "13px", fontWeight: 500, color: "#64748b" }}>
-              Premium ($19.99)
-            </p>
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleFilterChange("canceled")}
-          style={{
-            background: tierFilter === "canceled" ? "linear-gradient(135deg, #ffffff 0%, #fef2f2 100%)" : "#ffffff",
-            borderRadius: "14px",
-            padding: "20px",
-            border: tierFilter === "canceled" ? "2px solid #dc2626" : "1px solid #e2e8f0",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-        >
-          <div
-            style={{
-              background: "#fee2e2",
-              borderRadius: "12px",
-              width: "48px",
-              height: "48px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#dc2626",
-            }}
-          >
-            <Icon icon="ph:x-circle-bold" width={24} />
-          </div>
-          <div>
-            <p style={{ margin: 0, fontSize: "24px", fontWeight: 800, color: "#0f172a", lineHeight: 1.2 }}>
-              {canceledCount}
-            </p>
-            <p style={{ margin: "2px 0 0 0", fontSize: "13px", fontWeight: 500, color: "#64748b" }}>
-              Canceled Users
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── User Plan Tiers Directory Card ── */}
-      <div
-        style={{
-          background: "#ffffff",
-          borderRadius: "16px",
-          padding: "24px",
-          border: "1px solid #e2e8f0",
-          boxShadow: "0 4px 16px rgba(15, 23, 42, 0.04)",
-        }}
-      >
-        {/* Card Header & Search / Filters */}
-        <div
+          className='gc-profile-flex'
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -419,59 +277,66 @@ function Transactions() {
             gap: "16px",
           }}
         >
-          {/* Search Box */}
-          <div style={{ position: "relative", minWidth: "260px", flex: "1 max-content" }}>
-            <Icon
-              icon="ph:magnifying-glass-bold"
-              width={18}
+          <div>
+            <h2
               style={{
-                position: "absolute",
-                left: "12px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#94a3b8",
+                margin: 0,
+                fontSize: "24px",
+                fontWeight: 700,
+                color: "#111827",
+                fontFamily: "'DM Sans', sans-serif",
               }}
-            />
+            >
+              User Plan Tiers & Transactions
+            </h2>
+            <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: "14px" }}>
+              Monitor user subscription tiers, directory status, and member accounts.
+            </p>
+          </div>
+        </div>
+
+        {/* Search & Filter Tabs */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            marginBottom: "20px",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Search Box */}
+          <div className="searchgrp-full">
+            <Icon icon="fluent:search-28-filled" style={{ color: "#9ca3af", fontSize: "18px" }} />
             <input
               type="text"
               placeholder="Search by name, email, or phone..."
               value={searchQuery}
               onChange={handleSearchChange}
-              style={{
-                width: "100%",
-                padding: "8px 12px 8px 38px",
-                borderRadius: "10px",
-                border: "1px solid #cbd5e1",
-                fontSize: "13px",
-                outline: "none",
-                color: "#0f172a",
-                backgroundColor: "#f8fafc",
-                boxSizing: "border-box",
-              }}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
+                type="button"
                 style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  background: "none",
+                  background: "transparent",
                   border: "none",
-                  color: "#94a3b8",
                   cursor: "pointer",
-                  padding: 0,
+                  fontSize: "18px",
+                  color: "#9ca3af",
                   display: "flex",
+                  alignItems: "center",
+                  padding: 0,
                 }}
               >
-                <Icon icon="ph:x-bold" width={14} />
+                &times;
               </button>
             )}
           </div>
 
           {/* Tier Filter Tabs */}
-          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
             {[
               { label: `All (${allUsers.length})`, value: "all" },
               { label: `Free (${tierStats.freemium})`, value: "freemium" },
@@ -485,17 +350,13 @@ function Transactions() {
                   key={tab.value}
                   type="button"
                   onClick={() => handleFilterChange(tab.value)}
+                  className="stat-badge-tab"
                   style={{
-                    padding: "7px 14px",
-                    borderRadius: "8px",
-                    fontSize: "13px",
+                    border: active ? "1px solid var(--gc-primary, #335AFF)" : "1px solid #E5E7EB",
+                    backgroundColor: active ? "var(--gc-primary, #335AFF)" : "#FFFFFF",
+                    color: active ? "#FFFFFF" : "#4B5563",
                     fontWeight: active ? 700 : 500,
-                    cursor: "pointer",
-                    border: active ? "1px solid #2563eb" : "1px solid #e2e8f0",
-                    backgroundColor: active ? "#2563eb" : "#ffffff",
-                    color: active ? "#ffffff" : "#475569",
-                    transition: "all 0.15s ease",
-                    boxShadow: active ? "0 2px 6px rgba(37, 99, 235, 0.25)" : "none",
+                    boxShadow: active ? "0 2px 6px rgba(51, 90, 255, 0.25)" : "none",
                   }}
                 >
                   {tab.label}
@@ -506,97 +367,117 @@ function Transactions() {
         </div>
 
         {/* Directory Table */}
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: "0" }}>
-            <thead>
-              <tr style={{ background: "#f8fafc", textAlign: "left", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#64748b" }}>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0", borderRadius: "8px 0 0 8px" }}>#</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>User</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>Email</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0" }}>Phone</th>
-                <th style={{ padding: "12px 16px", borderBottom: "1px solid #e2e8f0", borderRadius: "0 8px 8px 0" }}>Plan Tier</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedUsers.length === 0 ? (
-                <tr>
-                  <td colSpan={5} style={{ padding: "40px 24px", textAlign: "center", color: "#94a3b8" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                      <Icon icon="ph:user-minus-bold" width={32} color="#cbd5e1" />
-                      <p style={{ margin: 0, fontSize: "14px", fontWeight: 500 }}>No users found matching your filter criteria.</p>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                paginatedUsers.map((u, i) => {
-                  const displayName = getUserDisplayName(u);
-                  return (
-                    <tr
-                      key={u._id || u.id || i}
-                      style={{
-                        borderBottom: "1px solid #f1f5f9",
-                        fontSize: "14px",
-                        transition: "background-color 0.15s ease",
-                      }}
-                    >
-                      <td style={{ padding: "14px 16px", color: "#94a3b8", fontWeight: 500 }}>
-                        {startIndex + i + 1}
-                      </td>
-                      <td style={{ padding: "14px 16px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div className='usertabledata'>
+          <TableContainer className={dataTable.tbodymain} component={Paper}>
+            <Table
+              sx={{ minWidth: 900 }}
+              aria-label='users transaction directory table'
+              style={{ borderCollapse: "separate", borderSpacing: "0px 15px" }}
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell align='left'>#</TableCell>
+                  <TableCell align='left'>User</TableCell>
+                  <TableCell align='left'>Email</TableCell>
+                  <TableCell align='left'>Phone</TableCell>
+                  <TableCell align='center'>Plan Tier</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody className={dataTable.tbodywrap}>
+                {paginatedUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} align='center' style={{ padding: "40px 20px" }}>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                        <Icon icon="ph:user-minus-bold" width={32} color="#cbd5e1" />
+                        <p style={{ margin: 0, fontSize: "14px", fontWeight: 500, color: "#6b7280" }}>
+                          No users found matching your filter criteria.
+                        </p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedUsers.map((u, i) => {
+                    const displayName = getUserDisplayName(u);
+                    return (
+                      <TableRow
+                        key={u._id || u.id || i}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align='left' style={{ color: "#9ca3af", fontWeight: 600 }}>
+                          {startIndex + i + 1}
+                        </TableCell>
+
+                        <TableCell align='left'>
                           <div
+                            className='admin-user-cell'
                             style={{
-                              width: "38px",
-                              height: "38px",
-                              borderRadius: "50%",
-                              overflow: "hidden",
-                              background: "#e2e8f0",
-                              flexShrink: 0,
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: 700,
-                              color: "#475569",
-                              fontSize: "14px",
+                              gap: "12px",
                             }}
                           >
-                            {u.profileimageurl ? (
-                              <img
-                                src={u.profileimageurl}
-                                alt={`${displayName} profile`}
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                onError={(e) => {
-                                  e.currentTarget.style.display = "none";
-                                }}
-                              />
-                            ) : (
-                              displayName.charAt(0).toUpperCase()
-                            )}
-                          </div>
-                          <div>
-                            <div style={{ fontWeight: 600, color: "#0f172a" }}>
+                            <div
+                              className='admin-user-avatar'
+                              style={{
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                                overflow: "hidden",
+                                background: "#f3f4f6",
+                                border: "1px solid #e5e7eb",
+                                flexShrink: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontWeight: 700,
+                                color: "#4b5563",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {u.profileimageurl ? (
+                                <img
+                                  src={u.profileimageurl}
+                                  alt={displayName}
+                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = "none";
+                                  }}
+                                />
+                              ) : (
+                                displayName.charAt(0).toUpperCase()
+                              )}
+                            </div>
+                            <div style={{ fontWeight: 600, color: "#111827", fontSize: "14px" }}>
                               {displayName}
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td style={{ padding: "14px 16px", color: "#334155" }}>{u.email || "—"}</td>
-                      <td style={{ padding: "14px 16px", color: "#64748b" }}>
-                        {u.phoneNumber || u.phone || "—"}
-                      </td>
-                      <td style={{ padding: "14px 16px" }}>
-                        {renderTierBadge(u)}
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                        </TableCell>
+
+                        <TableCell align='left' style={{ color: "#374151" }}>
+                          {u.email || "—"}
+                        </TableCell>
+
+                        <TableCell align='left' style={{ color: "#6b7280" }}>
+                          {u.phoneNumber || u.phone || "—"}
+                        </TableCell>
+
+                        <TableCell align='center'>
+                          {renderTierBadge(u)}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
 
-        {/* ── Pagination Controls ── */}
-        {filteredUsers.length > 0 && (
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
           <div
             style={{
               display: "flex",
@@ -604,84 +485,25 @@ function Transactions() {
               alignItems: "center",
               marginTop: "20px",
               paddingTop: "16px",
-              borderTop: "1px solid #f1f5f9",
               flexWrap: "wrap",
               gap: "12px",
             }}
           >
-            <div style={{ fontSize: "13px", color: "#64748b" }}>
-              Showing <strong style={{ color: "#0f172a" }}>{startIndex + 1}</strong> to{" "}
-              <strong style={{ color: "#0f172a" }}>
-                {Math.min(startIndex + itemsPerPage, filteredUsers.length)}
-              </strong>{" "}
-              of <strong style={{ color: "#0f172a" }}>{filteredUsers.length}</strong> entries
+            <div style={{ fontSize: "13px", color: "#6b7280" }}>
+              Showing <strong>{startIndex + 1}</strong> to{" "}
+              <strong>{Math.min(startIndex + itemsPerPage, filteredUsers.length)}</strong> of{" "}
+              <strong>{filteredUsers.length}</strong> users
             </div>
 
-            <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-              <button
-                type="button"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "6px",
-                  border: "1px solid #cbd5e1",
-                  backgroundColor: currentPage === 1 ? "#f8fafc" : "#ffffff",
-                  color: currentPage === 1 ? "#cbd5e1" : "#334155",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                }}
-              >
-                Previous
-              </button>
-
-              {Array.from({ length: totalPages }, (_, idx) => idx + 1).map(
-                (pageNum) => (
-                  <button
-                    key={pageNum}
-                    type="button"
-                    onClick={() => setCurrentPage(pageNum)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "1px solid",
-                      borderColor:
-                        currentPage === pageNum ? "#2563eb" : "#cbd5e1",
-                      backgroundColor:
-                        currentPage === pageNum ? "#2563eb" : "#ffffff",
-                      color: currentPage === pageNum ? "#ffffff" : "#334155",
-                      fontSize: "13px",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {pageNum}
-                  </button>
-                )
-              )}
-
-              <button
-                type="button"
-                disabled={currentPage === totalPages}
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "6px",
-                  border: "1px solid #cbd5e1",
-                  backgroundColor:
-                    currentPage === totalPages ? "#f8fafc" : "#ffffff",
-                  color: currentPage === totalPages ? "#cbd5e1" : "#334155",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                }}
-              >
-                Next
-              </button>
-            </div>
+            <Stack spacing={2}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={(_, value) => setCurrentPage(value)}
+                shape='rounded'
+                color='primary'
+              />
+            </Stack>
           </div>
         )}
       </div>
