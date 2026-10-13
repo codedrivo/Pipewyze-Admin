@@ -72,16 +72,39 @@ function PaymentDetails() {
     fetchDetails();
   }, [id]);
 
+  /**
+   * Format Order ID to ensure ORD- is followed by 5 alphanumeric characters
+   */
+  const formatOrderId = (t: TransactionItem): string => {
+    if (t.orderId && t.orderId.trim()) {
+      const trimmed = t.orderId.trim().toUpperCase();
+      if (trimmed.startsWith("ORD-")) {
+        const after = trimmed.slice(4);
+        return `ORD-${after.substring(0, 5)}`;
+      }
+      const cleaned = trimmed.replace(/[^0-9A-Z]/g, "");
+      return `ORD-${cleaned.substring(0, 5)}`;
+    }
+    const fallbackId = String(t._id || t.id || "").replace(/[^0-9a-zA-Z]/g, "").toUpperCase();
+    const fiveDigits = fallbackId.length >= 5 ? fallbackId.substring(0, 5) : fallbackId.padEnd(5, "X");
+    return `ORD-${fiveDigits}`;
+  };
+
   const getPaymentType = (t: TransactionItem) => {
     const subId = (t.stripeSubscriptionId || "").trim();
     const planName = (t.planId?.name || "").toLowerCase();
+    const isExplicitOneTime = planName.includes("one-time") || planName.includes("onetime");
 
     if (
-      subId.startsWith("sub_") ||
-      planName.includes("recurring") ||
-      planName.includes("/day") ||
-      planName.includes("/month") ||
-      planName.includes("/year")
+      !isExplicitOneTime &&
+      (subId.startsWith("sub_") ||
+        planName.includes("recurring") ||
+        planName.includes("/day") ||
+        planName.includes("/month") ||
+        planName.includes("/year") ||
+        t.currentPeriodEnd ||
+        t.tier === "professional" ||
+        t.tier === "standard")
     ) {
       return {
         type: "Recurring Payment",
@@ -278,7 +301,7 @@ function PaymentDetails() {
               Payment & Plan Details
             </h2>
             <p style={{ margin: "4px 0 0 0", color: "#6b7280", fontSize: "14px" }}>
-              Order: <span style={{ fontFamily: "monospace", fontWeight: 700, color: "#1e3a8a" }}>{tx.orderId || `ORD-${String(tx._id || tx.id || "").substring(0, 8)}`}</span>
+              Order: <span style={{ fontFamily: "monospace", fontWeight: 700, color: "#1e3a8a" }}>{formatOrderId(tx)}</span>
             </p>
           </div>
 
@@ -522,8 +545,8 @@ function PaymentDetails() {
 
             <div className="pd-row" style={{ flexDirection: "column", alignItems: "flex-start", gap: "4px" }}>
               <span className="pd-row-label">Internal Order Number</span>
-              <span className="pd-row-value" style={{ fontFamily: "monospace", fontSize: "13px" }}>
-                {tx.orderId || `ORD-${String(tx._id || tx.id || "").substring(0, 8)}`}
+              <span className="pd-row-value" style={{ fontFamily: "monospace", fontSize: "13px", whiteSpace: "nowrap" }}>
+                {formatOrderId(tx)}
               </span>
             </div>
 
