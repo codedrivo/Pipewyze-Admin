@@ -96,18 +96,41 @@ function PaymentHistory() {
   };
 
   /**
+   * Format Order ID to ensure ORD- is followed by 5 alphanumeric characters
+   */
+  const formatOrderId = (tx: TransactionItem): string => {
+    if (tx.orderId && tx.orderId.trim()) {
+      const trimmed = tx.orderId.trim().toUpperCase();
+      if (trimmed.startsWith("ORD-")) {
+        const after = trimmed.slice(4);
+        return `ORD-${after.substring(0, 5)}`;
+      }
+      const cleaned = trimmed.replace(/[^0-9A-Z]/g, "");
+      return `ORD-${cleaned.substring(0, 5)}`;
+    }
+    const fallbackId = String(tx._id || tx.id || "").replace(/[^0-9a-zA-Z]/g, "").toUpperCase();
+    const five = fallbackId.length >= 5 ? fallbackId.substring(0, 5) : fallbackId.padEnd(5, "X");
+    return `ORD-${five}`;
+  };
+
+  /**
    * Helper to check if payment is recurring or one-time
    */
   const getPaymentType = (tx: TransactionItem): { type: "Recurring" | "One-Time"; color: string; bg: string; icon: string } => {
     const subId = (tx.stripeSubscriptionId || "").trim();
     const planName = (tx.planId?.name || "").toLowerCase();
+    const isExplicitOneTime = planName.includes("one-time") || planName.includes("onetime");
 
     if (
-      subId.startsWith("sub_") ||
-      planName.includes("recurring") ||
-      planName.includes("/day") ||
-      planName.includes("/month") ||
-      planName.includes("/year")
+      !isExplicitOneTime &&
+      (subId.startsWith("sub_") ||
+        planName.includes("recurring") ||
+        planName.includes("/day") ||
+        planName.includes("/month") ||
+        planName.includes("/year") ||
+        tx.currentPeriodEnd ||
+        tx.tier === "professional" ||
+        tx.tier === "standard")
     ) {
       return {
         type: "Recurring",
@@ -187,7 +210,7 @@ function PaymentHistory() {
       // Search query
       if (!searchQuery.trim()) return true;
       const q = searchQuery.toLowerCase();
-      const orderId = (tx.orderId || "").toLowerCase();
+      const orderId = (formatOrderId(tx) || tx.orderId || "").toLowerCase();
       const custId = (tx.stripeCustomerId || "").toLowerCase();
       const userName = getUserDisplayName(tx.userId).toLowerCase();
       const userEmail = (tx.userId?.email || "").toLowerCase();
@@ -415,7 +438,7 @@ function PaymentHistory() {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align='left'>Order ID</TableCell>
+                  <TableCell align='left' style={{ whiteSpace: "nowrap" }}>Order ID</TableCell>
                   <TableCell align='left'>Customer</TableCell>
                   <TableCell align='left'>Plan</TableCell>
                   <TableCell align='left'>Type</TableCell>
@@ -456,9 +479,19 @@ function PaymentHistory() {
                         }}
                       >
                         {/* Order ID */}
-                        <TableCell align='left'>
-                          <span style={{ fontWeight: 600, color: "#111827", fontSize: "13px" }}>
-                            {tx.orderId || `ORD-${String(txIdentifier).substring(0, 8)}`}
+                        <TableCell align='left' style={{ whiteSpace: "nowrap" }}>
+                          <span
+                            style={{
+                              fontWeight: 700,
+                              color: "#111827",
+                              fontSize: "13px",
+                              whiteSpace: "nowrap",
+                              display: "inline-block",
+                              fontFamily: "monospace",
+                              letterSpacing: "0.5px",
+                            }}
+                          >
+                            {formatOrderId(tx)}
                           </span>
                         </TableCell>
 
