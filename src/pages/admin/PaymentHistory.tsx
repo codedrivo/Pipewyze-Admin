@@ -156,8 +156,12 @@ function PaymentHistory() {
     let successfulCount = 0;
 
     rawTransactions.forEach((tx) => {
-      const tierName = tx.tier || tx.planId?.tier || "standard";
-      const price = tx.planId?.monthlyPrice ?? (tierName === "professional" || tierName === "premium" ? 19.99 : tierName === "standard" ? 7.99 : 0);
+      const price =
+        typeof tx.planId?.monthlyPrice === "number"
+          ? tx.planId.monthlyPrice
+          : typeof tx.planId?.yearlyPrice === "number"
+          ? tx.planId.yearlyPrice
+          : 0;
       const isPaid = (tx.status || "active").toLowerCase() === "active" || (tx.status || "").toLowerCase() === "paid";
       if (isPaid) {
         totalRevenue += price;
@@ -467,7 +471,12 @@ function PaymentHistory() {
                     const u = tx.userId;
                     const displayName = getUserDisplayName(u);
                     const tierName = tx.tier || tx.planId?.tier || "standard";
-                    const price = tx.planId?.monthlyPrice ?? (tierName === "professional" || tierName === "premium" ? 19.99 : tierName === "standard" ? 7.99 : 0);
+                    const price =
+                      typeof tx.planId?.monthlyPrice === "number"
+                        ? tx.planId.monthlyPrice
+                        : typeof tx.planId?.yearlyPrice === "number"
+                        ? tx.planId.yearlyPrice
+                        : 0;
                     const dateStr = tx.createdAt || tx.startDate ? new Date(tx.createdAt || tx.startDate!).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—";
                     const pType = getPaymentType(tx);
 
@@ -513,26 +522,16 @@ function PaymentHistory() {
                                 borderRadius: "50%",
                                 overflow: "hidden",
                                 flexShrink: 0,
-                                background: "#f3f4f6",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontWeight: "bold",
-                                color: "#4B5563",
                               }}
                             >
-                              {u?.profileimageurl ? (
-                                <img
-                                  src={u.profileimageurl}
-                                  alt='Avatar'
-                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = "none";
-                                  }}
-                                />
-                              ) : (
-                                displayName.charAt(0).toUpperCase()
-                              )}
+                              <img
+                                src={u?.profileimageurl || "/default_profile.png"}
+                                alt='Avatar'
+                                onError={(e) => {
+                                  e.currentTarget.src = "/default_profile.png";
+                                }}
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                              />
                             </div>
                             <div>
                               <div style={{ fontWeight: "bold", color: "#111827" }}>
