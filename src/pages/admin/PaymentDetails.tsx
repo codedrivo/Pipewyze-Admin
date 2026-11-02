@@ -406,23 +406,19 @@ function PaymentDetails() {
                   width: "50px",
                   height: "50px",
                   borderRadius: "50%",
-                  backgroundColor: "#f3f4f6",
                   border: "1px solid #e5e7eb",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                  fontSize: "18px",
-                  color: "#4b5563",
                   overflow: "hidden",
                   flexShrink: 0,
                 }}
               >
-                {u?.profileimageurl ? (
-                  <img src={u.profileimageurl} alt={displayName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                ) : (
-                  displayName.charAt(0).toUpperCase()
-                )}
+                <img
+                  src={u?.profileimageurl || "/default_profile.png"}
+                  alt={displayName}
+                  onError={(e) => {
+                    e.currentTarget.src = "/default_profile.png";
+                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               </div>
               <div>
                 <div style={{ fontSize: "16px", fontWeight: 700, color: "#111827" }}>{displayName}</div>

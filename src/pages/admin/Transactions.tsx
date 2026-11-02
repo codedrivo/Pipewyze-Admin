@@ -78,11 +78,35 @@ function Transactions() {
   const payload = dashData?.data || dashData || {};
   const tierStats = payload.tierStats || { freemium: 0, standard: 0, professional: 0 };
 
-  const canceledCount = useMemo(() => {
-    return allUsers.filter(
-      (u) => (u.subscriptionStatus || "").toLowerCase() === "canceled"
-    ).length;
-  }, [allUsers]);
+  const counts = useMemo(() => {
+    let freemium = 0;
+    let standard = 0;
+    let professional = 0;
+    let canceled = 0;
+
+    allUsers.forEach((u) => {
+      const status = (u.subscriptionStatus || "").toLowerCase();
+      const tier = (u.subscriptionTier || "freemium").toLowerCase();
+
+      if (status === "canceled") {
+        canceled++;
+      } else if (tier === "standard") {
+        standard++;
+      } else if (tier === "professional" || tier === "premium") {
+        professional++;
+      } else {
+        freemium++;
+      }
+    });
+
+    return {
+      all: allUsers.length,
+      freemium: allUsers.length > 0 ? freemium : (tierStats.freemium || 0),
+      standard: allUsers.length > 0 ? standard : (tierStats.standard || 0),
+      professional: allUsers.length > 0 ? professional : (tierStats.professional || 0),
+      canceled: allUsers.length > 0 ? canceled : (tierStats.canceled || 0),
+    };
+  }, [allUsers, tierStats]);
 
   const handleFilterChange = (filter: string) => {
     setTierFilter(filter);
@@ -157,8 +181,8 @@ function Transactions() {
 
     const t = (user.subscriptionTier || "freemium").toLowerCase();
     const plan = user.activePlan;
-    const planPrice = plan?.monthlyPrice;
-    const priceText = typeof planPrice === "number" ? `$${planPrice.toFixed(2)}` : null;
+    const planPrice = typeof plan?.monthlyPrice === "number" ? plan.monthlyPrice : plan?.yearlyPrice;
+    const priceText = typeof planPrice === "number" ? `$${planPrice.toFixed(2)}` : "";
 
     switch (t) {
       case "standard":
@@ -178,7 +202,7 @@ function Transactions() {
             }}
           >
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6" }} />
-            {plan?.name ? `${plan.name} (${priceText || "$7.99"})` : `Standard (${priceText || "$7.99"})`}
+            {plan?.name ? (priceText ? `${plan.name} (${priceText})` : plan.name) : (priceText ? `Standard (${priceText})` : "Standard")}
           </span>
         );
       case "professional":
@@ -199,7 +223,7 @@ function Transactions() {
             }}
           >
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#f97316" }} />
-            {plan?.name ? `${plan.name} (${priceText || "$19.99"})` : `Premium (${priceText || "$19.99"})`}
+            {plan?.name ? (priceText ? `${plan.name} (${priceText})` : plan.name) : (priceText ? `Premium (${priceText})` : "Premium")}
           </span>
         );
       default:
@@ -338,11 +362,11 @@ function Transactions() {
           {/* Tier Filter Tabs */}
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
             {[
-              { label: `All (${allUsers.length})`, value: "all" },
-              { label: `Free (${tierStats.freemium})`, value: "freemium" },
-              { label: `Standard (${tierStats.standard})`, value: "standard" },
-              { label: `Premium (${tierStats.professional})`, value: "professional" },
-              { label: `Canceled (${canceledCount})`, value: "canceled" },
+              { label: `All (${counts.all})`, value: "all" },
+              { label: `Free (${counts.freemium})`, value: "freemium" },
+              { label: `Standard (${counts.standard})`, value: "standard" },
+              { label: `Premium (${counts.professional})`, value: "professional" },
+              { label: `Canceled (${counts.canceled})`, value: "canceled" },
             ].map((tab) => {
               const active = tierFilter === tab.value;
               return (
@@ -426,29 +450,21 @@ function Transactions() {
                                 height: "40px",
                                 borderRadius: "50%",
                                 overflow: "hidden",
-                                background: "#f3f4f6",
-                                border: "1px solid #e5e7eb",
                                 flexShrink: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontWeight: 700,
-                                color: "#4b5563",
-                                fontSize: "14px",
                               }}
                             >
-                              {u.profileimageurl ? (
-                                <img
-                                  src={u.profileimageurl}
-                                  alt={displayName}
-                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = "none";
-                                  }}
-                                />
-                              ) : (
-                                displayName.charAt(0).toUpperCase()
-                              )}
+                              <img
+                                src={u.profileimageurl || "/default_profile.png"}
+                                alt={displayName}
+                                onError={(e) => {
+                                  e.currentTarget.src = "/default_profile.png";
+                                }}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                }}
+                              />
                             </div>
                             <div style={{ fontWeight: 600, color: "#111827", fontSize: "14px" }}>
                               {displayName}
