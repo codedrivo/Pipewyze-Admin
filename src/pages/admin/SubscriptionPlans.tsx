@@ -78,9 +78,14 @@ function SubscriptionPlans() {
         }
         .plan-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
           gap: 24px;
           margin-top: 24px;
+        }
+        @media (max-width: 480px) {
+          .plan-card {
+            padding: 20px;
+          }
         }
         .price-tag {
           font-size: 32px;
@@ -138,7 +143,7 @@ function SubscriptionPlans() {
             Subscription Plans & Pricing Tiers
           </h2>
           <p style={{ margin: "4px 0 0 0", color: "#6b7280", fontSize: "14px" }}>
-            Manage subscription plans, trial settings, and feature access permissions.
+            Manage subscription plans, pricing, and feature access permissions.
           </p>
         </div>
         <div>
@@ -179,11 +184,21 @@ function SubscriptionPlans() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: "center",
+                    alignItems: "flex-start",
+                    gap: "12px",
                     marginBottom: "16px",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "8px",
+                      flex: 1,
+                      minWidth: 0,
+                    }}
+                  >
                     <span
                       style={{
                         backgroundColor: badgeBg,
@@ -193,6 +208,7 @@ function SubscriptionPlans() {
                         fontSize: "13px",
                         fontWeight: 700,
                         textTransform: "uppercase",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {plan.tier}
@@ -203,10 +219,11 @@ function SubscriptionPlans() {
                         style={{
                           backgroundColor: "#dcfce7",
                           color: "#166534",
-                          padding: "4px 10px",
-                          borderRadius: "12px",
+                          padding: "6px 12px",
+                          borderRadius: "20px",
                           fontSize: "12px",
                           fontWeight: 600,
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {plan.trialDays}-Day Free Trial
@@ -217,6 +234,7 @@ function SubscriptionPlans() {
                   <button
                     type="button"
                     className="plan-delete-icon-btn"
+                    style={{ flexShrink: 0 }}
                     onClick={() => planId && handleOpenDeleteDialog(planId)}
                     title="Delete Subscription Plan"
                   >

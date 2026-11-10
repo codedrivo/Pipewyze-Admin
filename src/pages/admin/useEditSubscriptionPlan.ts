@@ -94,10 +94,6 @@ export function useEditSubscriptionPlan() {
       .number()
       .min(0, "Yearly price must be 0 or greater")
       .required("Yearly price is required"),
-    trialDays: yup
-      .number()
-      .min(0, "Trial days must be 0 or greater")
-      .required("Trial days is required"),
   });
 
   const formik = useFormik({
@@ -107,7 +103,6 @@ export function useEditSubscriptionPlan() {
       description: "",
       monthlyPrice: 0,
       yearlyPrice: 0,
-      trialDays: 7,
       featuresText: "",
       stripeMonthlyPriceId: "",
       stripeYearlyPriceId: "",
@@ -130,7 +125,7 @@ export function useEditSubscriptionPlan() {
           description: values.description,
           monthlyPrice: Number(values.monthlyPrice),
           yearlyPrice: Number(values.yearlyPrice),
-          trialDays: Number(values.trialDays),
+          trialDays: 0,
           features: featuresArray,
           accessibleFeatures,
           stripeMonthlyPriceId: values.stripeMonthlyPriceId,
@@ -168,7 +163,6 @@ export function useEditSubscriptionPlan() {
               description: targetPlan.description || "",
               monthlyPrice: targetPlan.monthlyPrice || 0,
               yearlyPrice: targetPlan.yearlyPrice || 0,
-              trialDays: targetPlan.trialDays || 0,
               featuresText: (targetPlan.features || []).join("\n"),
               stripeMonthlyPriceId: targetPlan.stripeMonthlyPriceId || "",
               stripeYearlyPriceId: targetPlan.stripeYearlyPriceId || "",

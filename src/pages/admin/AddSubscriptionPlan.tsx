@@ -276,7 +276,7 @@ function AddSubscriptionPlan() {
                 color: "#64748b",
               }}
             >
-              Create a custom subscription tier, set trial periods, pricing, and configure section access permissions.
+              Create a custom subscription tier, set pricing, and configure section access permissions.
             </p>
           </div>
           <button
@@ -354,10 +354,10 @@ function AddSubscriptionPlan() {
               </div>
             </div>
 
-            {/* SECTION 2: Pricing & Trial */}
+            {/* SECTION 2: Pricing */}
             <div>
               <div className="section-header">
-                <span className="section-title">2. Pricing & Trial Period</span>
+                <span className="section-title">2. Pricing</span>
               </div>
               <div className="form-grid-2">
                 <div className="form-field-group">
@@ -387,22 +387,6 @@ function AddSubscriptionPlan() {
                     name="yearlyPrice"
                     placeholder="e.g. 69.99"
                     value={String(formik.values.yearlyPrice)}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                </div>
-
-                <div className="form-field-group">
-                  <label className="form-label" htmlFor="trialDays">
-                    Free Trial Period (Days) <span style={{ color: "#ef4444" }}>*</span>
-                  </label>
-                  <Input
-                    classes="passwordlabel"
-                    type="number"
-                    id="trialDays"
-                    name="trialDays"
-                    placeholder="e.g. 7"
-                    value={String(formik.values.trialDays)}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
