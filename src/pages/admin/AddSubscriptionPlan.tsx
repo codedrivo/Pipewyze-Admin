@@ -392,6 +392,28 @@ function AddSubscriptionPlan() {
                   />
                 </div>
               </div>
+
+              {["standard", "professional"].includes(
+                String(formik.values.tier || "").trim().toLowerCase()
+              ) && (
+                <div className="form-grid-2" style={{ marginTop: "16px" }}>
+                  <div className="form-field-group">
+                    <label className="form-label" htmlFor="trialDays">
+                      Free Trial Period (Days)
+                    </label>
+                    <Input
+                      classes="passwordlabel"
+                      type="number"
+                      id="trialDays"
+                      name="trialDays"
+                      placeholder="e.g. 7"
+                      value={String(formik.values.trialDays)}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* SECTION 3: Features List */}
